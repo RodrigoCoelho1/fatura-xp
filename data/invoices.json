@@ -20796,7 +20796,2328 @@
   {
     "month": "2026-04",
     "label": "Abr 2026",
-    "transactions": [],
-    "totalSpent": 0
+    "transactions": [
+      {
+        "date": "2025-08-09",
+        "merchant": "SAMSUNG PATIO BRA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 908.8,
+        "isPayment": false,
+        "installment": {
+          "current": 9,
+          "total": 10
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2025-10-11",
+        "merchant": "LEITURA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 53.41,
+        "isPayment": false,
+        "installment": {
+          "current": 6,
+          "total": 6
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2025-11-02",
+        "merchant": "AMAZONMKTPLC * SAMSUNGEL",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 508.25,
+        "isPayment": false,
+        "installment": {
+          "current": 6,
+          "total": 12
+        },
+        "category": "Compras Online",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2025-11-09",
+        "merchant": "HTM * SAXSEMPARTITURA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 108.81,
+        "isPayment": false,
+        "installment": {
+          "current": 6,
+          "total": 6
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2025-11-09",
+        "merchant": "HTM * PROF .   LANDERSAX",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.25,
+        "isPayment": false,
+        "installment": {
+          "current": 6,
+          "total": 10
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2025-11-22",
+        "merchant": "MP * MERCADOLIVRE",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 26.31,
+        "isPayment": false,
+        "installment": {
+          "current": 5,
+          "total": 6
+        },
+        "category": "Supermercado",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2025-11-23",
+        "merchant": "MERCADOLIVRE * SPLITTERMP3F",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 52.82,
+        "isPayment": false,
+        "installment": {
+          "current": 5,
+          "total": 5
+        },
+        "category": "Supermercado",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2025-11-26",
+        "merchant": "AMAZON RETAIL BR CPI",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 49.12,
+        "isPayment": false,
+        "installment": {
+          "current": 5,
+          "total": 10
+        },
+        "category": "Compras Online",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2025-11-30",
+        "merchant": "MSC CRUZEIROS DO BRASI",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 78.3,
+        "isPayment": false,
+        "installment": {
+          "current": 5,
+          "total": 10
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2025-12-06",
+        "merchant": "AMAZONMKTPLC * SMARTSHOP",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 30.71,
+        "isPayment": false,
+        "installment": {
+          "current": 5,
+          "total": 6
+        },
+        "category": "Compras Online",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2025-12-07",
+        "merchant": "HTM * COUTO PEFORMANC",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 28.48,
+        "isPayment": false,
+        "installment": {
+          "current": 5,
+          "total": 10
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2025-12-07",
+        "merchant": "HTM * COUTO PEFORMANC",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 10.46,
+        "isPayment": false,
+        "installment": {
+          "current": 5,
+          "total": 10
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2025-12-10",
+        "merchant": "DROGARIA SAO PAULO SA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 366.33,
+        "isPayment": false,
+        "installment": {
+          "current": 5,
+          "total": 6
+        },
+        "category": "Farmácia",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2025-12-10",
+        "merchant": "AMAZON RETAIL BR CPI",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 22.13,
+        "isPayment": false,
+        "installment": {
+          "current": 5,
+          "total": 6
+        },
+        "category": "Compras Online",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2025-12-15",
+        "merchant": "JORGEBISCHOFF",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 107.25,
+        "isPayment": false,
+        "installment": {
+          "current": 4,
+          "total": 4
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2025-12-29",
+        "merchant": "RI HAPPY BRINQUEDOS LO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 42.99,
+        "isPayment": false,
+        "installment": {
+          "current": 4,
+          "total": 10
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2025-12-31",
+        "merchant": "AIRBNB   *   HMMKBT4",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 172,
+        "isPayment": false,
+        "installment": {
+          "current": 4,
+          "total": 6
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-01-01",
+        "merchant": "EDZKITAGIL",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.4,
+        "isPayment": false,
+        "installment": {
+          "current": 4,
+          "total": 12
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-01-01",
+        "merchant": "HTM * DIGI - KIT COACH",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.09,
+        "isPayment": false,
+        "installment": {
+          "current": 4,
+          "total": 12
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-01-01",
+        "merchant": "HTM * ASIMOVACADEM",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 97.9,
+        "isPayment": false,
+        "installment": {
+          "current": 4,
+          "total": 12
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-01-06",
+        "merchant": "PG   * PAGTRUST TECN",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 28.8,
+        "isPayment": false,
+        "installment": {
+          "current": 4,
+          "total": 12
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-01-06",
+        "merchant": "AMAZONMKTPLC * DPRINTART",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 90.33,
+        "isPayment": false,
+        "installment": {
+          "current": 4,
+          "total": 12
+        },
+        "category": "Compras Online",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-01-09",
+        "merchant": "TICPAYPROTOCMENT",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 10.03,
+        "isPayment": false,
+        "installment": {
+          "current": 4,
+          "total": 12
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-01-09",
+        "merchant": "MSC CRUZEIROS DO BRASI",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 372.83,
+        "isPayment": false,
+        "installment": {
+          "current": 4,
+          "total": 10
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-01-13",
+        "merchant": "BONDINHO PAO * BOND",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 50.8,
+        "isPayment": false,
+        "installment": {
+          "current": 3,
+          "total": 5
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-01-16",
+        "merchant": "PARC = 106LEITURA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 82.5,
+        "isPayment": false,
+        "installment": {
+          "current": 3,
+          "total": 6
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-01-18",
+        "merchant": "DECATHLON",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 114.98,
+        "isPayment": false,
+        "installment": {
+          "current": 3,
+          "total": 6
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-01-22",
+        "merchant": "DROGARIA ROSARIO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 847.44,
+        "isPayment": false,
+        "installment": {
+          "current": 3,
+          "total": 6
+        },
+        "category": "Farmácia",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-01-24",
+        "merchant": "FARMACIA FARMACOTECNICA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 177,
+        "isPayment": false,
+        "installment": {
+          "current": 3,
+          "total": 4
+        },
+        "category": "Farmácia",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-01-27",
+        "merchant": "AMAZON BR",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 51.61,
+        "isPayment": false,
+        "installment": {
+          "current": 3,
+          "total": 8
+        },
+        "category": "Compras Online",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-01-31",
+        "merchant": "AMAZON BR",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 55.54,
+        "isPayment": false,
+        "installment": {
+          "current": 3,
+          "total": 7
+        },
+        "category": "Compras Online",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-02-01",
+        "merchant": "DECATHLON",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 52.58,
+        "isPayment": false,
+        "installment": {
+          "current": 3,
+          "total": 6
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-02-02",
+        "merchant": "AMAZON BR",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 55.54,
+        "isPayment": false,
+        "installment": {
+          "current": 3,
+          "total": 7
+        },
+        "category": "Compras Online",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-02-17",
+        "merchant": "KIWIFY   * OMANUALNAO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.36,
+        "isPayment": false,
+        "installment": {
+          "current": 2,
+          "total": 6
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-02-22",
+        "merchant": "DROGARIA ROSARIO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 40.5,
+        "isPayment": false,
+        "installment": {
+          "current": 2,
+          "total": 3
+        },
+        "category": "Farmácia",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-02-22",
+        "merchant": "DROGARIA ROSARIO FL 02",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 323.02,
+        "isPayment": false,
+        "installment": {
+          "current": 2,
+          "total": 6
+        },
+        "category": "Farmácia",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-02-28",
+        "merchant": "AMAZONMKTPLC * BABYPETTA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 34.47,
+        "isPayment": false,
+        "installment": {
+          "current": 2,
+          "total": 2
+        },
+        "category": "Compras Online",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-02",
+        "merchant": "HTM * GPTBUSINESS2",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 149.41,
+        "isPayment": false,
+        "installment": {
+          "current": 2,
+          "total": 12
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-02",
+        "merchant": "HTM * THAIS MARTAN",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.68,
+        "isPayment": false,
+        "installment": {
+          "current": 2,
+          "total": 12
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-06",
+        "merchant": "GLOBO * GLOBOPLAY",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 39.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Streaming",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-10",
+        "merchant": "MP * ALIEXPRESS",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 18.4,
+        "isPayment": false,
+        "installment": {
+          "current": 2,
+          "total": 6
+        },
+        "category": "Compras Online",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-11",
+        "merchant": "MELIA BRASIL ADMINISTR",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 122.37,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-11",
+        "merchant": "UBER   *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 14.94,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-11",
+        "merchant": "RETAIL MAKERS SP LTDA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 32.8,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-12",
+        "merchant": "UBER   *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 14.98,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-12",
+        "merchant": "IFD * BR",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 58.77,
+        "isPayment": false,
+        "installment": null,
+        "category": "Alimentação",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-12",
+        "merchant": "DROGARIA SAO PAULO SA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 70.23,
+        "isPayment": false,
+        "installment": null,
+        "category": "Farmácia",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-13",
+        "merchant": "IFD * BR",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 5.95,
+        "isPayment": false,
+        "installment": null,
+        "category": "Alimentação",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-13",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.96,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-13",
+        "merchant": "ALLPARK EMPREENDIMENTOS ,",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 8.25,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-13",
+        "merchant": "UBER   *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.94,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-14",
+        "merchant": "JIM . COM *   BRASILIA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 25,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-14",
+        "merchant": "LEITURAALVORADACO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 61.54,
+        "isPayment": false,
+        "installment": {
+          "current": 1,
+          "total": 3
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-14",
+        "merchant": "MC DONALDS",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 116.6,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-14",
+        "merchant": "MC DONALDS",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 45.8,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-14",
+        "merchant": "MB PARKING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 10,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-14",
+        "merchant": "DROGARIA ROSARIO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 7.41,
+        "isPayment": false,
+        "installment": null,
+        "category": "Farmácia",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-15",
+        "merchant": "HTM * IASHOTS",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 32.55,
+        "isPayment": false,
+        "installment": {
+          "current": 1,
+          "total": 12
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-15",
+        "merchant": "COCO BAMBU BSB SH",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 617.04,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-15",
+        "merchant": "MC DONALDS",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 45.8,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-15",
+        "merchant": "CONDOMINIO CIVIL BRASI",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 24,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-15",
+        "merchant": "DISNEY PLUS",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 31.49,
+        "isPayment": false,
+        "installment": null,
+        "category": "Streaming",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-16",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 8.94,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-16",
+        "merchant": "DL * GOOGLE GOOGLE",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 96.99,
+        "isPayment": false,
+        "installment": null,
+        "category": "Streaming",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-16",
+        "merchant": "ALLPARK EMPREENDIMENTOS ,",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 6.65,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-16",
+        "merchant": "MONTANA GRILL",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 36.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-16",
+        "merchant": "LEITURAALVORADACO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 13.1,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-16",
+        "merchant": "MB PARKING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 5.88,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-17",
+        "merchant": "IFD * BR",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 46.79,
+        "isPayment": false,
+        "installment": null,
+        "category": "Alimentação",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-17",
+        "merchant": "AMAZONMKTPLC * INTERCOME",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 37.5,
+        "isPayment": false,
+        "installment": {
+          "current": 1,
+          "total": 6
+        },
+        "category": "Compras Online",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-17",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.96,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-18",
+        "merchant": "UBER   *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 4.47,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-18",
+        "merchant": "HTM   * DESAFIOESCRITA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 8.56,
+        "isPayment": false,
+        "installment": {
+          "current": 1,
+          "total": 9
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-18",
+        "merchant": "HTM * ALCANTARA E GUR",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 8.05,
+        "isPayment": false,
+        "installment": {
+          "current": 1,
+          "total": 5
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-18",
+        "merchant": "SYMPLA * SYMPLA FE",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 11.25,
+        "isPayment": false,
+        "installment": {
+          "current": 1,
+          "total": 6
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-18",
+        "merchant": "IFD * BR",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 38.89,
+        "isPayment": false,
+        "installment": null,
+        "category": "Alimentação",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-18",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 43.94,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-19",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 6.94,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-19",
+        "merchant": "SYMPLA * SYMPLA DFO2",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 59.99,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-19",
+        "merchant": "SPOLETO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 50,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-19",
+        "merchant": "MC DONALDS",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 19.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-19",
+        "merchant": "MB PARKING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 6.16,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-20",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.94,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-20",
+        "merchant": "BRASILIA SUL",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 38.5,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-20",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.96,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-20",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.96,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-20",
+        "merchant": "EIXO MONUMENTAL",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 38.4,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-21",
+        "merchant": "DL * UBERRIDES",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 18.95,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-21",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 15.96,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-21",
+        "merchant": "WOW * BARBA MIA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 65,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-21",
+        "merchant": "UBER   *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 6.94,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-21",
+        "merchant": "DROGARIA ROSARIO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 778.31,
+        "isPayment": false,
+        "installment": {
+          "current": 1,
+          "total": 5
+        },
+        "category": "Farmácia",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-21",
+        "merchant": "LEITURAALVORADACO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 66.4,
+        "isPayment": false,
+        "installment": {
+          "current": 1,
+          "total": 2
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-21",
+        "merchant": "PATIOBRASILSTHSHP",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 434.5,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-21",
+        "merchant": "MB PARKING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 10,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-21",
+        "merchant": "IOF TRANSACOES EXTERIOR R $",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 3.85,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-21",
+        "merchant": "CLAUDE . AI SUBSCRIPTION",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 110,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-21",
+        "merchant": "AMAZON PRIME CANAIS",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 34.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Compras Online",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-21",
+        "merchant": "EBN * PLAYSTATION",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 103.24,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-22",
+        "merchant": "DL * GOOGLE YOUTUB",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 26.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Streaming",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-22",
+        "merchant": "MEX SORVETES",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 20,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-22",
+        "merchant": "EBN   * PLAYSTATION",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 351.8,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-22",
+        "merchant": "DM * NINTENDOESHOP",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 31.99,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-23",
+        "merchant": "CONTA VIVO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 126,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-23",
+        "merchant": "PARENTELA PANIFICADORA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 45.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-23",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.95,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-23",
+        "merchant": "OCULUS   * CHC5KHDWL2",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 44.71,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-23",
+        "merchant": "IOF TRANSACOES EXTERIOR R $",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 1.56,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-23",
+        "merchant": "MC DONALDS",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 118,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-23",
+        "merchant": "MB PARKING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 11.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-24",
+        "merchant": "NETFLIX . COM",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 20.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Streaming",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-24",
+        "merchant": "UBER   *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.96,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-24",
+        "merchant": "LLEBOOKOPALC",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 10.78,
+        "isPayment": false,
+        "installment": {
+          "current": 1,
+          "total": 5
+        },
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-25",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.95,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-25",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.96,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-25",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 7.96,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-26",
+        "merchant": "UBER *   TRIP",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.96,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-27",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 13.98,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-27",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 6.3,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-27",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 17.98,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-27",
+        "merchant": "SPOLETO BRASILIA SHOP .",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 58.4,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-27",
+        "merchant": "MC DONALDS",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 20.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-27",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 16.97,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-27",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 25.98,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-27",
+        "merchant": "PARENTELA PANIFICADORA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.66,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-28",
+        "merchant": "IOF TRANSACOES EXTERIOR R $",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 3.64,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-28",
+        "merchant": "HOSTINGER . COM",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 103.98,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-28",
+        "merchant": "ANTHROPIC",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 221.76,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-28",
+        "merchant": "IOF TRANSACOES EXTERIOR R $",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 7.76,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-28",
+        "merchant": "APPLECOMBILL",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 14.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Streaming",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-28",
+        "merchant": "JIM . COM *   BRASILIA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 25,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-28",
+        "merchant": "PAO DOURADO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 51.62,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-28",
+        "merchant": "WOW * BARBA MIA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 65,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-28",
+        "merchant": "AMAZON PRIME CANAIS",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 44.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Compras Online",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "IOF TRANSACOES EXTERIOR R $",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 3.88,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "ANTHROPIC",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 110.88,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "APPLECOMBILL",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 29.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Streaming",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "IOF TRANSACOES EXTERIOR R $",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 16.34,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "CLAUDE . AI SUBSCRIPTION",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 466.99,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "APPLECOMBILL",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 19.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Streaming",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "PAO DOURADO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 54.13,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "IOF TRANSACOES EXTERIOR R $",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 0.42,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "HOSTINGER . COM",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 11.95,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "IOF TRANSACOES EXTERIOR R $",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 1.4,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "HOSTINGER . COM",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 39.99,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "IOF TRANSACOES EXTERIOR R $",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 1.94,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "OPENAI",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 55.44,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "IOF TRANSACOES EXTERIOR R $",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 1.98,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "ANTHROPIC",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 56.66,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "IOF TRANSACOES EXTERIOR R $",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 2.19,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "ANTHROPIC",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 62.59,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "IOF TRANSACOES EXTERIOR R $",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 1.94,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-29",
+        "merchant": "ANTHROPIC",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 55.44,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-30",
+        "merchant": "DL * UBERRIDES",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.94,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-30",
+        "merchant": "REI DO PAO DE QUEIJO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 19,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-30",
+        "merchant": "MP * SARAIVADOCEVE",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 28,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-30",
+        "merchant": "MONTANA GRILL",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 36.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-30",
+        "merchant": "CHIQUINHO SORVETES",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 19,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-30",
+        "merchant": "MB PARKING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 6.16,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-30",
+        "merchant": "AMAZONMKTPLC * ELEADERUT",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 34.67,
+        "isPayment": false,
+        "installment": {
+          "current": 1,
+          "total": 3
+        },
+        "category": "Compras Online",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-31",
+        "merchant": "MICROSOFT * STORE",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 51,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-31",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.93,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-31",
+        "merchant": "MONTANA GRILL",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 36.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-31",
+        "merchant": "MC DONALDS",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 19.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-31",
+        "merchant": "MB PARKING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 8.4,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-01",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.93,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-02",
+        "merchant": "MICROSOFT * SUBSCRIPTION",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 59.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-02",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.95,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-02",
+        "merchant": "ASA SUL 114",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 40,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-02",
+        "merchant": "APPLECOMBILL",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 39.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Streaming",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-03",
+        "merchant": "APPLECOMBILL",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 49.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Streaming",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-03",
+        "merchant": "PATIOBRASILSTHSHP",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 401.5,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-03",
+        "merchant": "PATIO BRASIL",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 227.5,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-03",
+        "merchant": "CASCOL COMBUSTIVEIS",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 355.24,
+        "isPayment": false,
+        "installment": null,
+        "category": "Combustível",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-03",
+        "merchant": "ANTHROPIC",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 55.95,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-03",
+        "merchant": "IOF TRANSACOES EXTERIOR R $",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 1.96,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-04",
+        "merchant": "PAO DOURADO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 44.55,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-04",
+        "merchant": "APPLECOMBILL",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 25.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Streaming",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-04",
+        "merchant": "MC DONALDS",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 117.7,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-04",
+        "merchant": "MC DONALDS",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 6,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-04",
+        "merchant": "WOW * BARBA MIA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 250,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-05",
+        "merchant": "PARENTELA GOURMET",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 24,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-05",
+        "merchant": "PARENTELA GOURMET",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 4,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-06",
+        "merchant": "REI DO PAO DE QUEIJO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 20,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-06",
+        "merchant": "DL * UBERRIDES",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 6.96,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-06",
+        "merchant": "MONTANA GRILL",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 37.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-06",
+        "merchant": "CHIQUINHO SORVETES",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 19,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-06",
+        "merchant": "AMERICANAS SA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 61.95,
+        "isPayment": false,
+        "installment": null,
+        "category": "Compras Online",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-06",
+        "merchant": "MB PARKING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 11.48,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-07",
+        "merchant": "MR .   GRILL ,   COZINH",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 52.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-07",
+        "merchant": "PBADMINISTRADORA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 12,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-07",
+        "merchant": "DL * UBERRIDES",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 7.95,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-08",
+        "merchant": "REI DO PAO DE QUEIJO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 23,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-08",
+        "merchant": "DL * UBERRIDES",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.93,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-08",
+        "merchant": "MB ALIMENTOS E EVENTOS",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 48.35,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-09",
+        "merchant": "REI DO PAO DE QUEIJO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 23,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-09",
+        "merchant": "DL * UBERRIDES",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.93,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-09",
+        "merchant": "DL * UBERRIDES",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 18.95,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-09",
+        "merchant": "DL * UBERRIDES",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 17.96,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-09",
+        "merchant": "THE HOT MACHINE",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 11,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-09",
+        "merchant": "THE HOT MACHINE",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 20,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-09",
+        "merchant": "THE HOT MACHINE",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 6.5,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-10",
+        "merchant": "APPLECOMBILL",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 49.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Streaming",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-10",
+        "merchant": "REI DO PAO DE QUEIJO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 23,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-10",
+        "merchant": "UBER *   PENDING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 9.94,
+        "isPayment": false,
+        "installment": null,
+        "category": "Transporte",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-10",
+        "merchant": "TICIANA WERNER",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 304.66,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-10",
+        "merchant": "OUTBACK VENANCIO BRASIL",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 395.36,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-10",
+        "merchant": "PBADMINISTRADORA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 8,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-11",
+        "merchant": "IOF TRANSACOES EXTERIOR R $",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 0.94,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-11",
+        "merchant": "ANTHROPIC",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 26.93,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-11",
+        "merchant": "WOW * BARBA MIA",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 65,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-11",
+        "merchant": "LAGO SUL",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 128.3,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-11",
+        "merchant": "LEITURAALVORADACO",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 74.9,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-04-11",
+        "merchant": "MB PARKING",
+        "cardholder": "RODRIGO COELHO",
+        "amount": 10,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-15",
+        "merchant": "PARENTELA PANIFICADORA",
+        "cardholder": "FELIPE COELHO",
+        "amount": 17.06,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-28",
+        "merchant": "IOF TRANSACOES EXTERIOR R $",
+        "cardholder": "FELIPE COELHO",
+        "amount": 0.37,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      },
+      {
+        "date": "2026-03-28",
+        "merchant": "STEAMGAMES . COM 4259522985",
+        "cardholder": "FELIPE COELHO",
+        "amount": 10.49,
+        "isPayment": false,
+        "installment": null,
+        "category": "Outros",
+        "invoiceMonth": "2026-04"
+      }
+    ],
+    "totalSpent": 15065.779999999984
   }
 ]
