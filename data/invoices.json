@@ -20792,5 +20792,11 @@
     ],
     "totalSpent": 11168.939999999993,
     "totalPayment": 18009.65
+  },
+  {
+    "month": "2026-04",
+    "label": "Abr 2026",
+    "transactions": [],
+    "totalSpent": 0
   }
 ]
