@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
   const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
   const owner = process.env.GITHUB_OWNER!;
   const repo = process.env.GITHUB_REPO!;
-  const branch = process.env.GITHUB_BRANCH ?? "main";
+  const branch = process.env.GITHUB_BRANCH ?? "master";
 
   let existingInvoices: any[] = [];
   let existingFileSha: string | undefined;
