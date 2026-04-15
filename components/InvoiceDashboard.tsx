@@ -12,27 +12,31 @@ import {
   CATEGORY_COLORS, CARDHOLDER_LABELS, getCategoryStats, normalizeSubscriptionName,
 } from "@/lib/categories";
 
-// ─── Formatters ────────────────────────────────────────────────────────────────
+// ── Formatters ────────────────────────────────────────────────────────────────
 
 function fmtBRL(v: number) {
   return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: 2 });
 }
 function fmtShort(v: number) {
-  if (v >= 1000) return `R$${(v / 1000).toFixed(1)}k`;
-  return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: 0 });
+  return v >= 1000 ? `R$${(v / 1000).toFixed(1)}k` : `R$${v.toFixed(0)}`;
 }
+
+// ── Constants ─────────────────────────────────────────────────────────────────
 
 const CAT_ICON: Record<string, string> = {
   Assinaturas: "🔔", "Farmácia & Saúde": "💊", Alimentação: "🍽️",
   Transporte: "🚗", "Compras Online": "🛒", "Moda & Vestuário": "👗",
   "Eletrônicos & Games": "🎮", "Viagens & Hotéis": "✈️",
   "Bem-Estar & Pessoal": "💆", "Educação & Eventos": "📚",
-  "Casa & Condomínio": "🏠", Telefone: "📱", Outros: "📌",
+  "Casa & Condomínio": "🏠", Telefone: "📱", Outros: "📌", Pagamento: "✅",
 };
 
-const ESSENTIAL_SUBS = ["vivo", "claude", "chatgpt", "openai", "anthropic", "microsoft", "notion", "google one", "youtube", "amazon prime", "apple service", "conta vivo", "telecel"];
+const ESSENTIAL_SUBS = [
+  "vivo", "claude", "chatgpt", "openai", "anthropic", "microsoft",
+  "notion", "google one", "youtube", "amazon prime", "apple", "conta vivo", "telecel",
+];
 
-// ─── Derived data ──────────────────────────────────────────────────────────────
+// ── Data helpers ──────────────────────────────────────────────────────────────
 
 function getSubscriptions(invoices: Invoice[]): Subscription[] {
   const map = new Map<string, { months: Set<string>; amounts: number[]; category: string; lastSeen: string }>();
@@ -40,16 +44,17 @@ function getSubscriptions(invoices: Invoice[]): Subscription[] {
     for (const t of inv.transactions) {
       if (t.isPayment || !["Assinaturas", "Telefone"].includes(t.category)) continue;
       const name = normalizeSubscriptionName(t.merchant);
-      const e = map.get(name) ?? { months: new Set(), amounts: [], category: t.category, lastSeen: "" };
-      e.months.add(inv.month);
-      e.amounts.push(t.amount);
-      if (inv.month > e.lastSeen) e.lastSeen = inv.month;
-      map.set(name, e);
+      const existing = map.get(name) ?? { months: new Set(), amounts: [], category: t.category, lastSeen: "" };
+      existing.months.add(inv.month);
+      existing.amounts.push(t.amount);
+      if (inv.month > existing.lastSeen) existing.lastSeen = inv.month;
+      map.set(name, existing);
     }
   }
   return Array.from(map.entries())
     .map(([merchant, { months, amounts, category, lastSeen }]) => ({
-      merchant, avgMonthly: amounts.reduce((a, b) => a + b, 0) / amounts.length,
+      merchant,
+      avgMonthly: amounts.reduce((a, b) => a + b, 0) / amounts.length,
       monthsPresent: months.size, lastSeen, category,
     }))
     .sort((a, b) => b.avgMonthly - a.avgMonthly);
@@ -61,10 +66,10 @@ function getInstallments(invoices: Invoice[]): ActiveInstallment[] {
     for (const t of inv.transactions) {
       if (!t.installment) continue;
       const key = `${normalizeSubscriptionName(t.merchant).toLowerCase().replace(/[^a-z0-9]/g, "").substring(0, 25)}_${t.installment.total}`;
-      const e = map.get(key) ?? { merchant: t.merchant, maxCurrent: 0, total: t.installment.total, amounts: [] };
-      if (t.installment.current > e.maxCurrent) e.maxCurrent = t.installment.current;
-      e.amounts.push(t.amount);
-      map.set(key, e);
+      const existing = map.get(key) ?? { merchant: t.merchant, maxCurrent: 0, total: t.installment.total, amounts: [] };
+      if (t.installment.current > existing.maxCurrent) existing.maxCurrent = t.installment.current;
+      existing.amounts.push(t.amount);
+      map.set(key, existing);
     }
   }
   return Array.from(map.values())
@@ -86,7 +91,7 @@ function getTopMerchants(transactions: Transaction[], n = 8) {
     .sort((a, b) => b.amount - a.amount).slice(0, n);
 }
 
-// ─── Auto-generated insights ───────────────────────────────────────────────────
+// ── Insights generator ────────────────────────────────────────────────────────
 
 type Insight = { icon: string; text: string; kind: "good" | "bad" | "neutral" };
 
@@ -95,65 +100,99 @@ function buildInsights(
   subscriptions: Subscription[],
   installments: ActiveInstallment[],
   avg: number,
+  avgPerCat: Record<string, number>,
 ): Insight[] {
   const out: Insight[] = [];
   const latest = invoices.at(-1);
   const prev = invoices.at(-2);
 
-  // vs average
   if (latest && avg > 0) {
     const pct = ((latest.totalSpent - avg) / avg) * 100;
     if (pct > 10)
-      out.push({ icon: "⚠️", text: `Fatura ${pct.toFixed(0)}% acima da sua média histórica`, kind: "bad" });
+      out.push({ icon: "⚠️", text: `Fatura ${pct.toFixed(0)}% acima da sua média histórica (${fmtBRL(avg)})`, kind: "bad" });
     else if (pct < -10)
       out.push({ icon: "✅", text: `Fatura ${Math.abs(pct).toFixed(0)}% abaixo da média — ótimo mês!`, kind: "good" });
   }
 
-  // biggest category jump
+  // Top 2 categories most above their historical avg
+  if (latest) {
+    const latestCatMap = new Map<string, number>();
+    for (const t of latest.transactions.filter((t) => !t.isPayment)) {
+      latestCatMap.set(t.category, (latestCatMap.get(t.category) ?? 0) + t.amount);
+    }
+    const overSpend = Array.from(latestCatMap.entries())
+      .map(([cat, amount]) => {
+        const avg = avgPerCat[cat];
+        return { cat, amount, avg, pct: avg && avg > 0 ? ((amount - avg) / avg) * 100 : null };
+      })
+      .filter((x) => x.pct !== null && x.pct > 20 && x.amount > 200)
+      .sort((a, b) => (b.pct ?? 0) - (a.pct ?? 0));
+
+    overSpend.slice(0, 2).forEach(({ cat, amount, avg: catAvg, pct }) => {
+      out.push({
+        icon: CAT_ICON[cat] ?? "📈",
+        text: `${cat}: ${fmtBRL(amount)} este mês — ${pct!.toFixed(0)}% acima do usual (média ${fmtBRL(catAvg!)})`,
+        kind: "bad",
+      });
+    });
+
+    const underSpend = Array.from(latestCatMap.entries())
+      .map(([cat, amount]) => {
+        const avg = avgPerCat[cat];
+        return { cat, amount, avg, pct: avg && avg > 0 ? ((amount - avg) / avg) * 100 : null };
+      })
+      .filter((x) => x.pct !== null && x.pct < -25 && x.amount > 100)
+      .sort((a, b) => (a.pct ?? 0) - (b.pct ?? 0));
+
+    if (underSpend[0]) {
+      const { cat, amount, avg: catAvg, pct } = underSpend[0];
+      out.push({
+        icon: "📉",
+        text: `${cat} ${Math.abs(pct!).toFixed(0)}% abaixo do normal — economia real (${fmtBRL(amount)} vs ${fmtBRL(catAvg!)} usual)`,
+        kind: "good",
+      });
+    }
+  }
+
   if (latest && prev) {
     const cats = new Set<string>();
     [...latest.transactions, ...prev.transactions].filter((t) => !t.isPayment).forEach((t) => cats.add(t.category));
-    const deltas = Array.from(cats)
-      .map((cat) => {
-        const curr = latest.transactions.filter((t) => !t.isPayment && t.category === cat).reduce((s, t) => s + t.amount, 0);
-        const ante = prev.transactions.filter((t) => !t.isPayment && t.category === cat).reduce((s, t) => s + t.amount, 0);
-        return { cat, curr, ante, pct: ante > 0 ? ((curr - ante) / ante) * 100 : null };
-      })
-      .filter((x) => x.pct !== null && x.curr > 80);
+    const deltas = Array.from(cats).map((cat) => {
+      const curr = latest.transactions.filter((t) => !t.isPayment && t.category === cat).reduce((s, t) => s + t.amount, 0);
+      const ante = prev.transactions.filter((t) => !t.isPayment && t.category === cat).reduce((s, t) => s + t.amount, 0);
+      return { cat, curr, ante, pct: ante > 0 ? ((curr - ante) / ante) * 100 : null };
+    }).filter((x) => x.pct !== null && x.curr > 80);
 
     const biggest = [...deltas].sort((a, b) => (b.pct ?? 0) - (a.pct ?? 0))[0];
-    if (biggest && biggest.pct! > 25)
-      out.push({ icon: "📈", text: `${biggest.cat} subiu ${biggest.pct!.toFixed(0)}% vs mês anterior (${fmtBRL(biggest.ante)} → ${fmtBRL(biggest.curr)})`, kind: "bad" });
-
-    const best = [...deltas].sort((a, b) => (a.pct ?? 0) - (b.pct ?? 0))[0];
-    if (best && best.pct! < -25)
-      out.push({ icon: "📉", text: `${best.cat} caiu ${Math.abs(best.pct!).toFixed(0)}% — economia real`, kind: "good" });
+    if (biggest && biggest.pct! > 40 && out.length < 4)
+      out.push({ icon: "📈", text: `${biggest.cat} subiu ${biggest.pct!.toFixed(0)}% vs ${prev.label} (${fmtBRL(biggest.ante)} → ${fmtBRL(biggest.curr)})`, kind: "bad" });
   }
 
-  // subscriptions
   const subTotal = subscriptions.reduce((s, sub) => s + sub.avgMonthly, 0);
-  if (subTotal > 0) {
-    const anual = 12 * subTotal;
-    out.push({ icon: "🔔", text: `${fmtBRL(subTotal)}/mês em assinaturas — ${fmtBRL(anual)} por ano`, kind: "neutral" });
-  }
+  const nonEssential = subscriptions.filter((s) => !ESSENTIAL_SUBS.some((k) => s.merchant.toLowerCase().includes(k)));
+  const savingsPossible = nonEssential.reduce((s, sub) => s + sub.avgMonthly, 0);
 
-  // installments
-  if (installments.length > 0) {
+  if (savingsPossible > 50 && out.length < 4)
+    out.push({ icon: "✂️", text: `${nonEssential.length} assinatura${nonEssential.length > 1 ? "s" : ""} para revisar: ${fmtBRL(savingsPossible)}/mês (${fmtBRL(12 * savingsPossible)}/ano)`, kind: "neutral" });
+  else if (subTotal > 0 && out.length < 4)
+    out.push({ icon: "🔔", text: `${fmtBRL(subTotal)}/mês em assinaturas — ${fmtBRL(12 * subTotal)} por ano`, kind: "neutral" });
+
+  if (installments.length > 0 && out.length < 4) {
     const instTotal = installments.reduce((s, i) => s + i.monthlyAmount, 0);
-    out.push({ icon: "💳", text: `${installments.length} parcelamentos ativos · ${fmtBRL(instTotal)}/mês comprometidos`, kind: "neutral" });
+    out.push({ icon: "💳", text: `${installments.length} parcelamento${installments.length > 1 ? "s" : ""} ativo${installments.length > 1 ? "s" : ""} · ${fmtBRL(instTotal)}/mês comprometidos`, kind: "neutral" });
   }
 
   return out.slice(0, 4);
 }
 
-// ─── Micro components ──────────────────────────────────────────────────────────
+// ── Micro components ──────────────────────────────────────────────────────────
 
-function DeltaBadge({ value }: { value: number }) {
-  if (value === 0) return null;
+function DeltaBadge({ value, label }: { value: number; label: string }) {
+  if (Math.abs(value) < 0.5) return null;
   const pos = value > 0;
   return (
-    <span className={`inline-flex items-center gap-0.5 text-xs font-bold px-2 py-0.5 rounded-full ${pos ? "bg-red-500/20 text-red-200" : "bg-emerald-500/20 text-emerald-200"}`}>
-      {pos ? "▲" : "▼"} {Math.abs(value).toFixed(1)}%
+    <span className={`inline-flex items-center gap-1 text-xs font-bold px-2 py-0.5 rounded-full ${pos ? "bg-red-500/20 text-red-200" : "bg-emerald-500/20 text-emerald-200"}`}>
+      {pos ? "▲" : "▼"} {Math.abs(value).toFixed(1)}% <span className="font-normal opacity-75">{label}</span>
     </span>
   );
 }
@@ -172,25 +211,33 @@ function InsightCard({ ins }: { ins: Insight }) {
   );
 }
 
-function CatRow({ c, max }: { c: CategoryStat; max: number }) {
+function CatRow({ c, max, avgForCat }: { c: CategoryStat; max: number; avgForCat?: number }) {
+  const diff = avgForCat && avgForCat > 0 ? ((c.amount - avgForCat) / avgForCat) * 100 : null;
+  const showDiff = diff !== null && Math.abs(diff) > 8;
+  const isOther = c.name === "Outros";
+
   return (
-    <div className="flex items-center gap-3">
-      <span className="text-base w-5 text-center flex-shrink-0">{CAT_ICON[c.name] ?? "📌"}</span>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center justify-between mb-1.5">
-          <span className={`text-xs font-medium truncate ${c.name === "Outros" ? "text-slate-400" : "text-slate-700"}`}>{c.name}</span>
-          <div className="flex items-center gap-2 ml-2 flex-shrink-0">
-            <span className={`text-xs font-bold ${c.name === "Outros" ? "text-slate-400" : "text-slate-800"}`}>{fmtBRL(c.amount)}</span>
-            <span className="text-xs text-slate-400 w-8 text-right">{c.percentage.toFixed(0)}%</span>
-          </div>
-        </div>
-        <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
-          <div
-            className="h-full rounded-full transition-all duration-700"
-            style={{ width: `${(c.amount / max) * 100}%`, background: c.name === "Outros" ? "#d1d5db" : c.color }}
-          />
-        </div>
+    <div>
+      <div className="flex items-center gap-2 mb-1.5">
+        <span className="text-base w-5 text-center flex-shrink-0">{CAT_ICON[c.name] ?? "📌"}</span>
+        <span className={`text-xs font-medium flex-1 truncate ${isOther ? "text-slate-400" : "text-slate-700"}`}>{c.name}</span>
+        {showDiff && (
+          <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full flex-shrink-0 ${diff! > 0 ? "bg-red-100 text-red-600" : "bg-emerald-100 text-emerald-600"}`}>
+            {diff! > 0 ? "▲" : "▼"}{Math.abs(diff!).toFixed(0)}%
+          </span>
+        )}
+        <span className={`text-xs font-bold flex-shrink-0 ${isOther ? "text-slate-400" : "text-slate-800"}`}>{fmtBRL(c.amount)}</span>
+        <span className="text-xs text-slate-400 w-7 text-right flex-shrink-0">{c.percentage.toFixed(0)}%</span>
       </div>
+      <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden ml-7">
+        <div
+          className="h-full rounded-full transition-all duration-700"
+          style={{ width: `${(c.amount / max) * 100}%`, background: isOther ? "#d1d5db" : c.color }}
+        />
+      </div>
+      {avgForCat && avgForCat > 0 && (
+        <p className="text-xs text-slate-400 mt-0.5 ml-7">Sua média: {fmtBRL(avgForCat)}</p>
+      )}
     </div>
   );
 }
@@ -207,9 +254,9 @@ function ChartTip({ active, payload, label }: any) {
   );
 }
 
-// ─── Tab 1: Resumo ─────────────────────────────────────────────────────────────
+// ── Tab 1: INÍCIO ─────────────────────────────────────────────────────────────
 
-function ResumoTab({
+function InicioTab({
   invoices, avg, monthlySummaries, subscriptions, installments,
 }: {
   invoices: Invoice[]; avg: number; monthlySummaries: MonthlySummary[];
@@ -220,56 +267,99 @@ function ResumoTab({
   const latest = invoices.at(-1);
   const prev = invoices.at(-2);
 
-  const displayInvoice = selectedBar ? invoices.find((i) => i.month === selectedBar) ?? latest : latest;
-  const displayTxns = displayInvoice?.transactions.filter((t) => !t.isPayment) ?? [];
+  const subTotal = subscriptions.reduce((s, sub) => s + sub.avgMonthly, 0);
+  const instTotal = installments.reduce((s, i) => s + i.monthlyAmount, 0);
+  const fixedTotal = subTotal + instTotal;
+  const fixedPct = latest && latest.totalSpent > 0 ? (fixedTotal / latest.totalSpent) * 100 : 0;
+  const variableTotal = latest ? Math.max(0, latest.totalSpent - fixedTotal) : 0;
 
+  const variation = latest && prev && prev.totalSpent > 0
+    ? ((latest.totalSpent - prev.totalSpent) / prev.totalSpent) * 100 : 0;
+  const vsAvg = avg > 0 && latest ? ((latest.totalSpent - avg) / avg) * 100 : 0;
+
+  // Historical avg per category (excludes latest month to avoid self-reference)
+  const avgPerCat = useMemo(() => {
+    const map = new Map<string, { total: number; count: number }>();
+    for (const inv of invoices.slice(0, -1)) {
+      const monthCats = new Map<string, number>();
+      for (const t of inv.transactions.filter((t) => !t.isPayment)) {
+        monthCats.set(t.category, (monthCats.get(t.category) ?? 0) + t.amount);
+      }
+      monthCats.forEach((amount, cat) => {
+        const e = map.get(cat) ?? { total: 0, count: 0 };
+        map.set(cat, { total: e.total + amount, count: e.count + 1 });
+      });
+    }
+    const result: Record<string, number> = {};
+    map.forEach((v, k) => { result[k] = v.count > 0 ? v.total / v.count : 0; });
+    return result;
+  }, [invoices]);
+
+  const displayInvoice = selectedBar ? (invoices.find((i) => i.month === selectedBar) ?? latest) : latest;
+  const isLatest = !selectedBar || selectedBar === latest?.month;
+  const displayTxns = displayInvoice?.transactions.filter((t) => !t.isPayment) ?? [];
   const rawCats = getCategoryStats(displayTxns);
   const cats = [...rawCats.filter((c) => c.name !== "Outros"), ...rawCats.filter((c) => c.name === "Outros")];
   const maxCat = cats[0]?.amount ?? 1;
 
-  const subTotal = subscriptions.reduce((s, sub) => s + sub.avgMonthly, 0);
-  const instTotal = installments.reduce((s, i) => s + i.monthlyAmount, 0);
-  const variation = latest && prev && prev.totalSpent > 0 ? ((latest.totalSpent - prev.totalSpent) / prev.totalSpent) * 100 : 0;
-  const vsAvg = avg > 0 && latest ? ((latest.totalSpent - avg) / avg) * 100 : 0;
-
   const insights = useMemo(
-    () => buildInsights(invoices, subscriptions, installments, avg),
-    [invoices, subscriptions, installments, avg],
+    () => buildInsights(invoices, subscriptions, installments, avg, avgPerCat),
+    [invoices, subscriptions, installments, avg, avgPerCat],
   );
 
   return (
     <div className="space-y-4">
+
       {/* ── Hero ── */}
       <div className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 rounded-2xl p-5 text-white">
         <p className="text-blue-300 text-xs font-semibold uppercase tracking-widest mb-2">
-          Fatura atual · {latest?.label ?? "—"}
+          Última fatura · {latest?.label ?? "—"}
         </p>
         <p className="text-5xl font-black tracking-tight leading-none">
           {latest ? fmtBRL(latest.totalSpent) : "—"}
         </p>
-        <div className="flex flex-wrap items-center gap-2 mt-3">
-          <DeltaBadge value={variation} />
-          <span className="text-blue-300 text-xs">vs mês anterior</span>
-          <DeltaBadge value={vsAvg} />
-          <span className="text-blue-300 text-xs">vs média</span>
+        <div className="flex flex-wrap gap-2 mt-3">
+          <DeltaBadge value={variation} label="vs mês anterior" />
+          <DeltaBadge value={vsAvg} label="vs média" />
         </div>
-        <div className="grid grid-cols-3 gap-3 mt-4 pt-4 border-t border-white/10">
+
+        {/* Fixed vs variable breakdown */}
+        <div className="mt-4 pt-4 border-t border-white/10">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-blue-300 text-xs font-medium">Compromissos fixos vs variável</p>
+            <p className="text-xs text-blue-200 font-semibold">{fixedPct.toFixed(0)}% fixo</p>
+          </div>
+          <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+            <div
+              className="h-full rounded-l-full transition-all"
+              style={{ width: `${Math.min(fixedPct, 100)}%`, background: fixedPct > 80 ? "#f87171" : "#fbbf24" }}
+            />
+          </div>
+          <div className="flex justify-between mt-2 text-xs">
+            <span className="text-amber-300">💳 Fixo: {fmtBRL(fixedTotal)}</span>
+            <span className="text-blue-200">🔀 Variável: {fmtBRL(variableTotal)}</span>
+          </div>
+          <p className="text-xs text-blue-400 mt-1.5">Subs {fmtBRL(subTotal)} + Parcelas {fmtBRL(instTotal)}</p>
+        </div>
+
+        {/* Stats row */}
+        <div className="grid grid-cols-3 gap-3 mt-4 pt-4 border-t border-white/10 text-center">
           <div>
-            <p className="text-xs text-blue-400">Média histórica</p>
-            <p className="text-sm font-bold mt-0.5">{fmtBRL(avg)}</p>
+            <p className="text-xs text-blue-400">Média</p>
+            <p className="text-sm font-bold">{fmtBRL(avg)}</p>
           </div>
           <div>
             <p className="text-xs text-blue-400">Assinaturas</p>
-            <p className="text-sm font-bold mt-0.5">{fmtBRL(subTotal)}<span className="text-xs font-normal text-blue-400">/mês</span></p>
+            <p className="text-sm font-bold">{fmtBRL(subTotal)}<span className="text-xs font-normal text-blue-400">/mês</span></p>
           </div>
           <div>
-            <p className="text-xs text-blue-400">Parcelamentos</p>
-            <p className="text-sm font-bold mt-0.5">{fmtBRL(instTotal)}<span className="text-xs font-normal text-blue-400">/mês</span></p>
+            <p className="text-xs text-blue-400">Parcelas</p>
+            <p className="text-sm font-bold">{fmtBRL(instTotal)}<span className="text-xs font-normal text-blue-400">/mês</span></p>
           </div>
         </div>
       </div>
 
-      {/* ── Insight chips ── */}
+      {/* ── Insights ── */}
       {insights.length > 0 && (
         <div className="space-y-2">
           {insights.map((ins, i) => <InsightCard key={i} ins={ins} />)}
@@ -288,10 +378,10 @@ function ResumoTab({
         </div>
         {selectedBar && (
           <p className="text-xs text-blue-500 mb-2">
-            Categorias: <strong>{monthlySummaries.find((m) => m.month === selectedBar)?.label}</strong>
+            Mostrando: <strong>{monthlySummaries.find((m) => m.month === selectedBar)?.label}</strong>
           </p>
         )}
-        <ResponsiveContainer width="100%" height={150}>
+        <ResponsiveContainer width="100%" height={140}>
           <BarChart data={monthlySummaries} margin={{ top: 4, right: 0, bottom: 0, left: -18 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
             <XAxis dataKey="label" tick={{ fontSize: 10, fill: "#94a3b8" }} axisLine={false} tickLine={false} />
@@ -312,16 +402,31 @@ function ResumoTab({
           </BarChart>
         </ResponsiveContainer>
         {!selectedBar && (
-          <p className="text-xs text-slate-400 text-center mt-1">Toque em uma barra para filtrar as categorias</p>
+          <p className="text-xs text-slate-400 text-center mt-1">Toque em uma barra para filtrar as categorias abaixo</p>
         )}
       </div>
 
-      {/* ── Category breakdown ── */}
+      {/* ── Category breakdown WITH avg comparison ── */}
       {cats.length > 0 && (
         <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
-          <h2 className="text-sm font-semibold text-slate-700 mb-4">Gastos por categoria</h2>
-          <div className="space-y-3">
-            {cats.map((c) => <CatRow key={c.name} c={c} max={maxCat} />)}
+          <div className="flex items-start justify-between mb-1">
+            <h2 className="text-sm font-semibold text-slate-700">
+              Gastos por categoria
+              {selectedBar && <span className="text-blue-500 font-normal"> · {displayInvoice?.label}</span>}
+            </h2>
+          </div>
+          {isLatest && (
+            <p className="text-xs text-slate-400 mb-4">▲ vermelho = acima da sua média · ▼ verde = abaixo</p>
+          )}
+          <div className="space-y-4">
+            {cats.map((c) => (
+              <CatRow
+                key={c.name}
+                c={c}
+                max={maxCat}
+                avgForCat={isLatest ? avgPerCat[c.name] : undefined}
+              />
+            ))}
           </div>
         </div>
       )}
@@ -329,25 +434,29 @@ function ResumoTab({
   );
 }
 
-// ─── Tab 2: Faturas ────────────────────────────────────────────────────────────
+// ── Tab 2: FATURAS ────────────────────────────────────────────────────────────
 
-function FaturasTab({
-  invoices,
-}: {
-  invoices: Invoice[];
-}) {
+function FaturasTab({ invoices }: { invoices: Invoice[] }) {
   const [selectedMonth, setSelectedMonth] = useState(invoices.at(-1)?.month ?? "");
   const [txSearch, setTxSearch] = useState("");
+  const [selectedCat, setSelectedCat] = useState<string | null>(null);
 
   const selectedInvoice = invoices.find((i) => i.month === selectedMonth) ?? invoices.at(-1);
   const prev = selectedInvoice ? invoices[invoices.indexOf(selectedInvoice) - 1] : undefined;
 
   const txns = selectedInvoice?.transactions.filter((t) => !t.isPayment) ?? [];
-  const filtered = txSearch.trim()
-    ? txns.filter((t) => t.merchant.toLowerCase().includes(txSearch.toLowerCase()) || t.category.toLowerCase().includes(txSearch.toLowerCase()))
-    : txns;
+  const filtered = useMemo(() => {
+    let result = txns;
+    if (selectedCat) result = result.filter((t) => t.category === selectedCat);
+    if (txSearch.trim()) {
+      const q = txSearch.toLowerCase();
+      result = result.filter((t) => t.merchant.toLowerCase().includes(q) || t.category.toLowerCase().includes(q));
+    }
+    return result;
+  }, [txns, txSearch, selectedCat]);
 
   const topMerchants = useMemo(() => getTopMerchants(selectedInvoice?.transactions ?? []), [selectedInvoice]);
+  const cats = useMemo(() => getCategoryStats(txns), [txns]);
 
   const variation = selectedInvoice && prev && prev.totalSpent > 0
     ? ((selectedInvoice.totalSpent - prev.totalSpent) / prev.totalSpent) * 100
@@ -360,7 +469,7 @@ function FaturasTab({
         {[...invoices].reverse().map((inv) => (
           <button
             key={inv.month}
-            onClick={() => setSelectedMonth(inv.month)}
+            onClick={() => { setSelectedMonth(inv.month); setSelectedCat(null); setTxSearch(""); }}
             className={`flex-shrink-0 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${selectedMonth === inv.month
               ? "bg-blue-600 text-white shadow-sm"
               : "bg-white text-slate-600 border border-slate-200 hover:border-blue-300"}`}
@@ -373,7 +482,7 @@ function FaturasTab({
       {selectedInvoice && (
         <>
           {/* Total card */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-2xl p-5 text-white">
+          <div className="bg-gradient-to-r from-blue-700 to-blue-500 rounded-2xl p-5 text-white">
             <p className="text-blue-100 text-xs mb-1">{selectedInvoice.label}</p>
             <p className="text-4xl font-black">{fmtBRL(selectedInvoice.totalSpent)}</p>
             <div className="flex items-center justify-between mt-3">
@@ -388,50 +497,75 @@ function FaturasTab({
             </div>
           </div>
 
+          {/* Category filter pills */}
+          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+            <button
+              onClick={() => setSelectedCat(null)}
+              className={`flex-shrink-0 px-3 py-1 rounded-full text-xs font-semibold transition-all ${!selectedCat ? "bg-slate-800 text-white" : "bg-white text-slate-500 border border-slate-200"}`}
+            >
+              Todas
+            </button>
+            {cats.map((c) => (
+              <button
+                key={c.name}
+                onClick={() => setSelectedCat((prev) => prev === c.name ? null : c.name)}
+                className={`flex-shrink-0 px-3 py-1 rounded-full text-xs font-semibold transition-all ${selectedCat === c.name ? "text-white" : "bg-white text-slate-500 border border-slate-200"}`}
+                style={selectedCat === c.name ? { background: CATEGORY_COLORS[c.name] ?? "#3b82f6" } : undefined}
+              >
+                {CAT_ICON[c.name] ?? "📌"} {c.name}
+              </button>
+            ))}
+          </div>
+
           {/* Top merchants */}
-          <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
-            <h2 className="text-sm font-semibold text-slate-700 mb-3">Maiores gastos</h2>
-            <div className="space-y-2.5">
-              {topMerchants.map((m, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <span className="text-xs text-slate-400 font-mono w-4 text-center">{i + 1}</span>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-medium text-slate-700 truncate">{m.name}</span>
-                      <span className="text-xs font-bold text-slate-800 ml-2 flex-shrink-0">{fmtBRL(m.amount)}</span>
-                    </div>
-                    <div className="h-1 bg-slate-100 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-blue-400 rounded-full"
-                        style={{ width: `${(m.amount / (topMerchants[0]?.amount ?? 1)) * 100}%` }}
-                      />
+          {!selectedCat && (
+            <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+              <h2 className="text-sm font-semibold text-slate-700 mb-3">Maiores gastos</h2>
+              <div className="space-y-2.5">
+                {topMerchants.map((m, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <span className="text-xs text-slate-400 font-mono w-4 text-center">{i + 1}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs font-medium text-slate-700 truncate">{m.name}</span>
+                        <span className="text-xs font-bold text-slate-800 ml-2 flex-shrink-0">{fmtBRL(m.amount)}</span>
+                      </div>
+                      <div className="h-1 bg-slate-100 rounded-full overflow-hidden">
+                        <div className="h-full bg-blue-400 rounded-full" style={{ width: `${(m.amount / (topMerchants[0]?.amount ?? 1)) * 100}%` }} />
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Transaction list */}
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
             <div className="p-4 border-b border-slate-100">
-              <h2 className="text-sm font-semibold text-slate-700 mb-2">Lançamentos</h2>
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-sm font-semibold text-slate-700">
+                  Lançamentos{selectedCat ? ` · ${selectedCat}` : ""}
+                </h2>
+                <span className="text-xs text-slate-400">{filtered.length} itens · {fmtBRL(filtered.reduce((s, t) => s + t.amount, 0))}</span>
+              </div>
               <input
                 type="search"
-                placeholder="Buscar por estabelecimento ou categoria…"
+                placeholder="Buscar estabelecimento ou categoria…"
                 value={txSearch}
                 onChange={(e) => setTxSearch(e.target.value)}
                 className="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-300 bg-slate-50"
               />
             </div>
-            <div className="divide-y divide-slate-50 max-h-[480px] overflow-y-auto">
+            <div className="divide-y divide-slate-50 max-h-[500px] overflow-y-auto">
               {filtered.map((t, i) => (
                 <div key={i} className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50">
                   <span className="text-lg flex-shrink-0">{CAT_ICON[t.category] ?? "📌"}</span>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-semibold text-slate-800 truncate">{t.merchant}</p>
                     <p className="text-xs text-slate-400 mt-0.5">
-                      {t.date.slice(8, 10)}/{t.date.slice(5, 7)} · {t.category}
+                      {t.date.slice(8, 10)}/{t.date.slice(5, 7)}
+                      {" · "}{t.category}
                       {t.cardholder !== "RODRIGO COELHO" && ` · ${CARDHOLDER_LABELS[t.cardholder] ?? t.cardholder}`}
                       {t.installment && ` · ${t.installment.current}/${t.installment.total}x`}
                     </p>
@@ -450,9 +584,9 @@ function FaturasTab({
   );
 }
 
-// ─── Tab 3: Compromissos ───────────────────────────────────────────────────────
+// ── Tab 3: FIXOS ──────────────────────────────────────────────────────────────
 
-function CompromissosTab({
+function FixosTab({
   subscriptions, installments,
 }: {
   subscriptions: Subscription[]; installments: ActiveInstallment[];
@@ -465,20 +599,22 @@ function CompromissosTab({
     <div className="space-y-4">
       {/* Hero */}
       <div className="bg-gradient-to-br from-violet-900 via-indigo-900 to-violet-900 rounded-2xl p-5 text-white">
-        <p className="text-violet-300 text-xs font-semibold uppercase tracking-widest mb-2">Compromissos mensais</p>
+        <p className="text-violet-300 text-xs font-semibold uppercase tracking-widest mb-2">Comprometido mensalmente</p>
         <p className="text-5xl font-black leading-none">
           {fmtBRL(total)}
           <span className="text-lg font-normal text-violet-400">/mês</span>
         </p>
-        <p className="text-violet-300 text-sm mt-1">{fmtBRL(12 * total)} comprometidos no ano</p>
+        <p className="text-violet-300 text-sm mt-1">{fmtBRL(12 * total)} por ano em compromissos fixos</p>
         <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-white/10">
           <div>
             <p className="text-xs text-violet-400">Assinaturas · {subscriptions.length}</p>
-            <p className="text-sm font-bold mt-0.5">{fmtBRL(subTotal)}<span className="text-xs font-normal text-violet-400">/mês</span></p>
+            <p className="text-lg font-bold mt-0.5">{fmtBRL(subTotal)}<span className="text-xs font-normal text-violet-400">/mês</span></p>
+            <p className="text-xs text-violet-400">{fmtBRL(12 * subTotal)}/ano</p>
           </div>
           <div>
             <p className="text-xs text-violet-400">Parcelamentos · {installments.length}</p>
-            <p className="text-sm font-bold mt-0.5">{fmtBRL(instTotal)}<span className="text-xs font-normal text-violet-400">/mês</span></p>
+            <p className="text-lg font-bold mt-0.5">{fmtBRL(instTotal)}<span className="text-xs font-normal text-violet-400">/mês</span></p>
+            <p className="text-xs text-violet-400">{fmtBRL(12 * instTotal)}/ano</p>
           </div>
         </div>
       </div>
@@ -486,7 +622,7 @@ function CompromissosTab({
       {/* Subscriptions */}
       {subscriptions.length > 0 && (
         <div>
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Assinaturas</p>
+          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Assinaturas ativas</p>
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 divide-y divide-slate-50 overflow-hidden">
             {subscriptions.map((s, i) => {
               const isEssential = ESSENTIAL_SUBS.some((k) => s.merchant.toLowerCase().includes(k));
@@ -494,13 +630,13 @@ function CompromissosTab({
                 <div key={i} className="flex items-center gap-3 px-4 py-3">
                   <span className="text-lg">🔔</span>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1.5 flex-wrap">
                       <p className="text-sm font-medium text-slate-800">{s.merchant}</p>
                       {!isEssential && (
-                        <span className="text-xs bg-rose-100 text-rose-600 px-1.5 py-0.5 rounded-full font-medium">revise</span>
+                        <span className="text-xs bg-rose-100 text-rose-600 px-1.5 py-0.5 rounded-full font-medium">revisar</span>
                       )}
                     </div>
-                    <p className="text-xs text-slate-400 mt-0.5">{s.category} · {s.monthsPresent} {s.monthsPresent === 1 ? "mês" : "meses"}</p>
+                    <p className="text-xs text-slate-400 mt-0.5">{s.category} · {s.monthsPresent} {s.monthsPresent === 1 ? "mês" : "meses"} na histórico</p>
                   </div>
                   <div className="text-right flex-shrink-0">
                     <p className="text-sm font-bold text-slate-800">{fmtBRL(s.avgMonthly)}<span className="text-xs font-normal text-slate-400">/mês</span></p>
@@ -518,35 +654,36 @@ function CompromissosTab({
         <div>
           <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Parcelamentos ativos</p>
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 divide-y divide-slate-50 overflow-hidden">
-            {installments.map((inst, i) => (
-              <div key={i} className="px-4 py-3">
-                <div className="flex items-start justify-between gap-2 mb-2">
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-800 truncate">{normalizeSubscriptionName(inst.merchant)}</p>
-                    <p className="text-xs text-slate-400 mt-0.5">
-                      Parcela {inst.current}/{inst.total} · {inst.total - inst.current} restantes
-                    </p>
+            {installments.map((inst, i) => {
+              const pct = (inst.current / inst.total) * 100;
+              const remaining = inst.total - inst.current;
+              return (
+                <div key={i} className="px-4 py-3">
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-slate-800 truncate">{normalizeSubscriptionName(inst.merchant)}</p>
+                      <p className="text-xs text-slate-400 mt-0.5">
+                        Parcela {inst.current}/{inst.total} · ainda {remaining} {remaining === 1 ? "mês" : "meses"}
+                      </p>
+                    </div>
+                    <div className="text-right ml-3 flex-shrink-0">
+                      <p className="text-sm font-bold text-slate-800">{fmtBRL(inst.monthlyAmount)}<span className="text-xs font-normal text-slate-400">/mês</span></p>
+                      <p className="text-xs text-slate-400">Restante: {fmtBRL(inst.remainingAmount)}</p>
+                    </div>
                   </div>
-                  <div className="text-right ml-3 flex-shrink-0">
-                    <p className="text-sm font-bold text-slate-800">{fmtBRL(inst.monthlyAmount)}<span className="text-xs font-normal text-slate-400">/mês</span></p>
-                    <p className="text-xs text-slate-400">Restante: {fmtBRL(inst.remainingAmount)}</p>
+                  <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                    <div className="bg-amber-400 h-2 rounded-full" style={{ width: `${pct}%` }} />
                   </div>
+                  <p className="text-xs text-slate-400 mt-1">{pct.toFixed(0)}% pago</p>
                 </div>
-                <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
-                  <div
-                    className="bg-amber-400 h-2 rounded-full transition-all"
-                    style={{ width: `${(inst.current / inst.total) * 100}%` }}
-                  />
-                </div>
-                <p className="text-xs text-slate-400 mt-1">{Math.round((inst.current / inst.total) * 100)}% concluído</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}
 
       {installments.length === 0 && (
-        <div className="text-center py-10">
+        <div className="text-center py-10 bg-white rounded-2xl border border-slate-100">
           <p className="text-3xl mb-2">✅</p>
           <p className="text-sm text-slate-500">Nenhum parcelamento ativo</p>
         </div>
@@ -555,11 +692,11 @@ function CompromissosTab({
   );
 }
 
-// ─── Tab 4: Insights ───────────────────────────────────────────────────────────
+// ── Tab 4: ANÁLISE ────────────────────────────────────────────────────────────
 
 const DEFAULT_CATS = ["Alimentação", "Farmácia & Saúde", "Assinaturas", "Transporte", "Compras Online"];
 
-function InsightsTab({
+function AnaliseTab({
   invoices, subscriptions, avg,
 }: {
   invoices: Invoice[]; subscriptions: Subscription[]; avg: number;
@@ -567,7 +704,7 @@ function InsightsTab({
   const latest = invoices.at(-1);
   const prev = invoices.at(-2);
 
-  // Category comparison latest vs prev
+  // Category comparison: latest vs prev
   const comparison = useMemo(() => {
     if (!latest || !prev) return [];
     const cats = new Set<string>();
@@ -579,22 +716,16 @@ function InsightsTab({
     }).filter((x) => x.curr > 0 || x.ante > 0).sort((a, b) => b.curr - a.curr);
   }, [latest, prev]);
 
-  // Non-essential subscriptions for savings
-  const nonEssential = subscriptions.filter(
-    (s) => !ESSENTIAL_SUBS.some((k) => s.merchant.toLowerCase().includes(k)),
-  );
+  const nonEssential = subscriptions.filter((s) => !ESSENTIAL_SUBS.some((k) => s.merchant.toLowerCase().includes(k)));
   const savingsMonthly = nonEssential.reduce((s, sub) => s + sub.avgMonthly, 0);
 
-  // Line chart
   const allCats = useMemo(() => {
     const s = new Set<string>();
-    invoices.forEach((inv) => inv.transactions.forEach((t) => { if (!t.isPayment) s.add(t.category); }));
-    return Array.from(s).filter((c) => c !== "Pagamento").sort();
+    invoices.forEach((inv) => inv.transactions.forEach((t) => { if (!t.isPayment && t.category !== "Pagamento") s.add(t.category); }));
+    return Array.from(s).sort();
   }, [invoices]);
 
-  const [selectedCats, setSelectedCats] = useState<string[]>(
-    DEFAULT_CATS.filter((c) => allCats.includes(c)),
-  );
+  const [selectedCats, setSelectedCats] = useState<string[]>(DEFAULT_CATS.filter((c) => allCats.includes(c)));
 
   const chartData = useMemo(() =>
     invoices.map((inv) => {
@@ -607,10 +738,10 @@ function InsightsTab({
 
   return (
     <div className="space-y-5">
-      {/* Savings panel */}
+      {/* Savings opportunity */}
       {nonEssential.length > 0 && (
         <div className="bg-gradient-to-br from-emerald-900 to-teal-900 rounded-2xl p-5 text-white">
-          <p className="text-emerald-300 text-xs font-semibold uppercase tracking-widest mb-2">Oportunidade de economia</p>
+          <p className="text-emerald-300 text-xs font-semibold uppercase tracking-widest mb-2">Potencial de economia</p>
           <p className="text-3xl font-black leading-none">
             {fmtBRL(savingsMonthly)}
             <span className="text-base font-normal text-emerald-400">/mês</span>
@@ -619,9 +750,12 @@ function InsightsTab({
             = {fmtBRL(12 * savingsMonthly)}/ano cancelando {nonEssential.length} assinatura{nonEssential.length !== 1 ? "s" : ""} não-essencial{nonEssential.length !== 1 ? "is" : ""}
           </p>
           <div className="mt-4 space-y-2">
-            {nonEssential.slice(0, 4).map((s, i) => (
+            {nonEssential.slice(0, 5).map((s, i) => (
               <div key={i} className="flex items-center justify-between bg-white/10 rounded-xl px-3 py-2">
-                <span className="text-sm text-white">{s.merchant}</span>
+                <div>
+                  <span className="text-sm text-white">{s.merchant}</span>
+                  <p className="text-xs text-emerald-300">{s.monthsPresent} meses contratado</p>
+                </div>
                 <span className="text-sm font-bold text-emerald-200">{fmtBRL(s.avgMonthly)}/mês</span>
               </div>
             ))}
@@ -633,7 +767,7 @@ function InsightsTab({
       {latest && prev && (
         <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
           <h2 className="text-sm font-semibold text-slate-700 mb-1">Comparativo por categoria</h2>
-          <p className="text-xs text-slate-400 mb-4">{prev.label} vs {latest.label}</p>
+          <p className="text-xs text-slate-400 mb-4">{prev.label} → {latest.label}</p>
           <div className="space-y-3">
             {comparison.map(({ cat, curr, ante, diff, pct }) => {
               const color = CATEGORY_COLORS[cat] ?? "#9ca3af";
@@ -643,88 +777,84 @@ function InsightsTab({
                 <div key={cat}>
                   <div className="flex items-center justify-between mb-1 gap-2">
                     <div className="flex items-center gap-1.5 min-w-0">
-                      <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: color }} />
+                      <span className="text-base w-5 text-center flex-shrink-0">{CAT_ICON[cat] ?? "📌"}</span>
                       <span className="text-xs text-slate-700 truncate">{cat}</span>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0 text-xs">
                       <span className="text-slate-400">{fmtBRL(ante)}</span>
+                      <span className="text-slate-300">→</span>
                       <span className="font-bold text-slate-800">{fmtBRL(curr)}</span>
-                      {pct !== null && (
-                        <span className={`font-semibold w-12 text-right ${isUp ? "text-red-500" : "text-emerald-500"}`}>
-                          {isUp ? "+" : ""}{pct.toFixed(0)}%
+                      {pct !== null && Math.abs(pct) > 3 && (
+                        <span className={`font-bold px-1.5 py-0.5 rounded-full ${isUp ? "bg-red-100 text-red-600" : "bg-emerald-100 text-emerald-600"}`}>
+                          {isUp ? "▲" : "▼"}{Math.abs(pct).toFixed(0)}%
                         </span>
                       )}
                     </div>
                   </div>
-                  <div className="flex gap-1">
-                    <div className="flex-1 bg-slate-100 rounded-full h-1.5">
-                      <div className="h-1.5 rounded-full opacity-40" style={{ width: `${(ante / max) * 100}%`, background: color }} />
-                    </div>
-                    <div className="flex-1 bg-slate-100 rounded-full h-1.5">
-                      <div className="h-1.5 rounded-full" style={{ width: `${(curr / max) * 100}%`, background: color }} />
-                    </div>
+                  <div className="relative h-1.5 bg-slate-100 rounded-full overflow-hidden ml-7">
+                    <div className="absolute inset-y-0 left-0 rounded-full opacity-30" style={{ width: `${(ante / max) * 100}%`, background: color }} />
+                    <div className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${(curr / max) * 100}%`, background: color }} />
                   </div>
                 </div>
               );
             })}
           </div>
-          <p className="text-xs text-slate-400 mt-3 text-center">Barra esquerda = {prev.label} · direita = {latest.label}</p>
         </div>
       )}
 
-      {/* Category trend line chart */}
+      {/* Line chart by category */}
       <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
-        <h2 className="text-sm font-semibold text-slate-700 mb-3">Evolução por categoria</h2>
+        <h2 className="text-sm font-semibold text-slate-700 mb-3">Tendência por categoria (14 meses)</h2>
         <div className="flex flex-wrap gap-1.5 mb-4">
-          {allCats.map((cat) => {
-            const color = CATEGORY_COLORS[cat] ?? "#9ca3af";
-            const active = selectedCats.includes(cat);
-            return (
-              <button
-                key={cat}
-                onClick={() => setSelectedCats((s) => s.includes(cat) ? s.filter((c) => c !== cat) : [...s, cat])}
-                className="text-xs px-2.5 py-1 rounded-full border transition-all font-medium"
-                style={active
-                  ? { background: color, borderColor: color, color: "#fff" }
-                  : { background: "#fff", borderColor: "#e2e8f0", color: "#64748b" }}
-              >
-                {cat}
-              </button>
-            );
-          })}
+          {allCats.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCats((prev) =>
+                prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
+              )}
+              className={`text-xs px-2.5 py-1 rounded-full font-medium transition-all border ${
+                selectedCats.includes(cat)
+                  ? "text-white border-transparent"
+                  : "bg-white text-slate-500 border-slate-200"
+              }`}
+              style={selectedCats.includes(cat) ? { background: CATEGORY_COLORS[cat] ?? "#3b82f6", borderColor: CATEGORY_COLORS[cat] ?? "#3b82f6" } : undefined}
+            >
+              {CAT_ICON[cat] ?? "📌"} {cat}
+            </button>
+          ))}
         </div>
-        <ResponsiveContainer width="100%" height={240}>
-          <LineChart data={chartData} margin={{ top: 4, right: 8, bottom: 0, left: -14 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
-            <XAxis dataKey="label" tick={{ fontSize: 10, fill: "#94a3b8" }} axisLine={false} tickLine={false} />
-            <YAxis tickFormatter={fmtShort} tick={{ fontSize: 10, fill: "#94a3b8" }} axisLine={false} tickLine={false} />
-            <Tooltip formatter={(v: any) => fmtBRL(v)} contentStyle={{ borderRadius: 12, border: "1px solid #e2e8f0", boxShadow: "0 10px 25px rgba(0,0,0,0.08)" }} />
-            <Legend wrapperStyle={{ fontSize: 11 }} />
-            {selectedCats.map((cat) => (
-              <Line
-                key={cat} type="monotone" dataKey={cat}
-                stroke={CATEGORY_COLORS[cat] ?? "#9ca3af"}
-                strokeWidth={2.5} dot={{ r: 3 }} activeDot={{ r: 5 }}
-              />
-            ))}
-          </LineChart>
-        </ResponsiveContainer>
+        {selectedCats.length > 0 ? (
+          <ResponsiveContainer width="100%" height={220}>
+            <LineChart data={chartData} margin={{ top: 4, right: 8, bottom: 0, left: -10 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+              <XAxis dataKey="label" tick={{ fontSize: 10, fill: "#94a3b8" }} axisLine={false} tickLine={false} />
+              <YAxis tickFormatter={fmtShort} tick={{ fontSize: 10, fill: "#94a3b8" }} axisLine={false} tickLine={false} />
+              <Tooltip formatter={(v: any) => fmtBRL(v)} contentStyle={{ borderRadius: 12, border: "1px solid #e2e8f0", boxShadow: "0 10px 25px rgba(0,0,0,0.08)" }} />
+              <Legend wrapperStyle={{ fontSize: 11 }} />
+              {selectedCats.map((cat) => (
+                <Line key={cat} type="monotone" dataKey={cat} stroke={CATEGORY_COLORS[cat] ?? "#9ca3af"} strokeWidth={2.5} dot={{ r: 3 }} activeDot={{ r: 5 }} />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+        ) : (
+          <p className="text-sm text-slate-400 text-center py-8">Selecione uma ou mais categorias acima</p>
+        )}
       </div>
     </div>
   );
 }
 
-// ─── Main Dashboard ────────────────────────────────────────────────────────────
+// ── Main Dashboard ────────────────────────────────────────────────────────────
 
 const TABS = [
-  { id: "resumo",       label: "Resumo",       icon: "📊" },
-  { id: "faturas",      label: "Faturas",       icon: "📅" },
-  { id: "compromissos", label: "Compromissos",  icon: "💳" },
-  { id: "insights",     label: "Insights",      icon: "💡" },
+  { id: "inicio",   label: "Início",    icon: "🏠" },
+  { id: "faturas",  label: "Faturas",   icon: "📅" },
+  { id: "fixos",    label: "Fixos",     icon: "💳" },
+  { id: "analise",  label: "Análise",   icon: "📊" },
 ];
 
 export default function InvoiceDashboard({ invoices }: { invoices: Invoice[] }) {
-  const [tab, setTab] = useState("resumo");
+  const [tab, setTab] = useState("inicio");
   const [cardholder, setCardholder] = useState("all");
 
   const filteredInvoices = useMemo(() =>
@@ -743,7 +873,6 @@ export default function InvoiceDashboard({ invoices }: { invoices: Invoice[] }) 
   const subscriptions = useMemo(() => getSubscriptions(invoices), [invoices]);
   const installments  = useMemo(() => getInstallments(invoices),  [invoices]);
   const avg = filteredInvoices.length > 0 ? filteredInvoices.reduce((s, i) => s + i.totalSpent, 0) / filteredInvoices.length : 0;
-
   const latest = filteredInvoices.at(-1);
 
   const cardholders = useMemo(() => {
@@ -754,12 +883,13 @@ export default function InvoiceDashboard({ invoices }: { invoices: Invoice[] }) 
 
   return (
     <div className="min-h-screen" style={{ background: "#f0f4f8" }}>
+
       {/* ── Header ── */}
       <header style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)" }} className="text-white">
         <div className="max-w-2xl mx-auto px-4 pt-5 pb-4">
           <div className="flex items-start justify-between">
             <div>
-              <h1 className="text-lg font-black tracking-tight">Fatura XP</h1>
+              <h1 className="text-lg font-black tracking-tight">💳 Fatura XP</h1>
               <p className="text-blue-400 text-xs mt-0.5">Controle inteligente de gastos</p>
             </div>
             <div className="text-right">
@@ -768,7 +898,6 @@ export default function InvoiceDashboard({ invoices }: { invoices: Invoice[] }) 
               <p className="text-xs text-blue-400">{latest?.label}</p>
             </div>
           </div>
-          {/* Cardholder filter */}
           {cardholders.length > 1 && (
             <div className="flex gap-2 mt-3 flex-wrap">
               <button
@@ -793,15 +922,15 @@ export default function InvoiceDashboard({ invoices }: { invoices: Invoice[] }) 
 
       {/* ── Tab nav ── */}
       <nav className="bg-white border-b border-slate-200 sticky top-0 z-10 shadow-sm">
-        <div className="max-w-2xl mx-auto px-0">
+        <div className="max-w-2xl mx-auto">
           <div className="flex">
             {TABS.map((t) => (
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
-                className={`flex-1 flex flex-col items-center gap-0.5 py-2.5 text-xs font-semibold border-b-2 transition-colors ${tab === t.id
-                  ? "border-blue-600 text-blue-700"
-                  : "border-transparent text-slate-400 hover:text-slate-600"}`}
+                className={`flex-1 flex flex-col items-center gap-0.5 py-2.5 text-xs font-semibold border-b-2 transition-colors ${
+                  tab === t.id ? "border-blue-600 text-blue-700" : "border-transparent text-slate-400 hover:text-slate-600"
+                }`}
               >
                 <span className="text-base">{t.icon}</span>
                 <span>{t.label}</span>
@@ -813,22 +942,16 @@ export default function InvoiceDashboard({ invoices }: { invoices: Invoice[] }) 
 
       {/* ── Content ── */}
       <main className="max-w-2xl mx-auto px-4 py-5 pb-10">
-        {tab === "resumo" && (
-          <ResumoTab
+        {tab === "inicio" && (
+          <InicioTab
             invoices={filteredInvoices} avg={avg}
             monthlySummaries={monthlySummaries}
             subscriptions={subscriptions} installments={installments}
           />
         )}
-        {tab === "faturas" && (
-          <FaturasTab invoices={filteredInvoices} />
-        )}
-        {tab === "compromissos" && (
-          <CompromissosTab subscriptions={subscriptions} installments={installments} />
-        )}
-        {tab === "insights" && (
-          <InsightsTab invoices={filteredInvoices} subscriptions={subscriptions} avg={avg} />
-        )}
+        {tab === "faturas" && <FaturasTab invoices={filteredInvoices} />}
+        {tab === "fixos" && <FixosTab subscriptions={subscriptions} installments={installments} />}
+        {tab === "analise" && <AnaliseTab invoices={filteredInvoices} subscriptions={subscriptions} avg={avg} />}
       </main>
     </div>
   );
