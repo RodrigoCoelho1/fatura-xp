@@ -1,0 +1,44 @@
+name: Verificar status de assinaturas
+
+on:
+  schedule:
+    # Roda todo dia às 06:00 UTC = 03:00 Brasília
+    - cron: "0 6 * * *"
+
+  # Permite rodar manualmente pelo GitHub Actions tab
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # necessário para fazer commit
+
+    steps:
+      - name: Checkout repositório
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Verificar assinaturas via Gmail
+        env:
+          GMAIL_CLIENT_ID:     ${{ secrets.GMAIL_CLIENT_ID }}
+          GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
+          GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+        run: node scripts/check-subscription-status.mjs
+
+      - name: Commit e push se houver mudanças
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/subscription-status.json
+          if git diff --staged --quiet; then
+            echo "✔ Sem mudanças no status das assinaturas."
+          else
+            git commit -m "chore: atualiza status de assinaturas [skip ci]"
+            git push
+            echo "✅ Commit realizado — Vercel irá redeploy automaticamente."
+          fi
