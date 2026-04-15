@@ -153,21 +153,59 @@ export function parseTransactions(
 
 /**
  * Detect the invoice month and label from the PDF text.
- * Looks for patterns like "vencimento em DD/MM/AAAA"
+ *
+ * XP statement layout has two usable patterns:
+ *   1. "com vencimento em Abril"  (month name on cover page)
+ *   2. "Vencimento … 20 / 04 / 2026"  (boleto section, date with spaces)
+ *
+ * The invoice IS the month of its due date (April due → April invoice).
+ * We do NOT subtract a month.
  */
 export function detectInvoiceMonth(text: string): { month: string; label: string } | null {
-  const m = text.match(/vencimento\s+em\s+(\d{2})\/(\d{2})\/(\d{4})/i);
-  if (m) {
-    const [, , mm, yyyy] = m;
-    const dueDate = new Date(parseInt(yyyy), parseInt(mm) - 1, 1);
-    dueDate.setMonth(dueDate.getMonth() - 1);
-    const month = `${dueDate.getFullYear()}-${String(dueDate.getMonth() + 1).padStart(2, "0")}`;
-    const label = dueDate
+  // Normalize spaces around numeric separators (pdfjs artifact)
+  const normalized = text
+    .replace(/(\d)\s*\/\s*(\d)/g, "$1/$2")
+    .replace(/(\d)\s*,\s*(\d)/g, "$1,$2")
+    .replace(/(\d)\s*\.\s*(\d)/g, "$1.$2");
+
+  // Pattern 1: "Vencimento … DD/MM/YYYY" (boleto area, possibly multi-line)
+  const numericMatch = normalized.match(/Vencimento[\s\S]{0,120}?(\d{2})\/(\d{2})\/(\d{4})/i);
+  if (numericMatch) {
+    const [, dd, mm, yyyy] = numericMatch;
+    const month = `${yyyy}-${mm}`;
+    const label = new Date(parseInt(yyyy), parseInt(mm) - 1, 1)
       .toLocaleDateString("pt-BR", { month: "short", year: "numeric" })
       .replace(/^\w/, (c) => c.toUpperCase())
       .replace(" de ", " ");
     return { month, label };
   }
+
+  // Pattern 2: "com vencimento em Abril" (cover page, Portuguese month name)
+  const ptMonths: Record<string, string> = {
+    janeiro: "01", fevereiro: "02", março: "03", abril: "04",
+    maio: "05", junho: "06", julho: "07", agosto: "08",
+    setembro: "09", outubro: "10", novembro: "11", dezembro: "12",
+  };
+  const nameMatch = normalized.match(
+    /vencimento\s+em\s+(janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)/i
+  );
+  if (nameMatch) {
+    const mm = ptMonths[nameMatch[1].toLowerCase()];
+    // Infer year: if the month is earlier than current month, it's next year
+    const now = new Date();
+    const curMM = now.getMonth() + 1; // 1-12
+    const yyyy =
+      parseInt(mm) < curMM
+        ? String(now.getFullYear() + 1)
+        : String(now.getFullYear());
+    const month = `${yyyy}-${mm}`;
+    const label = new Date(parseInt(yyyy), parseInt(mm) - 1, 1)
+      .toLocaleDateString("pt-BR", { month: "short", year: "numeric" })
+      .replace(/^\w/, (c) => c.toUpperCase())
+      .replace(" de ", " ");
+    return { month, label };
+  }
+
   return null;
 }
 

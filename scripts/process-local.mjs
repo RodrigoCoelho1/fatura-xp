@@ -18,7 +18,19 @@ if (fs.existsSync(envPath)) {
   });
 }
 
-const PDF_PATH = process.argv[2] || "C:/Users/rodri/Downloads/4340488-Xp-20-04-2026.pdf";
+// Auto-detect latest XP invoice PDF from Downloads if no path given
+function findLatestXpPdf() {
+  const downloadsDir = "C:/Users/rodri/Downloads";
+  try {
+    const files = fs.readdirSync(downloadsDir)
+      .filter(f => f.match(/xp.*\.pdf$/i) || f.match(/\d{7}-xp-.*\.pdf$/i))
+      .map(f => ({ name: f, mtime: fs.statSync(path.join(downloadsDir, f)).mtimeMs }))
+      .sort((a, b) => b.mtime - a.mtime);
+    return files.length > 0 ? path.join(downloadsDir, files[0].name) : null;
+  } catch { return null; }
+}
+
+const PDF_PATH = process.argv[2] || findLatestXpPdf() || "C:/Users/rodri/Downloads/4340488-Xp-20-04-2026.pdf";
 const PDF_PASSWORD = process.env.PDF_PASSWORD;
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const GITHUB_OWNER = process.env.GITHUB_OWNER;
@@ -35,16 +47,44 @@ function parseBrAmount(raw) {
 }
 
 function detectInvoiceMonth(text) {
-  const m = text.match(/vencimento\s+em\s+(\d{2})\/(\d{2})\/(\d{4})/i);
-  if (m) {
-    const [, , mm, yyyy] = m;
-    const dueDate = new Date(parseInt(yyyy), parseInt(mm) - 1, 1);
-    dueDate.setMonth(dueDate.getMonth() - 1);
-    const month = `${dueDate.getFullYear()}-${String(dueDate.getMonth() + 1).padStart(2, "0")}`;
-    const label = dueDate.toLocaleDateString("pt-BR", { month: "short", year: "numeric" })
+  // Normalize spaces around numeric separators (pdfjs artifact)
+  const normalized = text
+    .replace(/(\d)\s*\/\s*(\d)/g, "$1/$2")
+    .replace(/(\d)\s*,\s*(\d)/g, "$1,$2")
+    .replace(/(\d)\s*\.\s*(\d)/g, "$1.$2");
+
+  // Pattern 1: "Vencimento … DD/MM/YYYY" (boleto area, possibly multi-line)
+  const numericMatch = normalized.match(/Vencimento[\s\S]{0,120}?(\d{2})\/(\d{2})\/(\d{4})/i);
+  if (numericMatch) {
+    const [, dd, mm, yyyy] = numericMatch;
+    const month = `${yyyy}-${mm}`;
+    const label = new Date(parseInt(yyyy), parseInt(mm) - 1, 1)
+      .toLocaleDateString("pt-BR", { month: "short", year: "numeric" })
       .replace(/^\w/, c => c.toUpperCase()).replace(" de ", " ");
     return { month, label };
   }
+
+  // Pattern 2: "com vencimento em Abril" (cover page, Portuguese month name)
+  const ptMonths = {
+    janeiro: "01", fevereiro: "02", março: "03", abril: "04",
+    maio: "05", junho: "06", julho: "07", agosto: "08",
+    setembro: "09", outubro: "10", novembro: "11", dezembro: "12",
+  };
+  const nameMatch = normalized.match(
+    /vencimento\s+em\s+(janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)/i
+  );
+  if (nameMatch) {
+    const mm = ptMonths[nameMatch[1].toLowerCase()];
+    const now = new Date();
+    const curMM = now.getMonth() + 1;
+    const yyyy = parseInt(mm) < curMM ? String(now.getFullYear() + 1) : String(now.getFullYear());
+    const month = `${yyyy}-${mm}`;
+    const label = new Date(parseInt(yyyy), parseInt(mm) - 1, 1)
+      .toLocaleDateString("pt-BR", { month: "short", year: "numeric" })
+      .replace(/^\w/, c => c.toUpperCase()).replace(" de ", " ");
+    return { month, label };
+  }
+
   return null;
 }
 
