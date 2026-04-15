@@ -23,6 +23,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { processPdfBuffer } from "@/lib/pdf-parser";
+import { uploadInvoiceToDrive } from "@/lib/google-drive";
 import { Octokit } from "@octokit/rest";
 
 export const runtime = "nodejs";
@@ -112,8 +113,10 @@ export async function POST(req: NextRequest) {
     sha: existingFileSha,
   });
 
-  // ── Save unlocked PDF to Google Drive (via Drive API) ───────────────────────
-  // This is handled by Make.com separately; we just confirm success here.
+  // ── Upload PDF to Google Drive ───────────────────────────────────────────────
+  // File name format: "YYYY MM Fatura.pdf"  (e.g. "2026 04 Fatura.pdf")
+  // Silently skipped if GOOGLE_* env vars are not set.
+  const driveFileId = await uploadInvoiceToDrive(pdfBytes, newInvoice.month);
 
   return NextResponse.json({
     success: true,
@@ -123,6 +126,7 @@ export async function POST(req: NextRequest) {
       totalSpent: newInvoice.totalSpent,
       transactionCount: newInvoice.transactions.length,
     },
+    driveFileId: driveFileId ?? undefined,
     message: `Invoice ${newInvoice.label} committed to GitHub. Vercel will redeploy automatically.`,
   });
 }
