@@ -308,9 +308,9 @@ function DeltaBadge({ value, label }: { value: number; label: string }) {
 
 function InsightCard({ ins }: { ins: Insight }) {
   const styles: Record<Insight["kind"], string> = {
-    good: "bg-emerald-50 border-emerald-200 text-emerald-800",
-    bad: "bg-rose-50 border-rose-200 text-rose-800",
-    neutral: "bg-blue-50 border-blue-100 text-blue-800",
+    good: "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-700 text-emerald-800 dark:text-emerald-300",
+    bad: "bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-700 text-rose-800 dark:text-rose-300",
+    neutral: "bg-blue-50 dark:bg-blue-900/20 border-blue-100 dark:border-blue-700 text-blue-800 dark:text-blue-300",
   };
   return (
     <div className={`flex items-start gap-3 rounded-xl border px-4 py-3 text-sm ${styles[ins.kind]}`}>
@@ -329,16 +329,16 @@ function CatRow({ c, max, avgForCat }: { c: CategoryStat; max: number; avgForCat
     <div>
       <div className="flex items-center gap-2 mb-1.5">
         <span className="text-base w-5 text-center flex-shrink-0">{CAT_ICON[c.name] ?? "📌"}</span>
-        <span className={`text-xs font-medium flex-1 truncate ${isOther ? "text-slate-400" : "text-slate-700"}`}>{c.name}</span>
+        <span className={`text-xs font-medium flex-1 truncate ${isOther ? "text-slate-400" : "text-slate-700 dark:text-slate-300"}`}>{c.name}</span>
         {showDiff && (
-          <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full flex-shrink-0 ${diff! > 0 ? "bg-red-100 text-red-600" : "bg-emerald-100 text-emerald-600"}`}>
+          <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full flex-shrink-0 ${diff! > 0 ? "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400" : "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400"}`}>
             {diff! > 0 ? "▲" : "▼"}{Math.abs(diff!).toFixed(0)}%
           </span>
         )}
-        <span className={`text-xs font-bold flex-shrink-0 ${isOther ? "text-slate-400" : "text-slate-800"}`}>{fmtBRL(c.amount)}</span>
+        <span className={`text-xs font-bold flex-shrink-0 ${isOther ? "text-slate-400" : "text-slate-800 dark:text-slate-200"}`}>{fmtBRL(c.amount)}</span>
         <span className="text-xs text-slate-400 w-7 text-right flex-shrink-0">{c.percentage.toFixed(0)}%</span>
       </div>
-      <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden ml-7">
+      <div className="h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden ml-7">
         <div
           className="h-full rounded-full transition-all duration-700"
           style={{ width: `${(c.amount / max) * 100}%`, background: isOther ? "#d1d5db" : c.color }}
@@ -354,10 +354,10 @@ function CatRow({ c, max, avgForCat }: { c: CategoryStat; max: number; avgForCat
 function ChartTip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-3 shadow-xl text-sm">
-      <p className="font-semibold text-slate-700 mb-1">{label}</p>
+    <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 shadow-xl text-sm">
+      <p className="font-semibold text-slate-700 dark:text-slate-200 mb-1">{label}</p>
       {payload.map((p: any, i: number) => (
-        <p key={i} className="text-slate-600">{p.name}: <strong>{fmtBRL(p.value)}</strong></p>
+        <p key={i} className="text-slate-600 dark:text-slate-300">{p.name}: <strong>{fmtBRL(p.value)}</strong></p>
       ))}
     </div>
   );
@@ -481,9 +481,9 @@ function InicioTab({
       <div className="space-y-4">
 
         {/* Monthly chart */}
-        <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-700">
           <div className="flex items-center justify-between mb-1">
-            <h2 className="text-sm font-semibold text-slate-700">Evolução mensal</h2>
+            <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-200">Evolução mensal</h2>
             {selectedBar && (
               <button onClick={() => setSelectedBar(null)} className="text-xs text-blue-500 hover:underline">
                 ← ver tudo
@@ -522,9 +522,9 @@ function InicioTab({
 
         {/* Category breakdown */}
         {cats.length > 0 && (
-          <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-700">
             <div className="flex items-start justify-between mb-1">
-              <h2 className="text-sm font-semibold text-slate-700">
+              <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-200">
                 Gastos por categoria
                 {selectedBar && <span className="text-blue-500 font-normal"> · {displayInvoice?.label}</span>}
               </h2>
@@ -587,7 +587,7 @@ function FaturasTab({ invoices }: { invoices: Invoice[] }) {
             onClick={() => { setSelectedMonth(inv.month); setSelectedCat(null); setTxSearch(""); }}
             className={`flex-shrink-0 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${selectedMonth === inv.month
               ? "bg-blue-600 text-white shadow-sm"
-              : "bg-white text-slate-600 border border-slate-200 hover:border-blue-300"}`}
+              : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-blue-300"}`}
           >
             {inv.label}
           </button>
@@ -616,7 +616,7 @@ function FaturasTab({ invoices }: { invoices: Invoice[] }) {
           <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
             <button
               onClick={() => setSelectedCat(null)}
-              className={`flex-shrink-0 px-3 py-1 rounded-full text-xs font-semibold transition-all ${!selectedCat ? "bg-slate-800 text-white" : "bg-white text-slate-500 border border-slate-200"}`}
+              className={`flex-shrink-0 px-3 py-1 rounded-full text-xs font-semibold transition-all ${!selectedCat ? "bg-slate-800 text-white" : "bg-white dark:bg-slate-700 text-slate-500 dark:text-slate-300 border border-slate-200 dark:border-slate-600"}`}
             >
               Todas
             </button>
@@ -624,7 +624,7 @@ function FaturasTab({ invoices }: { invoices: Invoice[] }) {
               <button
                 key={c.name}
                 onClick={() => setSelectedCat((prev) => prev === c.name ? null : c.name)}
-                className={`flex-shrink-0 px-3 py-1 rounded-full text-xs font-semibold transition-all ${selectedCat === c.name ? "text-white" : "bg-white text-slate-500 border border-slate-200"}`}
+                className={`flex-shrink-0 px-3 py-1 rounded-full text-xs font-semibold transition-all ${selectedCat === c.name ? "text-white" : "bg-white dark:bg-slate-700 text-slate-500 dark:text-slate-300 border border-slate-200 dark:border-slate-600"}`}
                 style={selectedCat === c.name ? { background: CATEGORY_COLORS[c.name] ?? "#3b82f6" } : undefined}
               >
                 {CAT_ICON[c.name] ?? "📌"} {c.name}
@@ -637,18 +637,18 @@ function FaturasTab({ invoices }: { invoices: Invoice[] }) {
 
             {/* Top merchants */}
             {!selectedCat && (
-              <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
-                <h2 className="text-sm font-semibold text-slate-700 mb-3">Maiores gastos</h2>
+              <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-700">
+                <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-3">Maiores gastos</h2>
                 <div className="space-y-2.5">
                   {topMerchants.map((m, i) => (
                     <div key={i} className="flex items-center gap-3">
                       <span className="text-xs text-slate-400 font-mono w-4 text-center">{i + 1}</span>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-xs font-medium text-slate-700 truncate">{m.name}</span>
+                          <span className="text-xs font-medium text-slate-700 dark:text-slate-200 truncate">{m.name}</span>
                           <span className="text-xs font-bold text-slate-800 ml-2 flex-shrink-0">{fmtBRL(m.amount)}</span>
                         </div>
-                        <div className="h-1 bg-slate-100 rounded-full overflow-hidden">
+                        <div className="h-1 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
                           <div className="h-full bg-blue-400 rounded-full" style={{ width: `${(m.amount / (topMerchants[0]?.amount ?? 1)) * 100}%` }} />
                         </div>
                       </div>
@@ -659,10 +659,10 @@ function FaturasTab({ invoices }: { invoices: Invoice[] }) {
             )}
 
             {/* Transaction list */}
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-              <div className="p-4 border-b border-slate-100">
+            <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden">
+              <div className="p-4 border-b border-slate-100 dark:border-slate-700">
                 <div className="flex items-center justify-between mb-2">
-                  <h2 className="text-sm font-semibold text-slate-700">
+                  <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-200">
                     Lançamentos{selectedCat ? ` · ${selectedCat}` : ""}
                   </h2>
                   <span className="text-xs text-slate-400">{filtered.length} itens · {fmtBRL(filtered.reduce((s, t) => s + t.amount, 0))}</span>
@@ -672,15 +672,15 @@ function FaturasTab({ invoices }: { invoices: Invoice[] }) {
                   placeholder="Buscar estabelecimento ou categoria…"
                   value={txSearch}
                   onChange={(e) => setTxSearch(e.target.value)}
-                  className="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-300 bg-slate-50"
+                  className="w-full border border-slate-200 dark:border-slate-600 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-300 bg-slate-50 dark:bg-slate-700 dark:text-slate-200 dark:placeholder-slate-400"
                 />
               </div>
-              <div className="divide-y divide-slate-50 max-h-[600px] overflow-y-auto">
+              <div className="divide-y divide-slate-50 dark:divide-slate-700 max-h-[600px] overflow-y-auto">
                 {filtered.map((t, i) => (
-                  <div key={i} className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50">
+                  <div key={i} className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 dark:hover:bg-slate-700/50">
                     <span className="text-lg flex-shrink-0">{CAT_ICON[t.category] ?? "📌"}</span>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold text-slate-800 truncate">{t.merchant}</p>
+                      <p className="text-xs font-semibold text-slate-800 dark:text-slate-100 truncate">{t.merchant}</p>
                       <p className="text-xs text-slate-400 mt-0.5">
                         {t.date.slice(8, 10)}/{t.date.slice(5, 7)}
                         {" · "}{t.category}
@@ -688,7 +688,7 @@ function FaturasTab({ invoices }: { invoices: Invoice[] }) {
                         {t.installment && ` · ${t.installment.current}/${t.installment.total}x`}
                       </p>
                     </div>
-                    <span className="text-xs font-bold text-slate-800 flex-shrink-0">{fmtBRL(t.amount)}</span>
+                    <span className="text-xs font-bold text-slate-800 dark:text-slate-200 flex-shrink-0">{fmtBRL(t.amount)}</span>
                   </div>
                 ))}
                 {filtered.length === 0 && (
@@ -747,7 +747,7 @@ function FixosTab({
             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">
               Assinaturas ativas · fatura atual
             </p>
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 divide-y divide-slate-50 overflow-hidden">
+            <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 divide-y divide-slate-50 dark:divide-slate-700 overflow-hidden">
               {subscriptions.map((s, i) => {
                 const isEssential = ESSENTIAL_SUBS.some((k) => s.merchant.toLowerCase().includes(k));
                 return (
@@ -755,15 +755,15 @@ function FixosTab({
                     <span className="text-lg">🔔</span>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        <p className="text-sm font-medium text-slate-800">{s.merchant}</p>
+                        <p className="text-sm font-medium text-slate-800 dark:text-slate-100">{s.merchant}</p>
                         {!isEssential && (
-                          <span className="text-xs bg-rose-100 text-rose-600 px-1.5 py-0.5 rounded-full font-medium">revisar</span>
+                          <span className="text-xs bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 px-1.5 py-0.5 rounded-full font-medium">revisar</span>
                         )}
                       </div>
                       <p className="text-xs text-slate-400 mt-0.5">{s.category} · {s.monthsPresent} {s.monthsPresent === 1 ? "mês" : "meses"} no histórico</p>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <p className="text-sm font-bold text-slate-800">{fmtBRL(s.avgMonthly)}<span className="text-xs font-normal text-slate-400">/mês</span></p>
+                      <p className="text-sm font-bold text-slate-800 dark:text-slate-100">{fmtBRL(s.avgMonthly)}<span className="text-xs font-normal text-slate-400">/mês</span></p>
                       <p className="text-xs text-slate-400">{fmtBRL(12 * s.avgMonthly)}/ano</p>
                     </div>
                   </div>
@@ -778,7 +778,7 @@ function FixosTab({
           {installments.length > 0 ? (
             <>
               <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Parcelamentos ativos</p>
-              <div className="bg-white rounded-2xl shadow-sm border border-slate-100 divide-y divide-slate-50 overflow-hidden">
+              <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 divide-y divide-slate-50 dark:divide-slate-700 overflow-hidden">
                 {installments.map((inst, i) => {
                   const pct = (inst.current / inst.total) * 100;
                   const remaining = inst.total - inst.current;
@@ -786,17 +786,17 @@ function FixosTab({
                     <div key={i} className="px-4 py-3">
                       <div className="flex items-start justify-between gap-2 mb-2">
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-slate-800 truncate">{normalizeSubscriptionName(inst.merchant)}</p>
+                          <p className="text-sm font-medium text-slate-800 dark:text-slate-100 truncate">{normalizeSubscriptionName(inst.merchant)}</p>
                           <p className="text-xs text-slate-400 mt-0.5">
                             Parcela {inst.current}/{inst.total} · ainda {remaining} {remaining === 1 ? "mês" : "meses"}
                           </p>
                         </div>
                         <div className="text-right ml-3 flex-shrink-0">
-                          <p className="text-sm font-bold text-slate-800">{fmtBRL(inst.monthlyAmount)}<span className="text-xs font-normal text-slate-400">/mês</span></p>
+                          <p className="text-sm font-bold text-slate-800 dark:text-slate-100">{fmtBRL(inst.monthlyAmount)}<span className="text-xs font-normal text-slate-400">/mês</span></p>
                           <p className="text-xs text-slate-400">Restante: {fmtBRL(inst.remainingAmount)}</p>
                         </div>
                       </div>
-                      <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                      <div className="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2 overflow-hidden">
                         <div className="bg-amber-400 h-2 rounded-full" style={{ width: `${pct}%` }} />
                       </div>
                       <p className="text-xs text-slate-400 mt-1">{pct.toFixed(0)}% pago</p>
@@ -806,7 +806,7 @@ function FixosTab({
               </div>
             </>
           ) : (
-            <div className="text-center py-10 bg-white rounded-2xl border border-slate-100">
+            <div className="text-center py-10 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700">
               <p className="text-3xl mb-2">✅</p>
               <p className="text-sm text-slate-500">Nenhum parcelamento ativo</p>
             </div>
@@ -827,20 +827,20 @@ function StatusBadge({ s }: { s: SubStatus }) {
       ? ` · acesso até ${s.accessUntil.slice(8, 10)}/${s.accessUntil.slice(5, 7)}`
       : "";
     return (
-      <span className="inline-flex items-center gap-1 text-xs font-semibold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">
+      <span className="inline-flex items-center gap-1 text-xs font-semibold bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-2 py-0.5 rounded-full">
         ✅ Cancelado{until}
       </span>
     );
   }
   if (s.status === "active") {
     return (
-      <span className="inline-flex items-center gap-1 text-xs font-semibold bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full">
+      <span className="inline-flex items-center gap-1 text-xs font-semibold bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400 px-2 py-0.5 rounded-full">
         🔴 Ativo
       </span>
     );
   }
   return (
-    <span className="inline-flex items-center gap-1 text-xs font-semibold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full">
+    <span className="inline-flex items-center gap-1 text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 px-2 py-0.5 rounded-full">
       ❓ Não verificado
     </span>
   );
@@ -1004,8 +1004,8 @@ function AnaliseTab({
 
           {/* Month comparison */}
           {latest && prev && (
-            <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
-              <h2 className="text-sm font-semibold text-slate-700 mb-1">Comparativo por categoria</h2>
+            <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-700">
+              <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1">Comparativo por categoria</h2>
               <p className="text-xs text-slate-400 mb-4">{prev.label} → {latest.label}</p>
               <div className="space-y-3">
                 {comparison.map(({ cat, curr, ante, diff, pct }) => {
@@ -1017,20 +1017,20 @@ function AnaliseTab({
                       <div className="flex items-center justify-between mb-1 gap-2">
                         <div className="flex items-center gap-1.5 min-w-0">
                           <span className="text-base w-5 text-center flex-shrink-0">{CAT_ICON[cat] ?? "📌"}</span>
-                          <span className="text-xs text-slate-700 truncate">{cat}</span>
+                          <span className="text-xs text-slate-700 dark:text-slate-200 truncate">{cat}</span>
                         </div>
                         <div className="flex items-center gap-2 flex-shrink-0 text-xs">
                           <span className="text-slate-400">{fmtBRL(ante)}</span>
-                          <span className="text-slate-300">→</span>
-                          <span className="font-bold text-slate-800">{fmtBRL(curr)}</span>
+                          <span className="text-slate-300 dark:text-slate-600">→</span>
+                          <span className="font-bold text-slate-800 dark:text-slate-200">{fmtBRL(curr)}</span>
                           {pct !== null && Math.abs(pct) > 3 && (
-                            <span className={`font-bold px-1.5 py-0.5 rounded-full ${isUp ? "bg-red-100 text-red-600" : "bg-emerald-100 text-emerald-600"}`}>
+                            <span className={`font-bold px-1.5 py-0.5 rounded-full ${isUp ? "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400" : "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400"}`}>
                               {isUp ? "▲" : "▼"}{Math.abs(pct).toFixed(0)}%
                             </span>
                           )}
                         </div>
                       </div>
-                      <div className="relative h-1.5 bg-slate-100 rounded-full overflow-hidden ml-7">
+                      <div className="relative h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden ml-7">
                         <div className="absolute inset-y-0 left-0 rounded-full opacity-30" style={{ width: `${(ante / max) * 100}%`, background: color }} />
                         <div className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${(curr / max) * 100}%`, background: color }} />
                       </div>
@@ -1043,8 +1043,8 @@ function AnaliseTab({
         </div>
 
         {/* Right col: line chart */}
-        <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
-          <h2 className="text-sm font-semibold text-slate-700 mb-3">Tendência por categoria (14 meses)</h2>
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-700">
+          <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-3">Tendência por categoria (14 meses)</h2>
           <div className="flex flex-wrap gap-1.5 mb-4">
             {allCats.map((cat) => (
               <button
@@ -1055,7 +1055,7 @@ function AnaliseTab({
                 className={`text-xs px-2.5 py-1 rounded-full font-medium transition-all border ${
                   selectedCats.includes(cat)
                     ? "text-white border-transparent"
-                    : "bg-white text-slate-500 border-slate-200"
+                    : "bg-white dark:bg-slate-700 text-slate-500 dark:text-slate-300 border-slate-200 dark:border-slate-600"
                 }`}
                 style={selectedCats.includes(cat) ? { background: CATEGORY_COLORS[cat] ?? "#3b82f6", borderColor: CATEGORY_COLORS[cat] ?? "#3b82f6" } : undefined}
               >
@@ -1123,7 +1123,7 @@ export default function InvoiceDashboard({ invoices, subStatuses }: { invoices: 
   }, [invoices]);
 
   return (
-    <div className="min-h-screen" style={{ background: "#f0f4f8" }}>
+    <div className="min-h-screen bg-[#f0f4f8] dark:bg-slate-950">
 
       {/* ── Header ── */}
       <header style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)" }} className="text-white">
@@ -1172,8 +1172,8 @@ export default function InvoiceDashboard({ invoices, subStatuses }: { invoices: 
               onClick={() => setTab(t.id)}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold mb-1 transition-all text-left ${
                 tab === t.id
-                  ? "bg-white text-blue-700 shadow-sm border border-blue-100"
-                  : "text-slate-500 hover:text-slate-700 hover:bg-white/60"
+                  ? "bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-400 shadow-sm border border-blue-100 dark:border-slate-700"
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-white/60 dark:hover:bg-slate-800/60"
               }`}
             >
               <span className="text-xl w-6 text-center">{t.icon}</span>
@@ -1183,14 +1183,14 @@ export default function InvoiceDashboard({ invoices, subStatuses }: { invoices: 
         </aside>
 
         {/* Mobile tab nav (top, sticky) */}
-        <nav className="lg:hidden bg-white border-b border-slate-200 sticky top-0 z-10 shadow-sm">
+        <nav className="lg:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-10 shadow-sm">
           <div className="flex">
             {TABS.map((t) => (
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
                 className={`flex-1 flex flex-col items-center gap-0.5 py-2.5 text-xs font-semibold border-b-2 transition-colors ${
-                  tab === t.id ? "border-blue-600 text-blue-700" : "border-transparent text-slate-400 hover:text-slate-600"
+                  tab === t.id ? "border-blue-600 text-blue-700 dark:text-blue-400" : "border-transparent text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"
                 }`}
               >
                 <span className="text-base">{t.icon}</span>
