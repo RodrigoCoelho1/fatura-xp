@@ -1,0 +1,58 @@
+{
+  "Netflix": {
+    "status": "cancelled",
+    "cancelledAt": "2026-04-02",
+    "accessUntil": "2026-04-23",
+    "emailSubject": "Até a próxima",
+    "emailDate": "2026-04-02",
+    "checkedAt": "2026-04-15"
+  },
+  "Disney+": {
+    "status": "cancelled",
+    "cancelledAt": "2026-04-02",
+    "accessUntil": null,
+    "emailSubject": "É uma pena que você vai embora",
+    "emailDate": "2026-04-02",
+    "checkedAt": "2026-04-15"
+  },
+  "Globoplay": {
+    "status": "cancelled",
+    "cancelledAt": "2026-04-10",
+    "accessUntil": null,
+    "emailSubject": "Globoplay: Recebemos sua solicitação de cancelamento",
+    "emailDate": "2026-04-10",
+    "checkedAt": "2026-04-15"
+  },
+  "Hostinger": {
+    "status": "active",
+    "cancelledAt": null,
+    "accessUntil": null,
+    "emailSubject": null,
+    "emailDate": null,
+    "checkedAt": "2026-04-15"
+  },
+  "Google Play": {
+    "status": "unknown",
+    "cancelledAt": null,
+    "accessUntil": null,
+    "emailSubject": null,
+    "emailDate": null,
+    "checkedAt": "2026-04-15"
+  },
+  "Samsung Pay": {
+    "status": "unknown",
+    "cancelledAt": null,
+    "accessUntil": null,
+    "emailSubject": null,
+    "emailDate": null,
+    "checkedAt": "2026-04-15"
+  },
+  "TicPay": {
+    "status": "unknown",
+    "cancelledAt": null,
+    "accessUntil": null,
+    "emailSubject": null,
+    "emailDate": null,
+    "checkedAt": "2026-04-15"
+  }
+}

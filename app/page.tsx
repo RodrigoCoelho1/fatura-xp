@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 import path from "path";
 import InvoiceDashboard from "@/components/InvoiceDashboard";
-import type { Invoice } from "@/lib/types";
+import type { Invoice, SubscriptionStatusMap } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -9,14 +9,23 @@ export const revalidate = 0;
 function loadInvoices(): Invoice[] {
   try {
     const filePath = path.join(process.cwd(), "data", "invoices.json");
-    const raw = readFileSync(filePath, "utf-8");
-    return JSON.parse(raw) as Invoice[];
+    return JSON.parse(readFileSync(filePath, "utf-8")) as Invoice[];
   } catch {
     return [];
   }
 }
 
+function loadSubscriptionStatuses(): SubscriptionStatusMap {
+  try {
+    const filePath = path.join(process.cwd(), "data", "subscription-status.json");
+    return JSON.parse(readFileSync(filePath, "utf-8")) as SubscriptionStatusMap;
+  } catch {
+    return {};
+  }
+}
+
 export default function Home() {
   const invoices = loadInvoices();
-  return <InvoiceDashboard invoices={invoices} />;
+  const subStatuses = loadSubscriptionStatuses();
+  return <InvoiceDashboard invoices={invoices} subStatuses={subStatuses} />;
 }

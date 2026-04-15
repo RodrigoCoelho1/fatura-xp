@@ -51,3 +51,14 @@ export interface ActiveInstallment {
   monthlyAmount: number;
   remainingAmount: number;
 }
+
+export interface SubStatus {
+  status: "active" | "cancelled" | "unknown";
+  cancelledAt: string | null;
+  accessUntil: string | null;
+  emailSubject: string | null;
+  emailDate: string | null;
+  checkedAt: string;
+}
+
+export type SubscriptionStatusMap = Record<string, SubStatus>;

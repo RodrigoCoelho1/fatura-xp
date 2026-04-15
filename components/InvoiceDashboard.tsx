@@ -7,6 +7,7 @@ import {
 } from "recharts";
 import type {
   Invoice, Transaction, CategoryStat, Subscription, ActiveInstallment, MonthlySummary,
+  SubscriptionStatusMap, SubStatus,
 } from "@/lib/types";
 import {
   CATEGORY_COLORS, CARDHOLDER_LABELS, getCategoryStats, normalizeSubscriptionName,
@@ -820,10 +821,36 @@ function FixosTab({
 
 const DEFAULT_CATS = ["Alimentação", "Farmácia & Saúde", "Assinaturas", "Transporte", "Compras Online"];
 
+function StatusBadge({ s }: { s: SubStatus }) {
+  if (s.status === "cancelled") {
+    const until = s.accessUntil
+      ? ` · acesso até ${s.accessUntil.slice(8, 10)}/${s.accessUntil.slice(5, 7)}`
+      : "";
+    return (
+      <span className="inline-flex items-center gap-1 text-xs font-semibold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">
+        ✅ Cancelado{until}
+      </span>
+    );
+  }
+  if (s.status === "active") {
+    return (
+      <span className="inline-flex items-center gap-1 text-xs font-semibold bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full">
+        🔴 Ativo
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center gap-1 text-xs font-semibold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full">
+      ❓ Não verificado
+    </span>
+  );
+}
+
 function AnaliseTab({
-  invoices, subscriptions, avg,
+  invoices, subscriptions, avg, subStatuses,
 }: {
   invoices: Invoice[]; subscriptions: Subscription[]; avg: number;
+  subStatuses: SubscriptionStatusMap;
 }) {
   const latest = invoices.at(-1);
   const prev = invoices.at(-2);
@@ -866,68 +893,114 @@ function AnaliseTab({
 
         {/* Left col: savings + comparison */}
         <div className="space-y-5">
-          {/* Savings opportunity — only from latest invoice */}
-          {nonEssential.length > 0 && (
-            <div className="bg-gradient-to-br from-emerald-900 to-teal-900 rounded-2xl p-5 text-white">
-              <p className="text-emerald-300 text-xs font-semibold uppercase tracking-widest mb-1">Potencial de economia · fatura atual</p>
-              <p className="text-3xl font-black leading-none">
-                {fmtBRL(savingsMonthly)}
-                <span className="text-base font-normal text-emerald-400">/mês</span>
-              </p>
-              <p className="text-emerald-300 text-sm mt-1">
-                = {fmtBRL(12 * savingsMonthly)}/ano cancelando {nonEssential.length} assinatura{nonEssential.length !== 1 ? "s" : ""} não-essencial{nonEssential.length !== 1 ? "is" : ""}
-              </p>
-              <div className="mt-4 space-y-3">
-                {nonEssential.map((s, i) => {
-                  const info = SUB_INFO[s.merchant];
-                  return (
-                    <div key={i} className="bg-white/10 rounded-xl px-3 py-3 space-y-1.5">
-                      {/* Header */}
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className="text-sm font-bold text-white">{s.merchant}</span>
-                            {info && (
-                              <span className="text-xs bg-white/20 text-emerald-100 px-2 py-0.5 rounded-full font-medium flex-shrink-0">
-                                {info.service}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                        <span className="text-sm font-bold text-emerald-200 flex-shrink-0 mt-0.5">
-                          {fmtBRL(s.avgMonthly)}/mês
-                        </span>
-                      </div>
-                      {/* Description */}
-                      {info && (
-                        <p className="text-xs text-emerald-200/80 leading-relaxed">
-                          {info.description}
-                        </p>
-                      )}
-                      {/* Footer */}
-                      <div className="flex items-center justify-between pt-0.5">
-                        <span className="text-xs text-emerald-400">
-                          {s.monthsPresent} {s.monthsPresent === 1 ? "mês" : "meses"} ativo · {fmtBRL(s.avgMonthly * 12)}/ano
-                        </span>
-                        {info?.cancelUrl ? (
-                          <a
-                            href={info.cancelUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs font-semibold text-white bg-white/20 hover:bg-white/30 px-2.5 py-1 rounded-lg transition-all"
-                          >
-                            Cancelar →
-                          </a>
-                        ) : (
-                          <span className="text-xs text-emerald-400/60 italic">link não mapeado</span>
-                        )}
-                      </div>
+          {/* Savings card — split by status */}
+          {nonEssential.length > 0 && (() => {
+            const alreadyCancelled = nonEssential.filter(s => subStatuses[s.merchant]?.status === "cancelled");
+            const stillActive     = nonEssential.filter(s => subStatuses[s.merchant]?.status !== "cancelled");
+            const savedMonthly    = alreadyCancelled.reduce((t, s) => t + s.avgMonthly, 0);
+            const remainingMonthly= stillActive.reduce((t, s) => t + s.avgMonthly, 0);
+            const checkedAt       = Object.values(subStatuses)[0]?.checkedAt ?? null;
+
+            return (
+              <div className="bg-gradient-to-br from-emerald-900 to-teal-900 rounded-2xl p-5 text-white space-y-5">
+                {/* Header */}
+                <div>
+                  <p className="text-emerald-300 text-xs font-semibold uppercase tracking-widest mb-1">
+                    Assinaturas não-essenciais · fatura atual
+                  </p>
+                  {checkedAt && (
+                    <p className="text-emerald-500 text-xs">
+                      🔍 Verificado via Gmail em {checkedAt.slice(8, 10)}/{checkedAt.slice(5, 7)}/{checkedAt.slice(0, 4)}
+                    </p>
+                  )}
+                  <div className="grid grid-cols-2 gap-4 mt-3">
+                    <div className="bg-emerald-800/50 rounded-xl px-3 py-2.5">
+                      <p className="text-emerald-400 text-xs mb-0.5">✅ Já economizando</p>
+                      <p className="text-xl font-black text-white">{fmtBRL(savedMonthly)}<span className="text-xs font-normal text-emerald-400">/mês</span></p>
+                      <p className="text-xs text-emerald-400">{fmtBRL(savedMonthly * 12)}/ano</p>
                     </div>
-                  );
-                })}
+                    <div className={`rounded-xl px-3 py-2.5 ${remainingMonthly > 0 ? "bg-rose-900/40" : "bg-emerald-800/50"}`}>
+                      <p className="text-emerald-400 text-xs mb-0.5">⚠️ Ainda a cancelar</p>
+                      <p className="text-xl font-black text-white">{fmtBRL(remainingMonthly)}<span className="text-xs font-normal text-emerald-400">/mês</span></p>
+                      <p className="text-xs text-emerald-400">{fmtBRL(remainingMonthly * 12)}/ano</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Already cancelled */}
+                {alreadyCancelled.length > 0 && (
+                  <div>
+                    <p className="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">✅ Cancelados — economia confirmada</p>
+                    <div className="space-y-2">
+                      {alreadyCancelled.map((s, i) => {
+                        const info = SUB_INFO[s.merchant];
+                        const st   = subStatuses[s.merchant];
+                        return (
+                          <div key={i} className="bg-emerald-800/40 rounded-xl px-3 py-2.5 opacity-80">
+                            <div className="flex items-center justify-between gap-2">
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <span className="text-sm font-semibold text-white">{s.merchant}</span>
+                                  {info && <span className="text-xs bg-white/10 text-emerald-200 px-1.5 py-0.5 rounded-full">{info.service}</span>}
+                                </div>
+                                <p className="text-xs text-emerald-400 mt-0.5">
+                                  Cancelado em {st?.cancelledAt ? `${st.cancelledAt.slice(8, 10)}/${st.cancelledAt.slice(5, 7)}` : "—"}
+                                  {st?.accessUntil ? ` · acesso até ${st.accessUntil.slice(8, 10)}/${st.accessUntil.slice(5, 7)}` : ""}
+                                  {st?.emailSubject ? ` · "${st.emailSubject}"` : ""}
+                                </p>
+                              </div>
+                              <span className="text-sm font-bold text-emerald-300 line-through opacity-60 flex-shrink-0">{fmtBRL(s.avgMonthly)}</span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Still active — action needed */}
+                {stillActive.length > 0 && (
+                  <div>
+                    <p className="text-xs font-bold text-rose-300 uppercase tracking-wider mb-2">⚠️ Ainda ativos — considere cancelar</p>
+                    <div className="space-y-3">
+                      {stillActive.map((s, i) => {
+                        const info = SUB_INFO[s.merchant];
+                        const st   = subStatuses[s.merchant];
+                        return (
+                          <div key={i} className="bg-white/10 rounded-xl px-3 py-3 space-y-1.5">
+                            <div className="flex items-start justify-between gap-2">
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <span className="text-sm font-bold text-white">{s.merchant}</span>
+                                  {info && <span className="text-xs bg-white/20 text-emerald-100 px-2 py-0.5 rounded-full">{info.service}</span>}
+                                  {st && <StatusBadge s={st} />}
+                                </div>
+                              </div>
+                              <span className="text-sm font-bold text-emerald-200 flex-shrink-0 mt-0.5">{fmtBRL(s.avgMonthly)}/mês</span>
+                            </div>
+                            {info && <p className="text-xs text-emerald-200/80 leading-relaxed">{info.description}</p>}
+                            <div className="flex items-center justify-between pt-0.5">
+                              <span className="text-xs text-emerald-400">
+                                {s.monthsPresent} {s.monthsPresent === 1 ? "mês" : "meses"} · {fmtBRL(s.avgMonthly * 12)}/ano
+                              </span>
+                              {info?.cancelUrl ? (
+                                <a href={info.cancelUrl} target="_blank" rel="noopener noreferrer"
+                                  className="text-xs font-semibold text-white bg-white/20 hover:bg-white/30 px-2.5 py-1 rounded-lg transition-all">
+                                  Cancelar →
+                                </a>
+                              ) : (
+                                <span className="text-xs text-emerald-400/60 italic">link não mapeado</span>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
-            </div>
-          )}
+            );
+          })()}
 
           {/* Month comparison */}
           {latest && prev && (
@@ -1021,7 +1094,7 @@ const TABS = [
   { id: "analise",  label: "Análise",   icon: "📊" },
 ];
 
-export default function InvoiceDashboard({ invoices }: { invoices: Invoice[] }) {
+export default function InvoiceDashboard({ invoices, subStatuses }: { invoices: Invoice[]; subStatuses: SubscriptionStatusMap }) {
   const [tab, setTab] = useState("inicio");
   const [cardholder, setCardholder] = useState("all");
 
@@ -1138,7 +1211,7 @@ export default function InvoiceDashboard({ invoices }: { invoices: Invoice[] }) 
           )}
           {tab === "faturas" && <FaturasTab invoices={filteredInvoices} />}
           {tab === "fixos" && <FixosTab subscriptions={subscriptions} installments={installments} />}
-          {tab === "analise" && <AnaliseTab invoices={filteredInvoices} subscriptions={subscriptions} avg={avg} />}
+          {tab === "analise" && <AnaliseTab invoices={filteredInvoices} subscriptions={subscriptions} avg={avg} subStatuses={subStatuses} />}
         </main>
       </div>
     </div>
