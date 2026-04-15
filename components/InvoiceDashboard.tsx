@@ -12,24 +12,27 @@ import {
   CATEGORY_COLORS, CARDHOLDER_LABELS, getCategoryStats, normalizeSubscriptionName,
 } from "@/lib/categories";
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// ─── Formatters ────────────────────────────────────────────────────────────────
 
 function fmtBRL(v: number) {
   return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: 2 });
 }
 function fmtShort(v: number) {
-  return v >= 1000 ? `R$ ${(v / 1000).toFixed(1)}k` : v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: 0 });
+  if (v >= 1000) return `R$${(v / 1000).toFixed(1)}k`;
+  return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: 0 });
 }
 
 const CAT_ICON: Record<string, string> = {
-  Assinaturas: "🔔", "Farmácia & Saúde": "💊", "Alimentação": "🍽️",
+  Assinaturas: "🔔", "Farmácia & Saúde": "💊", Alimentação: "🍽️",
   Transporte: "🚗", "Compras Online": "🛒", "Moda & Vestuário": "👗",
   "Eletrônicos & Games": "🎮", "Viagens & Hotéis": "✈️",
   "Bem-Estar & Pessoal": "💆", "Educação & Eventos": "📚",
   "Casa & Condomínio": "🏠", Telefone: "📱", Outros: "📌",
 };
 
-// ─── Derived data helpers ──────────────────────────────────────────────────────
+const ESSENTIAL_SUBS = ["vivo", "claude", "chatgpt", "openai", "anthropic", "microsoft", "notion", "google one", "youtube", "amazon prime", "apple service", "conta vivo", "telecel"];
+
+// ─── Derived data ──────────────────────────────────────────────────────────────
 
 function getSubscriptions(invoices: Invoice[]): Subscription[] {
   const map = new Map<string, { months: Set<string>; amounts: number[]; category: string; lastSeen: string }>();
@@ -37,11 +40,11 @@ function getSubscriptions(invoices: Invoice[]): Subscription[] {
     for (const t of inv.transactions) {
       if (t.isPayment || !["Assinaturas", "Telefone"].includes(t.category)) continue;
       const name = normalizeSubscriptionName(t.merchant);
-      const existing = map.get(name) ?? { months: new Set(), amounts: [], category: t.category, lastSeen: "" };
-      existing.months.add(inv.month);
-      existing.amounts.push(t.amount);
-      if (inv.month > existing.lastSeen) existing.lastSeen = inv.month;
-      map.set(name, existing);
+      const e = map.get(name) ?? { months: new Set(), amounts: [], category: t.category, lastSeen: "" };
+      e.months.add(inv.month);
+      e.amounts.push(t.amount);
+      if (inv.month > e.lastSeen) e.lastSeen = inv.month;
+      map.set(name, e);
     }
   }
   return Array.from(map.entries())
@@ -58,10 +61,10 @@ function getInstallments(invoices: Invoice[]): ActiveInstallment[] {
     for (const t of inv.transactions) {
       if (!t.installment) continue;
       const key = `${normalizeSubscriptionName(t.merchant).toLowerCase().replace(/[^a-z0-9]/g, "").substring(0, 25)}_${t.installment.total}`;
-      const existing = map.get(key) ?? { merchant: t.merchant, maxCurrent: 0, total: t.installment.total, amounts: [] };
-      if (t.installment.current > existing.maxCurrent) existing.maxCurrent = t.installment.current;
-      existing.amounts.push(t.amount);
-      map.set(key, existing);
+      const e = map.get(key) ?? { merchant: t.merchant, maxCurrent: 0, total: t.installment.total, amounts: [] };
+      if (t.installment.current > e.maxCurrent) e.maxCurrent = t.installment.current;
+      e.amounts.push(t.amount);
+      map.set(key, e);
     }
   }
   return Array.from(map.values())
@@ -73,191 +76,295 @@ function getInstallments(invoices: Invoice[]): ActiveInstallment[] {
     .sort((a, b) => b.monthlyAmount - a.monthlyAmount);
 }
 
-function getTopMerchants(transactions: Transaction[], n = 10) {
+function getTopMerchants(transactions: Transaction[], n = 8) {
   const map = new Map<string, number>();
   for (const t of transactions.filter((t) => !t.isPayment)) {
     const name = normalizeSubscriptionName(t.merchant);
     map.set(name, (map.get(name) ?? 0) + t.amount);
   }
-  return Array.from(map.entries()).map(([name, amount]) => ({ name, amount })).sort((a, b) => b.amount - a.amount).slice(0, n);
+  return Array.from(map.entries()).map(([name, amount]) => ({ name, amount }))
+    .sort((a, b) => b.amount - a.amount).slice(0, n);
 }
 
-// ─── Stat Card ────────────────────────────────────────────────────────────────
+// ─── Auto-generated insights ───────────────────────────────────────────────────
 
-function StatCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color?: string }) {
+type Insight = { icon: string; text: string; kind: "good" | "bad" | "neutral" };
+
+function buildInsights(
+  invoices: Invoice[],
+  subscriptions: Subscription[],
+  installments: ActiveInstallment[],
+  avg: number,
+): Insight[] {
+  const out: Insight[] = [];
+  const latest = invoices.at(-1);
+  const prev = invoices.at(-2);
+
+  // vs average
+  if (latest && avg > 0) {
+    const pct = ((latest.totalSpent - avg) / avg) * 100;
+    if (pct > 10)
+      out.push({ icon: "⚠️", text: `Fatura ${pct.toFixed(0)}% acima da sua média histórica`, kind: "bad" });
+    else if (pct < -10)
+      out.push({ icon: "✅", text: `Fatura ${Math.abs(pct).toFixed(0)}% abaixo da média — ótimo mês!`, kind: "good" });
+  }
+
+  // biggest category jump
+  if (latest && prev) {
+    const cats = new Set<string>();
+    [...latest.transactions, ...prev.transactions].filter((t) => !t.isPayment).forEach((t) => cats.add(t.category));
+    const deltas = Array.from(cats)
+      .map((cat) => {
+        const curr = latest.transactions.filter((t) => !t.isPayment && t.category === cat).reduce((s, t) => s + t.amount, 0);
+        const ante = prev.transactions.filter((t) => !t.isPayment && t.category === cat).reduce((s, t) => s + t.amount, 0);
+        return { cat, curr, ante, pct: ante > 0 ? ((curr - ante) / ante) * 100 : null };
+      })
+      .filter((x) => x.pct !== null && x.curr > 80);
+
+    const biggest = [...deltas].sort((a, b) => (b.pct ?? 0) - (a.pct ?? 0))[0];
+    if (biggest && biggest.pct! > 25)
+      out.push({ icon: "📈", text: `${biggest.cat} subiu ${biggest.pct!.toFixed(0)}% vs mês anterior (${fmtBRL(biggest.ante)} → ${fmtBRL(biggest.curr)})`, kind: "bad" });
+
+    const best = [...deltas].sort((a, b) => (a.pct ?? 0) - (b.pct ?? 0))[0];
+    if (best && best.pct! < -25)
+      out.push({ icon: "📉", text: `${best.cat} caiu ${Math.abs(best.pct!).toFixed(0)}% — economia real`, kind: "good" });
+  }
+
+  // subscriptions
+  const subTotal = subscriptions.reduce((s, sub) => s + sub.avgMonthly, 0);
+  if (subTotal > 0) {
+    const anual = 12 * subTotal;
+    out.push({ icon: "🔔", text: `${fmtBRL(subTotal)}/mês em assinaturas — ${fmtBRL(anual)} por ano`, kind: "neutral" });
+  }
+
+  // installments
+  if (installments.length > 0) {
+    const instTotal = installments.reduce((s, i) => s + i.monthlyAmount, 0);
+    out.push({ icon: "💳", text: `${installments.length} parcelamentos ativos · ${fmtBRL(instTotal)}/mês comprometidos`, kind: "neutral" });
+  }
+
+  return out.slice(0, 4);
+}
+
+// ─── Micro components ──────────────────────────────────────────────────────────
+
+function DeltaBadge({ value }: { value: number }) {
+  if (value === 0) return null;
+  const pos = value > 0;
   return (
-    <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
-      <p className="text-xs text-slate-500 font-medium uppercase tracking-wide">{label}</p>
-      <p className={`text-2xl font-bold mt-1 ${color ?? "text-slate-800"}`}>{value}</p>
-      {sub && <p className="text-xs text-slate-400 mt-1">{sub}</p>}
+    <span className={`inline-flex items-center gap-0.5 text-xs font-bold px-2 py-0.5 rounded-full ${pos ? "bg-red-500/20 text-red-200" : "bg-emerald-500/20 text-emerald-200"}`}>
+      {pos ? "▲" : "▼"} {Math.abs(value).toFixed(1)}%
+    </span>
+  );
+}
+
+function InsightCard({ ins }: { ins: Insight }) {
+  const styles: Record<Insight["kind"], string> = {
+    good: "bg-emerald-50 border-emerald-200 text-emerald-800",
+    bad: "bg-rose-50 border-rose-200 text-rose-800",
+    neutral: "bg-blue-50 border-blue-100 text-blue-800",
+  };
+  return (
+    <div className={`flex items-start gap-3 rounded-xl border px-4 py-3 text-sm ${styles[ins.kind]}`}>
+      <span className="flex-shrink-0 mt-0.5">{ins.icon}</span>
+      <span>{ins.text}</span>
     </div>
   );
 }
 
-// ─── Tooltip ─────────────────────────────────────────────────────────────────
+function CatRow({ c, max }: { c: CategoryStat; max: number }) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="text-base w-5 text-center flex-shrink-0">{CAT_ICON[c.name] ?? "📌"}</span>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between mb-1.5">
+          <span className={`text-xs font-medium truncate ${c.name === "Outros" ? "text-slate-400" : "text-slate-700"}`}>{c.name}</span>
+          <div className="flex items-center gap-2 ml-2 flex-shrink-0">
+            <span className={`text-xs font-bold ${c.name === "Outros" ? "text-slate-400" : "text-slate-800"}`}>{fmtBRL(c.amount)}</span>
+            <span className="text-xs text-slate-400 w-8 text-right">{c.percentage.toFixed(0)}%</span>
+          </div>
+        </div>
+        <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+          <div
+            className="h-full rounded-full transition-all duration-700"
+            style={{ width: `${(c.amount / max) * 100}%`, background: c.name === "Outros" ? "#d1d5db" : c.color }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
 
-function CustomTooltip({ active, payload, label }: any) {
+function ChartTip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-white border border-slate-200 rounded-lg p-3 shadow-lg text-sm">
+    <div className="bg-white border border-slate-200 rounded-xl p-3 shadow-xl text-sm">
       <p className="font-semibold text-slate-700 mb-1">{label}</p>
       {payload.map((p: any, i: number) => (
-        <p key={i} style={{ color: p.name === "Total" ? "#2563eb" : undefined }}>
-          {p.name}: {fmtBRL(p.value)}
-        </p>
+        <p key={i} className="text-slate-600">{p.name}: <strong>{fmtBRL(p.value)}</strong></p>
       ))}
     </div>
   );
 }
 
-// ─── Overview Tab ─────────────────────────────────────────────────────────────
+// ─── Tab 1: Resumo ─────────────────────────────────────────────────────────────
 
-function OverviewTab({
-  invoices, latest, monthlySummaries, variation, totalSubscriptions, totalInstallments, allTxns,
+function ResumoTab({
+  invoices, avg, monthlySummaries, subscriptions, installments,
 }: {
-  invoices: Invoice[]; latest?: Invoice; monthlySummaries: MonthlySummary[];
-  variation: number; totalSubscriptions: number; totalInstallments: number; allTxns: Transaction[];
+  invoices: Invoice[]; avg: number; monthlySummaries: MonthlySummary[];
+  subscriptions: Subscription[]; installments: ActiveInstallment[];
 }) {
-  const [selectedBarMonth, setSelectedBarMonth] = useState<string | null>(null);
+  const [selectedBar, setSelectedBar] = useState<string | null>(null);
 
-  const avg = invoices.length > 0 ? invoices.reduce((s, i) => s + i.totalSpent, 0) / invoices.length : 0;
+  const latest = invoices.at(-1);
+  const prev = invoices.at(-2);
 
-  // Derive display invoice based on selected bar
-  const displayIdx = selectedBarMonth ? invoices.findIndex((inv) => inv.month === selectedBarMonth) : invoices.length - 1;
-  const displayInvoice = displayIdx >= 0 ? invoices[displayIdx] : latest;
-  const prevInvoice = displayIdx > 0 ? invoices[displayIdx - 1] : undefined;
-  const displayVariation = displayInvoice && prevInvoice && prevInvoice.totalSpent > 0
-    ? ((displayInvoice.totalSpent - prevInvoice.totalSpent) / prevInvoice.totalSpent) * 100
-    : selectedBarMonth ? 0 : variation;
+  const displayInvoice = selectedBar ? invoices.find((i) => i.month === selectedBar) ?? latest : latest;
+  const displayTxns = displayInvoice?.transactions.filter((t) => !t.isPayment) ?? [];
 
-  // Categories: for selected month or all invoices
-  const displayTxns = selectedBarMonth
-    ? (invoices.find((inv) => inv.month === selectedBarMonth)?.transactions ?? [])
-    : allTxns;
-  const rawCats = getCategoryStats(displayTxns.filter((t) => !t.isPayment));
-  // Outros always goes last
-  const displayCats = [...rawCats.filter((c) => c.name !== "Outros"), ...rawCats.filter((c) => c.name === "Outros")];
+  const rawCats = getCategoryStats(displayTxns);
+  const cats = [...rawCats.filter((c) => c.name !== "Outros"), ...rawCats.filter((c) => c.name === "Outros")];
+  const maxCat = cats[0]?.amount ?? 1;
 
-  const catLabel = selectedBarMonth
-    ? (monthlySummaries.find((m) => m.month === selectedBarMonth)?.label ?? selectedBarMonth)
-    : "todas as faturas";
+  const subTotal = subscriptions.reduce((s, sub) => s + sub.avgMonthly, 0);
+  const instTotal = installments.reduce((s, i) => s + i.monthlyAmount, 0);
+  const variation = latest && prev && prev.totalSpent > 0 ? ((latest.totalSpent - prev.totalSpent) / prev.totalSpent) * 100 : 0;
+  const vsAvg = avg > 0 && latest ? ((latest.totalSpent - avg) / avg) * 100 : 0;
+
+  const insights = useMemo(
+    () => buildInsights(invoices, subscriptions, installments, avg),
+    [invoices, subscriptions, installments, avg],
+  );
 
   return (
-    <div className="space-y-6">
-      {/* KPI cards — update when a bar is selected */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <StatCard
-          label="Fatura Atual"
-          value={displayInvoice ? fmtBRL(displayInvoice.totalSpent) : "—"}
-          sub={displayInvoice?.label}
-          color="text-blue-700"
-        />
-        <StatCard
-          label="Variação"
-          value={`${displayVariation >= 0 ? "+" : ""}${displayVariation.toFixed(1)}%`}
-          sub="vs mês anterior"
-          color={displayVariation > 5 ? "text-red-600" : displayVariation < -5 ? "text-green-600" : "text-slate-700"}
-        />
-        <StatCard label="Assinaturas/mês" value={fmtBRL(totalSubscriptions)} sub={`${fmtBRL(12 * totalSubscriptions)}/ano`} color="text-indigo-600" />
-        <StatCard label="Média Mensal" value={fmtBRL(avg)} sub={`${invoices.length} faturas`} />
+    <div className="space-y-4">
+      {/* ── Hero ── */}
+      <div className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 rounded-2xl p-5 text-white">
+        <p className="text-blue-300 text-xs font-semibold uppercase tracking-widest mb-2">
+          Fatura atual · {latest?.label ?? "—"}
+        </p>
+        <p className="text-5xl font-black tracking-tight leading-none">
+          {latest ? fmtBRL(latest.totalSpent) : "—"}
+        </p>
+        <div className="flex flex-wrap items-center gap-2 mt-3">
+          <DeltaBadge value={variation} />
+          <span className="text-blue-300 text-xs">vs mês anterior</span>
+          <DeltaBadge value={vsAvg} />
+          <span className="text-blue-300 text-xs">vs média</span>
+        </div>
+        <div className="grid grid-cols-3 gap-3 mt-4 pt-4 border-t border-white/10">
+          <div>
+            <p className="text-xs text-blue-400">Média histórica</p>
+            <p className="text-sm font-bold mt-0.5">{fmtBRL(avg)}</p>
+          </div>
+          <div>
+            <p className="text-xs text-blue-400">Assinaturas</p>
+            <p className="text-sm font-bold mt-0.5">{fmtBRL(subTotal)}<span className="text-xs font-normal text-blue-400">/mês</span></p>
+          </div>
+          <div>
+            <p className="text-xs text-blue-400">Parcelamentos</p>
+            <p className="text-sm font-bold mt-0.5">{fmtBRL(instTotal)}<span className="text-xs font-normal text-blue-400">/mês</span></p>
+          </div>
+        </div>
       </div>
 
-      {/* Interactive bar chart */}
-      <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-slate-700">📈 Evolução Mensal</h2>
-          {selectedBarMonth && (
-            <button
-              onClick={() => setSelectedBarMonth(null)}
-              className="text-xs text-blue-500 hover:text-blue-700 underline"
-            >
+      {/* ── Insight chips ── */}
+      {insights.length > 0 && (
+        <div className="space-y-2">
+          {insights.map((ins, i) => <InsightCard key={i} ins={ins} />)}
+        </div>
+      )}
+
+      {/* ── Monthly chart ── */}
+      <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+        <div className="flex items-center justify-between mb-1">
+          <h2 className="text-sm font-semibold text-slate-700">Evolução mensal</h2>
+          {selectedBar && (
+            <button onClick={() => setSelectedBar(null)} className="text-xs text-blue-500 hover:underline">
               ← ver tudo
             </button>
           )}
         </div>
-        {selectedBarMonth && (
-          <p className="text-xs text-blue-600 mb-2">
-            Exibindo: <strong>{monthlySummaries.find((m) => m.month === selectedBarMonth)?.label}</strong>
+        {selectedBar && (
+          <p className="text-xs text-blue-500 mb-2">
+            Categorias: <strong>{monthlySummaries.find((m) => m.month === selectedBar)?.label}</strong>
           </p>
         )}
-        <ResponsiveContainer width="100%" height={200}>
-          <BarChart data={monthlySummaries} margin={{ top: 0, right: 0, bottom: 0, left: -10 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-            <XAxis dataKey="label" tick={{ fontSize: 11, fill: "#94a3b8" }} />
-            <YAxis tickFormatter={fmtShort} tick={{ fontSize: 11, fill: "#94a3b8" }} />
-            <Tooltip content={<CustomTooltip />} />
+        <ResponsiveContainer width="100%" height={150}>
+          <BarChart data={monthlySummaries} margin={{ top: 4, right: 0, bottom: 0, left: -18 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+            <XAxis dataKey="label" tick={{ fontSize: 10, fill: "#94a3b8" }} axisLine={false} tickLine={false} />
+            <YAxis tickFormatter={fmtShort} tick={{ fontSize: 10, fill: "#94a3b8" }} axisLine={false} tickLine={false} />
+            <Tooltip content={<ChartTip />} cursor={{ fill: "rgba(59,130,246,0.04)" }} />
             <Bar
-              dataKey="total"
-              name="Total"
-              radius={[4, 4, 0, 0]}
+              dataKey="total" name="Total" radius={[6, 6, 0, 0]}
               style={{ cursor: "pointer" }}
-              onClick={(data: any) => {
-                setSelectedBarMonth((prev) => (prev === data.month ? null : data.month));
-              }}
+              onClick={(data: any) => setSelectedBar((p) => p === data.month ? null : data.month)}
             >
               {monthlySummaries.map((entry) => (
                 <Cell
                   key={entry.month}
-                  fill={selectedBarMonth === null || selectedBarMonth === entry.month ? "#3b82f6" : "#bfdbfe"}
+                  fill={selectedBar === null ? "#3b82f6" : selectedBar === entry.month ? "#1d4ed8" : "#bfdbfe"}
                 />
               ))}
             </Bar>
           </BarChart>
         </ResponsiveContainer>
-        {!selectedBarMonth && (
-          <p className="text-xs text-slate-400 text-center mt-1">Clique em uma barra para ver os dados do mês</p>
+        {!selectedBar && (
+          <p className="text-xs text-slate-400 text-center mt-1">Toque em uma barra para filtrar as categorias</p>
         )}
       </div>
 
-      {/* Horizontal bar chart — all categories, Outros last */}
-      <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
-        <h2 className="text-sm font-semibold text-slate-700 mb-4">🏷️ Categorias · {catLabel}</h2>
-        <div className="space-y-3">
-          {displayCats.map((c) => (
-            <div key={c.name}>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-sm leading-none">{CAT_ICON[c.name] ?? "📌"}</span>
-                <span className={`text-xs flex-1 truncate ${c.name === "Outros" ? "text-slate-400" : "text-slate-600"}`}>{c.name}</span>
-                <span className={`text-xs font-semibold flex-shrink-0 ${c.name === "Outros" ? "text-slate-400" : "text-slate-700"}`}>{fmtBRL(c.amount)}</span>
-                <span className="text-xs text-slate-400 w-10 text-right flex-shrink-0">{c.percentage.toFixed(1)}%</span>
-              </div>
-              <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                <div
-                  className="h-full rounded-full transition-all duration-500"
-                  style={{ width: `${c.percentage}%`, background: c.name === "Outros" ? "#d1d5db" : c.color }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {totalInstallments > 0 && (
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
-          <p className="text-sm font-semibold text-amber-800">💳 Parcelamentos ativos</p>
-          <p className="text-2xl font-bold text-amber-700 mt-1">{fmtBRL(totalInstallments)}<span className="text-sm font-normal">/mês</span></p>
-          <p className="text-xs text-amber-600 mt-1">Este valor já está incluído nas faturas acima</p>
+      {/* ── Category breakdown ── */}
+      {cats.length > 0 && (
+        <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+          <h2 className="text-sm font-semibold text-slate-700 mb-4">Gastos por categoria</h2>
+          <div className="space-y-3">
+            {cats.map((c) => <CatRow key={c.name} c={c} max={maxCat} />)}
+          </div>
         </div>
       )}
     </div>
   );
 }
 
-// ─── Monthly Tab ──────────────────────────────────────────────────────────────
+// ─── Tab 2: Faturas ────────────────────────────────────────────────────────────
 
-function MonthlyTab({
-  invoices, selectedMonth, setSelectedMonth, selectedInvoice, categories, filteredTxns, txSearch, setTxSearch, topMerchants,
+function FaturasTab({
+  invoices,
 }: {
-  invoices: Invoice[]; selectedMonth: string; setSelectedMonth: (m: string) => void;
-  selectedInvoice?: Invoice; categories: CategoryStat[]; filteredTxns: Transaction[];
-  txSearch: string; setTxSearch: (s: string) => void; topMerchants: { name: string; amount: number }[];
+  invoices: Invoice[];
 }) {
+  const [selectedMonth, setSelectedMonth] = useState(invoices.at(-1)?.month ?? "");
+  const [txSearch, setTxSearch] = useState("");
+
+  const selectedInvoice = invoices.find((i) => i.month === selectedMonth) ?? invoices.at(-1);
+  const prev = selectedInvoice ? invoices[invoices.indexOf(selectedInvoice) - 1] : undefined;
+
+  const txns = selectedInvoice?.transactions.filter((t) => !t.isPayment) ?? [];
+  const filtered = txSearch.trim()
+    ? txns.filter((t) => t.merchant.toLowerCase().includes(txSearch.toLowerCase()) || t.category.toLowerCase().includes(txSearch.toLowerCase()))
+    : txns;
+
+  const topMerchants = useMemo(() => getTopMerchants(selectedInvoice?.transactions ?? []), [selectedInvoice]);
+
+  const variation = selectedInvoice && prev && prev.totalSpent > 0
+    ? ((selectedInvoice.totalSpent - prev.totalSpent) / prev.totalSpent) * 100
+    : null;
+
   return (
     <div className="space-y-4">
-      <div className="flex gap-2 flex-wrap">
+      {/* Month picker */}
+      <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
         {[...invoices].reverse().map((inv) => (
-          <button key={inv.month} onClick={() => setSelectedMonth(inv.month)}
-            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${selectedMonth === inv.month ? "bg-blue-600 text-white" : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"}`}>
+          <button
+            key={inv.month}
+            onClick={() => setSelectedMonth(inv.month)}
+            className={`flex-shrink-0 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${selectedMonth === inv.month
+              ? "bg-blue-600 text-white shadow-sm"
+              : "bg-white text-slate-600 border border-slate-200 hover:border-blue-300"}`}
+          >
             {inv.label}
           </button>
         ))}
@@ -265,44 +372,39 @@ function MonthlyTab({
 
       {selectedInvoice && (
         <>
-          <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100 flex items-center justify-between">
-            <div>
-              <p className="text-sm text-slate-500">Total — {selectedInvoice.label}</p>
-              <p className="text-3xl font-bold text-blue-700 mt-1">{fmtBRL(selectedInvoice.totalSpent)}</p>
-            </div>
-            <div className="text-right text-sm text-slate-500">
-              <p>{selectedInvoice.transactions.filter((t) => !t.isPayment).length} lançamentos</p>
+          {/* Total card */}
+          <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-2xl p-5 text-white">
+            <p className="text-blue-100 text-xs mb-1">{selectedInvoice.label}</p>
+            <p className="text-4xl font-black">{fmtBRL(selectedInvoice.totalSpent)}</p>
+            <div className="flex items-center justify-between mt-3">
+              <p className="text-blue-100 text-xs">
+                {selectedInvoice.transactions.filter((t) => !t.isPayment).length} lançamentos
+              </p>
+              {variation !== null && (
+                <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${variation > 0 ? "bg-red-500/30 text-red-100" : "bg-emerald-500/30 text-emerald-100"}`}>
+                  {variation > 0 ? "▲" : "▼"} {Math.abs(variation).toFixed(1)}% vs {prev?.label}
+                </span>
+              )}
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
-            <h2 className="text-sm font-semibold text-slate-700 mb-3">Categorias</h2>
-            <ResponsiveContainer width="100%" height={220}>
-              <BarChart data={categories.slice(0, 8)} layout="vertical" margin={{ top: 0, right: 60, bottom: 0, left: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
-                <XAxis type="number" tickFormatter={fmtShort} tick={{ fontSize: 10 }} />
-                <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: "#475569" }} width={120} />
-                <Tooltip formatter={(v: any) => fmtBRL(v)} />
-                <Bar dataKey="amount" name="Valor" radius={[0, 4, 4, 0]}>
-                  {categories.slice(0, 8).map((c, i) => <Cell key={i} fill={c.color} />)}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-
-          <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
-            <h2 className="text-sm font-semibold text-slate-700 mb-3">🏪 Maiores gastos</h2>
-            <div className="space-y-2">
-              {topMerchants.slice(0, 8).map((m, i) => (
+          {/* Top merchants */}
+          <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+            <h2 className="text-sm font-semibold text-slate-700 mb-3">Maiores gastos</h2>
+            <div className="space-y-2.5">
+              {topMerchants.map((m, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <span className="text-xs text-slate-400 w-5 text-center">{i + 1}</span>
+                  <span className="text-xs text-slate-400 font-mono w-4 text-center">{i + 1}</span>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-0.5">
-                      <span className="text-sm text-slate-700 truncate">{m.name}</span>
-                      <span className="text-sm font-semibold text-slate-800 ml-2 flex-shrink-0">{fmtBRL(m.amount)}</span>
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-xs font-medium text-slate-700 truncate">{m.name}</span>
+                      <span className="text-xs font-bold text-slate-800 ml-2 flex-shrink-0">{fmtBRL(m.amount)}</span>
                     </div>
-                    <div className="w-full bg-slate-100 rounded-full h-1">
-                      <div className="bg-blue-500 h-1 rounded-full" style={{ width: `${(m.amount / (topMerchants[0]?.amount || 1)) * 100}%` }} />
+                    <div className="h-1 bg-slate-100 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-blue-400 rounded-full"
+                        style={{ width: `${(m.amount / (topMerchants[0]?.amount ?? 1)) * 100}%` }}
+                      />
                     </div>
                   </div>
                 </div>
@@ -310,29 +412,36 @@ function MonthlyTab({
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+          {/* Transaction list */}
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
             <div className="p-4 border-b border-slate-100">
-              <h2 className="text-sm font-semibold text-slate-700 mb-2">📋 Lançamentos</h2>
-              <input type="search" placeholder="Buscar estabelecimento ou categoria..." value={txSearch}
+              <h2 className="text-sm font-semibold text-slate-700 mb-2">Lançamentos</h2>
+              <input
+                type="search"
+                placeholder="Buscar por estabelecimento ou categoria…"
+                value={txSearch}
                 onChange={(e) => setTxSearch(e.target.value)}
-                className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
+                className="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-300 bg-slate-50"
+              />
             </div>
-            <div className="divide-y divide-slate-50 max-h-96 overflow-y-auto">
-              {filteredTxns.map((t, i) => (
+            <div className="divide-y divide-slate-50 max-h-[480px] overflow-y-auto">
+              {filtered.map((t, i) => (
                 <div key={i} className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50">
                   <span className="text-lg flex-shrink-0">{CAT_ICON[t.category] ?? "📌"}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-slate-800 truncate font-medium">{t.merchant}</p>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs font-semibold text-slate-800 truncate">{t.merchant}</p>
+                    <p className="text-xs text-slate-400 mt-0.5">
                       {t.date.slice(8, 10)}/{t.date.slice(5, 7)} · {t.category}
                       {t.cardholder !== "RODRIGO COELHO" && ` · ${CARDHOLDER_LABELS[t.cardholder] ?? t.cardholder}`}
                       {t.installment && ` · ${t.installment.current}/${t.installment.total}x`}
                     </p>
                   </div>
-                  <span className="text-sm font-semibold text-slate-800 flex-shrink-0">{fmtBRL(t.amount)}</span>
+                  <span className="text-xs font-bold text-slate-800 flex-shrink-0">{fmtBRL(t.amount)}</span>
                 </div>
               ))}
-              {filteredTxns.length === 0 && <p className="text-sm text-slate-400 text-center py-8">Nenhum lançamento encontrado</p>}
+              {filtered.length === 0 && (
+                <p className="text-sm text-slate-400 text-center py-10">Nenhum lançamento encontrado</p>
+              )}
             </div>
           </div>
         </>
@@ -341,98 +450,215 @@ function MonthlyTab({
   );
 }
 
-// ─── Trends Tab ───────────────────────────────────────────────────────────────
+// ─── Tab 3: Compromissos ───────────────────────────────────────────────────────
+
+function CompromissosTab({
+  subscriptions, installments,
+}: {
+  subscriptions: Subscription[]; installments: ActiveInstallment[];
+}) {
+  const subTotal = subscriptions.reduce((s, sub) => s + sub.avgMonthly, 0);
+  const instTotal = installments.reduce((s, i) => s + i.monthlyAmount, 0);
+  const total = subTotal + instTotal;
+
+  return (
+    <div className="space-y-4">
+      {/* Hero */}
+      <div className="bg-gradient-to-br from-violet-900 via-indigo-900 to-violet-900 rounded-2xl p-5 text-white">
+        <p className="text-violet-300 text-xs font-semibold uppercase tracking-widest mb-2">Compromissos mensais</p>
+        <p className="text-5xl font-black leading-none">
+          {fmtBRL(total)}
+          <span className="text-lg font-normal text-violet-400">/mês</span>
+        </p>
+        <p className="text-violet-300 text-sm mt-1">{fmtBRL(12 * total)} comprometidos no ano</p>
+        <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-white/10">
+          <div>
+            <p className="text-xs text-violet-400">Assinaturas · {subscriptions.length}</p>
+            <p className="text-sm font-bold mt-0.5">{fmtBRL(subTotal)}<span className="text-xs font-normal text-violet-400">/mês</span></p>
+          </div>
+          <div>
+            <p className="text-xs text-violet-400">Parcelamentos · {installments.length}</p>
+            <p className="text-sm font-bold mt-0.5">{fmtBRL(instTotal)}<span className="text-xs font-normal text-violet-400">/mês</span></p>
+          </div>
+        </div>
+      </div>
+
+      {/* Subscriptions */}
+      {subscriptions.length > 0 && (
+        <div>
+          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Assinaturas</p>
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 divide-y divide-slate-50 overflow-hidden">
+            {subscriptions.map((s, i) => {
+              const isEssential = ESSENTIAL_SUBS.some((k) => s.merchant.toLowerCase().includes(k));
+              return (
+                <div key={i} className="flex items-center gap-3 px-4 py-3">
+                  <span className="text-lg">🔔</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <p className="text-sm font-medium text-slate-800">{s.merchant}</p>
+                      {!isEssential && (
+                        <span className="text-xs bg-rose-100 text-rose-600 px-1.5 py-0.5 rounded-full font-medium">revise</span>
+                      )}
+                    </div>
+                    <p className="text-xs text-slate-400 mt-0.5">{s.category} · {s.monthsPresent} {s.monthsPresent === 1 ? "mês" : "meses"}</p>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <p className="text-sm font-bold text-slate-800">{fmtBRL(s.avgMonthly)}<span className="text-xs font-normal text-slate-400">/mês</span></p>
+                    <p className="text-xs text-slate-400">{fmtBRL(12 * s.avgMonthly)}/ano</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Installments */}
+      {installments.length > 0 && (
+        <div>
+          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Parcelamentos ativos</p>
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 divide-y divide-slate-50 overflow-hidden">
+            {installments.map((inst, i) => (
+              <div key={i} className="px-4 py-3">
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-slate-800 truncate">{normalizeSubscriptionName(inst.merchant)}</p>
+                    <p className="text-xs text-slate-400 mt-0.5">
+                      Parcela {inst.current}/{inst.total} · {inst.total - inst.current} restantes
+                    </p>
+                  </div>
+                  <div className="text-right ml-3 flex-shrink-0">
+                    <p className="text-sm font-bold text-slate-800">{fmtBRL(inst.monthlyAmount)}<span className="text-xs font-normal text-slate-400">/mês</span></p>
+                    <p className="text-xs text-slate-400">Restante: {fmtBRL(inst.remainingAmount)}</p>
+                  </div>
+                </div>
+                <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                  <div
+                    className="bg-amber-400 h-2 rounded-full transition-all"
+                    style={{ width: `${(inst.current / inst.total) * 100}%` }}
+                  />
+                </div>
+                <p className="text-xs text-slate-400 mt-1">{Math.round((inst.current / inst.total) * 100)}% concluído</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {installments.length === 0 && (
+        <div className="text-center py-10">
+          <p className="text-3xl mb-2">✅</p>
+          <p className="text-sm text-slate-500">Nenhum parcelamento ativo</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Tab 4: Insights ───────────────────────────────────────────────────────────
 
 const DEFAULT_CATS = ["Alimentação", "Farmácia & Saúde", "Assinaturas", "Transporte", "Compras Online"];
 
-function TrendsTab({ invoices }: { invoices: Invoice[] }) {
+function InsightsTab({
+  invoices, subscriptions, avg,
+}: {
+  invoices: Invoice[]; subscriptions: Subscription[]; avg: number;
+}) {
+  const latest = invoices.at(-1);
+  const prev = invoices.at(-2);
+
+  // Category comparison latest vs prev
+  const comparison = useMemo(() => {
+    if (!latest || !prev) return [];
+    const cats = new Set<string>();
+    [...latest.transactions, ...prev.transactions].filter((t) => !t.isPayment).forEach((t) => cats.add(t.category));
+    return Array.from(cats).map((cat) => {
+      const curr = latest.transactions.filter((t) => !t.isPayment && t.category === cat).reduce((s, t) => s + t.amount, 0);
+      const ante = prev.transactions.filter((t) => !t.isPayment && t.category === cat).reduce((s, t) => s + t.amount, 0);
+      return { cat, curr, ante, diff: curr - ante, pct: ante > 0 ? ((curr - ante) / ante) * 100 : null };
+    }).filter((x) => x.curr > 0 || x.ante > 0).sort((a, b) => b.curr - a.curr);
+  }, [latest, prev]);
+
+  // Non-essential subscriptions for savings
+  const nonEssential = subscriptions.filter(
+    (s) => !ESSENTIAL_SUBS.some((k) => s.merchant.toLowerCase().includes(k)),
+  );
+  const savingsMonthly = nonEssential.reduce((s, sub) => s + sub.avgMonthly, 0);
+
+  // Line chart
   const allCats = useMemo(() => {
     const s = new Set<string>();
     invoices.forEach((inv) => inv.transactions.forEach((t) => { if (!t.isPayment) s.add(t.category); }));
     return Array.from(s).filter((c) => c !== "Pagamento").sort();
   }, [invoices]);
 
-  const [selected, setSelected] = useState<string[]>(DEFAULT_CATS.filter((c) => allCats.includes(c)));
+  const [selectedCats, setSelectedCats] = useState<string[]>(
+    DEFAULT_CATS.filter((c) => allCats.includes(c)),
+  );
 
   const chartData = useMemo(() =>
     invoices.map((inv) => {
       const row: Record<string, any> = { label: inv.label };
-      for (const cat of selected) {
+      for (const cat of selectedCats) {
         row[cat] = inv.transactions.filter((t) => !t.isPayment && t.category === cat).reduce((s, t) => s + t.amount, 0);
       }
       return row;
-    }), [invoices, selected]);
-
-  const latest = invoices.at(-1);
-  const prev = invoices.at(-2);
-
-  const comparison = useMemo(() => {
-    if (!latest || !prev) return [];
-    const cats = new Set<string>();
-    [...latest.transactions, ...prev.transactions].forEach((t) => { if (!t.isPayment) cats.add(t.category); });
-    return Array.from(cats).map((cat) => {
-      const curr = latest.transactions.filter((t) => !t.isPayment && t.category === cat).reduce((s, t) => s + t.amount, 0);
-      const ante = prev.transactions.filter((t) => !t.isPayment && t.category === cat).reduce((s, t) => s + t.amount, 0);
-      return { cat, curr, ante, diff: curr - ante };
-    }).filter((x) => x.curr > 0 || x.ante > 0).sort((a, b) => b.curr - a.curr);
-  }, [latest, prev]);
+    }), [invoices, selectedCats]);
 
   return (
-    <div className="space-y-6">
-      <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
-        <h2 className="text-sm font-semibold text-slate-700 mb-3">📈 Evolução por Categoria</h2>
-        <div className="flex flex-wrap gap-1.5 mb-4">
-          {allCats.map((cat) => {
-            const color = CATEGORY_COLORS[cat] ?? "#9ca3af";
-            const active = selected.includes(cat);
-            return (
-              <button key={cat} onClick={() => setSelected((s) => s.includes(cat) ? s.filter((c) => c !== cat) : [...s, cat])}
-                className={`text-xs px-2 py-1 rounded-full border transition-all ${active ? "text-white" : "bg-white text-slate-500 border-slate-200"}`}
-                style={active ? { background: color, borderColor: color } : {}}>
-                {cat}
-              </button>
-            );
-          })}
-        </div>
-        <ResponsiveContainer width="100%" height={260}>
-          <LineChart data={chartData} margin={{ top: 4, right: 8, bottom: 0, left: -10 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-            <XAxis dataKey="label" tick={{ fontSize: 10, fill: "#94a3b8" }} />
-            <YAxis tickFormatter={fmtShort} tick={{ fontSize: 10, fill: "#94a3b8" }} />
-            <Tooltip formatter={(v: any) => fmtBRL(v)} />
-            <Legend wrapperStyle={{ fontSize: 11 }} />
-            {selected.map((cat) => (
-              <Line key={cat} type="monotone" dataKey={cat} stroke={CATEGORY_COLORS[cat] ?? "#9ca3af"} strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }} />
+    <div className="space-y-5">
+      {/* Savings panel */}
+      {nonEssential.length > 0 && (
+        <div className="bg-gradient-to-br from-emerald-900 to-teal-900 rounded-2xl p-5 text-white">
+          <p className="text-emerald-300 text-xs font-semibold uppercase tracking-widest mb-2">Oportunidade de economia</p>
+          <p className="text-3xl font-black leading-none">
+            {fmtBRL(savingsMonthly)}
+            <span className="text-base font-normal text-emerald-400">/mês</span>
+          </p>
+          <p className="text-emerald-300 text-sm mt-1">
+            = {fmtBRL(12 * savingsMonthly)}/ano cancelando {nonEssential.length} assinatura{nonEssential.length !== 1 ? "s" : ""} não-essencial{nonEssential.length !== 1 ? "is" : ""}
+          </p>
+          <div className="mt-4 space-y-2">
+            {nonEssential.slice(0, 4).map((s, i) => (
+              <div key={i} className="flex items-center justify-between bg-white/10 rounded-xl px-3 py-2">
+                <span className="text-sm text-white">{s.merchant}</span>
+                <span className="text-sm font-bold text-emerald-200">{fmtBRL(s.avgMonthly)}/mês</span>
+              </div>
             ))}
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
+          </div>
+        </div>
+      )}
 
+      {/* Month comparison */}
       {latest && prev && (
-        <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
-          <h2 className="text-sm font-semibold text-slate-700 mb-1">🔄 Comparativo Mês a Mês</h2>
-          <p className="text-xs text-slate-400 mb-4">{prev.label} → {latest.label}</p>
+        <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+          <h2 className="text-sm font-semibold text-slate-700 mb-1">Comparativo por categoria</h2>
+          <p className="text-xs text-slate-400 mb-4">{prev.label} vs {latest.label}</p>
           <div className="space-y-3">
-            {comparison.map(({ cat, curr, ante, diff }) => {
+            {comparison.map(({ cat, curr, ante, diff, pct }) => {
               const color = CATEGORY_COLORS[cat] ?? "#9ca3af";
               const max = Math.max(curr, ante, 1);
-              const pct = ante > 0 ? ((curr - ante) / ante) * 100 : null;
+              const isUp = diff > 0;
               return (
                 <div key={cat}>
                   <div className="flex items-center justify-between mb-1 gap-2">
                     <div className="flex items-center gap-1.5 min-w-0">
-                      <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: color }} />
+                      <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: color }} />
                       <span className="text-xs text-slate-700 truncate">{cat}</span>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0 text-xs">
                       <span className="text-slate-400">{fmtBRL(ante)}</span>
-                      <span className="font-semibold text-slate-800">{fmtBRL(curr)}</span>
-                      {pct !== null && <span className={`font-medium w-14 text-right ${diff > 0 ? "text-red-500" : "text-green-500"}`}>{diff > 0 ? "+" : ""}{pct.toFixed(1)}%</span>}
+                      <span className="font-bold text-slate-800">{fmtBRL(curr)}</span>
+                      {pct !== null && (
+                        <span className={`font-semibold w-12 text-right ${isUp ? "text-red-500" : "text-emerald-500"}`}>
+                          {isUp ? "+" : ""}{pct.toFixed(0)}%
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div className="flex gap-1">
                     <div className="flex-1 bg-slate-100 rounded-full h-1.5">
-                      <div className="h-1.5 rounded-full opacity-50" style={{ width: `${(ante / max) * 100}%`, background: color }} />
+                      <div className="h-1.5 rounded-full opacity-40" style={{ width: `${(ante / max) * 100}%`, background: color }} />
                     </div>
                     <div className="flex-1 bg-slate-100 rounded-full h-1.5">
                       <div className="h-1.5 rounded-full" style={{ width: `${(curr / max) * 100}%`, background: color }} />
@@ -442,210 +668,64 @@ function TrendsTab({ invoices }: { invoices: Invoice[] }) {
               );
             })}
           </div>
-          <p className="text-xs text-slate-400 mt-3">Barra esquerda = {prev.label} · Barra direita = {latest.label}</p>
+          <p className="text-xs text-slate-400 mt-3 text-center">Barra esquerda = {prev.label} · direita = {latest.label}</p>
         </div>
       )}
-    </div>
-  );
-}
 
-// ─── Subscriptions Tab ────────────────────────────────────────────────────────
-
-function SubscriptionsTab({ subscriptions, total }: { subscriptions: Subscription[]; total: number }) {
-  return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-        <StatCard label="Total Mensal" value={fmtBRL(total)} color="text-indigo-600" />
-        <StatCard label="Total Anual" value={fmtBRL(12 * total)} sub="projeção" color="text-red-600" />
-        <StatCard label="Qtd. Serviços" value={String(subscriptions.length)} />
-      </div>
-      <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-        <div className="p-4 border-b border-slate-100">
-          <h2 className="text-sm font-semibold text-slate-700">🔔 Todas as assinaturas detectadas</h2>
-          <p className="text-xs text-slate-400 mt-0.5">Ordenadas por custo mensal médio</p>
+      {/* Category trend line chart */}
+      <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+        <h2 className="text-sm font-semibold text-slate-700 mb-3">Evolução por categoria</h2>
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {allCats.map((cat) => {
+            const color = CATEGORY_COLORS[cat] ?? "#9ca3af";
+            const active = selectedCats.includes(cat);
+            return (
+              <button
+                key={cat}
+                onClick={() => setSelectedCats((s) => s.includes(cat) ? s.filter((c) => c !== cat) : [...s, cat])}
+                className="text-xs px-2.5 py-1 rounded-full border transition-all font-medium"
+                style={active
+                  ? { background: color, borderColor: color, color: "#fff" }
+                  : { background: "#fff", borderColor: "#e2e8f0", color: "#64748b" }}
+              >
+                {cat}
+              </button>
+            );
+          })}
         </div>
-        <div className="divide-y divide-slate-50">
-          {subscriptions.map((s, i) => (
-            <div key={i} className="flex items-center gap-3 px-4 py-3">
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-slate-800">{s.merchant}</p>
-                <p className="text-xs text-slate-400">{s.monthsPresent} {s.monthsPresent === 1 ? "mês" : "meses"} registrado(s)</p>
-              </div>
-              <div className="text-right flex-shrink-0">
-                <p className="text-sm font-bold text-slate-800">{fmtBRL(s.avgMonthly)}<span className="text-xs font-normal text-slate-400">/mês</span></p>
-                <p className="text-xs text-slate-400">{fmtBRL(12 * s.avgMonthly)}/ano</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── Installments Tab ─────────────────────────────────────────────────────────
-
-function InstallmentsTab({ installments, total }: { installments: ActiveInstallment[]; total: number }) {
-  if (installments.length === 0) {
-    return (
-      <div className="text-center py-16">
-        <p className="text-4xl mb-3">✅</p>
-        <p className="text-slate-600 font-medium">Nenhum parcelamento ativo detectado</p>
-      </div>
-    );
-  }
-  return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-3">
-        <StatCard label="Compromisso Mensal" value={fmtBRL(total)} color="text-amber-600" />
-        <StatCard label="Parcelamentos Ativos" value={String(installments.length)} />
-      </div>
-      <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-        <div className="p-4 border-b border-slate-100">
-          <h2 className="text-sm font-semibold text-slate-700">💳 Parcelamentos em andamento</h2>
-        </div>
-        <div className="divide-y divide-slate-50">
-          {installments.map((inst, i) => (
-            <div key={i} className="px-4 py-3">
-              <div className="flex items-start justify-between gap-2 mb-2">
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-slate-800 truncate">{inst.merchant}</p>
-                  <p className="text-xs text-slate-500 mt-0.5">Parcela {inst.current} de {inst.total} · {inst.total - inst.current} restantes</p>
-                </div>
-                <div className="text-right flex-shrink-0">
-                  <p className="text-sm font-bold text-slate-800">{fmtBRL(inst.monthlyAmount)}<span className="text-xs font-normal text-slate-400">/mês</span></p>
-                  <p className="text-xs text-slate-400">Total restante: {fmtBRL(inst.remainingAmount)}</p>
-                </div>
-              </div>
-              <div className="w-full bg-slate-100 rounded-full h-2">
-                <div className="bg-amber-400 h-2 rounded-full transition-all" style={{ width: `${(inst.current / inst.total) * 100}%` }} />
-              </div>
-              <p className="text-xs text-slate-400 mt-1 text-right">{Math.round((inst.current / inst.total) * 100)}% pago</p>
-            </div>
-          ))}
-        </div>
+        <ResponsiveContainer width="100%" height={240}>
+          <LineChart data={chartData} margin={{ top: 4, right: 8, bottom: 0, left: -14 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+            <XAxis dataKey="label" tick={{ fontSize: 10, fill: "#94a3b8" }} axisLine={false} tickLine={false} />
+            <YAxis tickFormatter={fmtShort} tick={{ fontSize: 10, fill: "#94a3b8" }} axisLine={false} tickLine={false} />
+            <Tooltip formatter={(v: any) => fmtBRL(v)} contentStyle={{ borderRadius: 12, border: "1px solid #e2e8f0", boxShadow: "0 10px 25px rgba(0,0,0,0.08)" }} />
+            <Legend wrapperStyle={{ fontSize: 11 }} />
+            {selectedCats.map((cat) => (
+              <Line
+                key={cat} type="monotone" dataKey={cat}
+                stroke={CATEGORY_COLORS[cat] ?? "#9ca3af"}
+                strokeWidth={2.5} dot={{ r: 3 }} activeDot={{ r: 5 }}
+              />
+            ))}
+          </LineChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );
 }
 
-// ─── Savings Tab ──────────────────────────────────────────────────────────────
-
-const ESSENTIAL_KEYWORDS = ["vivo", "claude", "chatgpt", "openai", "anthropic", "microsoft", "notion", "google one", "youtube", "amazon prime", "apple service"];
-
-function SavingsTab({
-  invoices, subscriptions, installments, totalSubscriptions, totalInstallments,
-}: {
-  invoices: Invoice[]; subscriptions: Subscription[]; installments: ActiveInstallment[];
-  totalSubscriptions: number; totalInstallments: number;
-}) {
-  const allTxns = invoices.flatMap((inv) => inv.transactions).filter((t) => !t.isPayment);
-  const avg = invoices.length > 0 ? invoices.reduce((s, i) => s + i.totalSpent, 0) / invoices.length : 0;
-  const allCats = getCategoryStats(allTxns);
-  const nonEssential = subscriptions.filter((s) => !ESSENTIAL_KEYWORDS.some((k) => s.merchant.toLowerCase().includes(k)));
-  const savingsTotal = nonEssential.reduce((s, sub) => s + sub.avgMonthly, 0);
-  const topCat = allCats[0];
-  const healthCat = allCats.find((c) => c.name === "Farmácia & Saúde");
-
-  return (
-    <div className="space-y-5">
-      <div className="bg-gradient-to-br from-green-50 to-teal-50 border border-green-200 rounded-xl p-5">
-        <h2 className="text-base font-bold text-green-800 mb-3">💡 Análise de Redução</h2>
-        <div className="space-y-2 text-sm text-green-700">
-          <p>📊 Média mensal: <strong>{fmtBRL(avg)}</strong></p>
-          <p>🔔 Assinaturas: <strong>{fmtBRL(totalSubscriptions)}/mês</strong> ({((totalSubscriptions / avg) * 100).toFixed(1)}% da fatura)</p>
-          <p>💳 Parcelamentos: <strong>{fmtBRL(totalInstallments)}/mês</strong></p>
-        </div>
-      </div>
-
-      <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
-        <h2 className="text-sm font-semibold text-slate-700 mb-3">⚡ Oportunidades Rápidas</h2>
-        <div className="space-y-3">
-          {nonEssential.slice(0, 5).map((sub, i) => (
-            <div key={i} className="flex items-center justify-between p-3 bg-red-50 border border-red-100 rounded-lg">
-              <div>
-                <p className="text-sm font-medium text-slate-700">{sub.merchant}</p>
-                <p className="text-xs text-slate-400">Assinatura · {sub.monthsPresent} meses detectados</p>
-              </div>
-              <div className="text-right">
-                <p className="text-sm font-bold text-red-600">{fmtBRL(sub.avgMonthly)}/mês</p>
-                <p className="text-xs text-red-400">= {fmtBRL(12 * sub.avgMonthly)}/ano</p>
-              </div>
-            </div>
-          ))}
-          {nonEssential.length > 0 && (
-            <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-              <p className="text-sm font-semibold text-green-700">Cancelando estas assinaturas: <strong>economia de {fmtBRL(savingsTotal)}/mês</strong></p>
-              <p className="text-xs text-green-600">{fmtBRL(12 * savingsTotal)} por ano</p>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
-        <h2 className="text-sm font-semibold text-slate-700 mb-3">🏷️ Por Categoria (histórico)</h2>
-        <div className="space-y-3">
-          {allCats.slice(0, 8).map((c) => (
-            <div key={c.name}>
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-sm text-slate-700 flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ background: c.color }} />{c.name}
-                </span>
-                <span className="text-sm font-medium text-slate-700">{fmtBRL(c.amount)}</span>
-              </div>
-              <div className="w-full bg-slate-100 rounded-full h-1.5">
-                <div className="h-1.5 rounded-full" style={{ width: `${c.percentage}%`, background: c.color }} />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
-        <h2 className="text-sm font-semibold text-slate-700 mb-3">📌 Dicas Personalizadas</h2>
-        <div className="space-y-2 text-sm text-slate-600">
-          {topCat && (
-            <div className="p-3 bg-slate-50 rounded-lg">
-              <p className="font-medium">🔍 Maior categoria: {topCat.name}</p>
-              <p className="text-slate-500 text-xs mt-1">{topCat.percentage.toFixed(1)}% do total histórico ({fmtBRL(topCat.amount)})</p>
-            </div>
-          )}
-          {healthCat && healthCat.amount > 5000 && (
-            <div className="p-3 bg-blue-50 rounded-lg">
-              <p className="font-medium text-blue-700">💊 Farmácia: {fmtBRL(healthCat.amount)} no histórico</p>
-              <p className="text-blue-500 text-xs mt-1">Considere comprar em atacadistas ou verificar genéricos</p>
-            </div>
-          )}
-          <div className="p-3 bg-slate-50 rounded-lg">
-            <p className="font-medium">💡 Assinaturas digitais = {fmtBRL(totalSubscriptions)}/mês</p>
-            <p className="text-slate-500 text-xs mt-1">Revise regularmente — serviços que você não usa mais valem a pena cancelar</p>
-          </div>
-          <div className="p-3 bg-slate-50 rounded-lg">
-            <p className="font-medium">📱 Alimentação frequente no cartão</p>
-            <p className="text-slate-500 text-xs mt-1">iFood, delivery e restaurantes são recorrentes — defina um orçamento mensal</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── Main Dashboard ───────────────────────────────────────────────────────────
+// ─── Main Dashboard ────────────────────────────────────────────────────────────
 
 const TABS = [
-  { id: "overview", label: "Visão Geral", icon: "📊" },
-  { id: "monthly", label: "Por Mês", icon: "📅" },
-  { id: "trends", label: "Tendências", icon: "📈" },
-  { id: "subscriptions", label: "Assinaturas", icon: "🔔" },
-  { id: "installments", label: "Parcelamentos", icon: "💳" },
-  { id: "savings", label: "Economize", icon: "🎯" },
+  { id: "resumo",       label: "Resumo",       icon: "📊" },
+  { id: "faturas",      label: "Faturas",       icon: "📅" },
+  { id: "compromissos", label: "Compromissos",  icon: "💳" },
+  { id: "insights",     label: "Insights",      icon: "💡" },
 ];
 
 export default function InvoiceDashboard({ invoices }: { invoices: Invoice[] }) {
-  const [tab, setTab] = useState("overview");
-  const [selectedMonth, setSelectedMonth] = useState(invoices.at(-1)?.month ?? "");
-  const [cardholder, setCardholder] = useState<string>("all");
-  const [txSearch, setTxSearch] = useState("");
+  const [tab, setTab] = useState("resumo");
+  const [cardholder, setCardholder] = useState("all");
 
   const filteredInvoices = useMemo(() =>
     cardholder === "all" ? invoices : invoices.map((inv) => ({
@@ -654,32 +734,17 @@ export default function InvoiceDashboard({ invoices }: { invoices: Invoice[] }) 
       totalSpent: inv.transactions.filter((t) => !t.isPayment && t.cardholder === cardholder).reduce((s, t) => s + t.amount, 0),
     })), [invoices, cardholder]);
 
-  const selectedInvoice = filteredInvoices.find((i) => i.month === selectedMonth) ?? filteredInvoices.at(-1);
-  const latest = filteredInvoices.at(-1);
-  const prev = filteredInvoices.at(-2);
-
   const monthlySummaries: MonthlySummary[] = filteredInvoices.map((inv) => {
     const byCategory: Record<string, number> = {};
     for (const t of inv.transactions.filter((t) => !t.isPayment)) byCategory[t.category] = (byCategory[t.category] ?? 0) + t.amount;
     return { month: inv.month, label: inv.label, total: inv.totalSpent, byCategory };
   });
 
-  const allTxns = filteredInvoices.flatMap((inv) => inv.transactions);
-  const categories = getCategoryStats(selectedInvoice?.transactions ?? []);
-  const subscriptions = getSubscriptions(invoices);
-  const installments = getInstallments(invoices);
-  const totalSubscriptions = subscriptions.reduce((s, sub) => s + sub.avgMonthly, 0);
-  const totalInstallments = installments.reduce((s, inst) => s + inst.monthlyAmount, 0);
-  const variation = latest && prev && prev.totalSpent > 0 ? ((latest.totalSpent - prev.totalSpent) / prev.totalSpent) * 100 : 0;
+  const subscriptions = useMemo(() => getSubscriptions(invoices), [invoices]);
+  const installments  = useMemo(() => getInstallments(invoices),  [invoices]);
+  const avg = filteredInvoices.length > 0 ? filteredInvoices.reduce((s, i) => s + i.totalSpent, 0) / filteredInvoices.length : 0;
 
-  const filteredTxns = useMemo(() => {
-    const txns = (selectedInvoice?.transactions ?? []).filter((t) => !t.isPayment);
-    if (!txSearch.trim()) return txns;
-    const q = txSearch.toLowerCase();
-    return txns.filter((t) => t.merchant.toLowerCase().includes(q) || t.category.toLowerCase().includes(q));
-  }, [selectedInvoice, txSearch]);
-
-  const topMerchants = useMemo(() => getTopMerchants(selectedInvoice?.transactions ?? []), [selectedInvoice]);
+  const latest = filteredInvoices.at(-1);
 
   const cardholders = useMemo(() => {
     const s = new Set<string>();
@@ -688,68 +753,81 @@ export default function InvoiceDashboard({ invoices }: { invoices: Invoice[] }) 
   }, [invoices]);
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <header className="bg-gradient-to-r from-blue-900 to-blue-700 text-white">
-        <div className="max-w-5xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
+    <div className="min-h-screen" style={{ background: "#f0f4f8" }}>
+      {/* ── Header ── */}
+      <header style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)" }} className="text-white">
+        <div className="max-w-2xl mx-auto px-4 pt-5 pb-4">
+          <div className="flex items-start justify-between">
             <div>
-              <h1 className="text-xl font-bold">💳 Fatura XP</h1>
-              <p className="text-blue-200 text-xs mt-0.5">Controle inteligente de gastos</p>
+              <h1 className="text-lg font-black tracking-tight">Fatura XP</h1>
+              <p className="text-blue-400 text-xs mt-0.5">Controle inteligente de gastos</p>
             </div>
             <div className="text-right">
-              <p className="text-xs text-blue-200">Última fatura</p>
-              <p className="text-lg font-bold">{latest ? fmtBRL(latest.totalSpent) : "—"}</p>
-              <p className="text-xs text-blue-300">{latest?.label}</p>
+              <p className="text-xs text-blue-400">Última fatura</p>
+              <p className="text-xl font-black">{latest ? fmtBRL(latest.totalSpent) : "—"}</p>
+              <p className="text-xs text-blue-400">{latest?.label}</p>
             </div>
           </div>
-          <div className="flex gap-2 mt-3 flex-wrap">
-            <button onClick={() => setCardholder("all")}
-              className={`text-xs px-3 py-1 rounded-full font-medium transition-colors ${cardholder === "all" ? "bg-white text-blue-800" : "bg-blue-800 text-blue-100 hover:bg-blue-700"}`}>
-              Todos
-            </button>
-            {cardholders.map((ch) => (
-              <button key={ch} onClick={() => setCardholder(ch)}
-                className={`text-xs px-3 py-1 rounded-full font-medium transition-colors ${cardholder === ch ? "bg-white text-blue-800" : "bg-blue-800 text-blue-100 hover:bg-blue-700"}`}>
-                {CARDHOLDER_LABELS[ch] ?? ch}
+          {/* Cardholder filter */}
+          {cardholders.length > 1 && (
+            <div className="flex gap-2 mt-3 flex-wrap">
+              <button
+                onClick={() => setCardholder("all")}
+                className={`text-xs px-3 py-1 rounded-full font-semibold transition-all ${cardholder === "all" ? "bg-white text-slate-900" : "bg-white/10 text-blue-200 hover:bg-white/20"}`}
+              >
+                Todos
               </button>
-            ))}
-          </div>
+              {cardholders.map((ch) => (
+                <button
+                  key={ch}
+                  onClick={() => setCardholder(ch)}
+                  className={`text-xs px-3 py-1 rounded-full font-semibold transition-all ${cardholder === ch ? "bg-white text-slate-900" : "bg-white/10 text-blue-200 hover:bg-white/20"}`}
+                >
+                  {CARDHOLDER_LABELS[ch] ?? ch}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </header>
 
-      {/* Nav */}
+      {/* ── Tab nav ── */}
       <nav className="bg-white border-b border-slate-200 sticky top-0 z-10 shadow-sm">
-        <div className="max-w-5xl mx-auto px-2">
-          <div className="flex overflow-x-auto scrollbar-hide">
+        <div className="max-w-2xl mx-auto px-0">
+          <div className="flex">
             {TABS.map((t) => (
-              <button key={t.id} onClick={() => setTab(t.id)}
-                className={`flex-shrink-0 flex items-center gap-1.5 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${tab === t.id ? "border-blue-600 text-blue-700" : "border-transparent text-slate-500 hover:text-slate-700"}`}>
-                <span>{t.icon}</span>
-                <span className="hidden sm:inline">{t.label}</span>
+              <button
+                key={t.id}
+                onClick={() => setTab(t.id)}
+                className={`flex-1 flex flex-col items-center gap-0.5 py-2.5 text-xs font-semibold border-b-2 transition-colors ${tab === t.id
+                  ? "border-blue-600 text-blue-700"
+                  : "border-transparent text-slate-400 hover:text-slate-600"}`}
+              >
+                <span className="text-base">{t.icon}</span>
+                <span>{t.label}</span>
               </button>
             ))}
           </div>
         </div>
       </nav>
 
-      {/* Content */}
-      <main className="max-w-5xl mx-auto px-4 py-6">
-        {tab === "overview" && (
-          <OverviewTab invoices={filteredInvoices} latest={latest} monthlySummaries={monthlySummaries}
-            variation={variation} totalSubscriptions={totalSubscriptions} totalInstallments={totalInstallments} allTxns={allTxns} />
+      {/* ── Content ── */}
+      <main className="max-w-2xl mx-auto px-4 py-5 pb-10">
+        {tab === "resumo" && (
+          <ResumoTab
+            invoices={filteredInvoices} avg={avg}
+            monthlySummaries={monthlySummaries}
+            subscriptions={subscriptions} installments={installments}
+          />
         )}
-        {tab === "monthly" && (
-          <MonthlyTab invoices={filteredInvoices} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth}
-            selectedInvoice={selectedInvoice} categories={categories} filteredTxns={filteredTxns}
-            txSearch={txSearch} setTxSearch={setTxSearch} topMerchants={topMerchants} />
+        {tab === "faturas" && (
+          <FaturasTab invoices={filteredInvoices} />
         )}
-        {tab === "trends" && <TrendsTab invoices={filteredInvoices} />}
-        {tab === "subscriptions" && <SubscriptionsTab subscriptions={subscriptions} total={totalSubscriptions} />}
-        {tab === "installments" && <InstallmentsTab installments={installments} total={totalInstallments} />}
-        {tab === "savings" && (
-          <SavingsTab invoices={filteredInvoices} subscriptions={subscriptions} installments={installments}
-            totalSubscriptions={totalSubscriptions} totalInstallments={totalInstallments} />
+        {tab === "compromissos" && (
+          <CompromissosTab subscriptions={subscriptions} installments={installments} />
+        )}
+        {tab === "insights" && (
+          <InsightsTab invoices={filteredInvoices} subscriptions={subscriptions} avg={avg} />
         )}
       </main>
     </div>

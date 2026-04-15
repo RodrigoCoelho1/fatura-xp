@@ -61,7 +61,9 @@ export function normalizeSubscriptionName(merchant: string): string {
   if (s.includes("coursiv")) return "Coursiv";
   if (s.includes("headway")) return "Headway";
   if (s.includes("gestaoagilvip")) return "Gestão Ágil VIP";
-  if (s.includes("dl*google brawl") || s.includes("dl *google brawl") || s.includes("dl*google") || s.includes("dl *google") || s.includes("dlocal *google")) return "Google Play";
+  if (s.includes("dl*google") || s.includes("dl *google") || s.includes("dl * google") ||
+      s.includes("dlocal *google") || s.includes("google tacit") ||
+      (s.startsWith("dl") && s.includes("*google"))) return "Google Play";
   return merchant;
 }
 
@@ -73,7 +75,8 @@ export function classifyCategory(merchant: string): string {
   if (
     s.includes("pagamento") || s.includes("payment") || s.startsWith("credito ") ||
     s.includes("pix recebido") || s.startsWith("pix ") || s.includes("estorno") ||
-    s.startsWith("iof ")  || s.includes("iof transacoes") || s.includes("iof transações")
+    s.startsWith("iof ")  || s.includes("iof transacoes") || s.includes("iof transações") ||
+    s.includes("prefeitura")
   ) return "Pagamento";
 
   // Subscriptions (must come before generic Amazon/Microsoft checks)
@@ -92,7 +95,9 @@ export function classifyCategory(merchant: string): string {
     s.includes("ytscribe") || s.includes("buzzcrush") || s.includes("produtosuol") ||
     s.includes("produtos globo") || s.includes("gestaoagilvip") || s.includes("artcfgcertifica") ||
     s.includes("manus.ai") || s.includes("dlocal *google") || s.includes("dl*google") ||
-    s.includes("dl *google") || s.includes("pb*samsung") || s.includes("pbadministradora") ||
+    s.includes("dl *google") || s.includes("dl * google") || s.includes("google tacit") ||
+    (s.startsWith("dl") && s.includes("*google")) ||
+    s.includes("pb*samsung") || s.includes("pbadministradora") ||
     s.includes("disney plus") || s.includes("disney+") || s.includes("disneyplus") ||
     s.includes("hbo max") || s.includes("max.com") || s.includes("paramount") ||
     s.includes("crunchyroll") || s.includes("deezer") || s.includes("tidal") ||
@@ -116,7 +121,9 @@ export function classifyCategory(merchant: string): string {
     s.includes("drogaria") || s.includes("farmacia") || s.includes("farmácia") ||
     s.includes("drogasil") || s.includes("drogaraia") || s.includes("droga") ||
     s.includes("ultrafarma") || s.includes("panvel") || s.includes("pague menos") ||
-    s.includes("pacheco") || s.includes("onofre") || s.includes("raia") ||
+    s.includes("pacheco") || s.includes("onofre") ||
+    s.startsWith("raia") || s.includes("drogaraia") || s.includes("drogaria raia") ||
+    s.includes("farmacity") || s.includes("dra4") || s.includes("ce med") ||
     s.includes("drogal") || s.includes("laboratorio") ||
     s.includes("laborat") || s.includes("hospital") || s.includes("clinica") ||
     s.includes("medico") || s.includes("saude") || s.includes("dental") ||
@@ -174,10 +181,33 @@ export function classifyCategory(merchant: string): string {
     s.includes("merpago*crucer") || s.includes("merpago*cultura") ||
     s.includes("starbucks") || s.includes("parentela gourmet") || s.includes("l entrecote") ||
     s.includes("chez michou") || s.includes("fruto de goias") ||
-    s.includes("rk pipoka") || s.includes("giraffa") || s.includes("republica da fruta")
+    s.includes("rk pipoka") || s.includes("giraffa") || s.includes("republica da fruta") ||
+    s.includes("coco bambu") || s.includes("fondue") ||
+    s.includes("belmonte") || s.includes("fratello") || s.includes("acougue") ||
+    s.includes("pizza") || s.includes("churrasquei") || s.includes("peixe") ||
+    s.includes("comercio de alim") || s.includes("servicos aliment") ||
+    s.includes("choperia") || s.includes("chopperia") || s.includes("kafe") ||
+    s.includes("aerovino") || s.includes("restaura") ||
+    s.includes("bsbblack") || s.includes("empadascafe") || s.includes("bella paulista") ||
+    s.includes("frango") || s.includes("juice") || s.includes("pao da hora") ||
+    s.includes("pause cafe") || s.includes("kibon") || s.includes("lanchone") ||
+    s.includes("noar ") || s.includes("pipoca") || s.includes("armazene") ||
+    s.includes("chale da") || s.includes("damici") || s.includes("mico loco") ||
+    s.includes("quadratti") || s.includes("adega") || s.includes("reiko candies") ||
+    s.includes("star 177") || s.includes("star 180") || s.includes("star 191") ||
+    s.includes("miguelbrasas") || s.includes("fogo brasilia") || s.includes("ubud") ||
+    s.includes("v18 servico") || s.includes("chopei") || s.includes("chale ") ||
+    s.includes("peixaria") || s.includes("marisqueira") || s.includes("frutos do mar") ||
+    s.includes("forno") || s.includes("du pain") || s.includes("bauducco") ||
+    s.includes("ice cream") ||
+    s.includes("embaixada carioca") || s.includes("arabian shop") ||
+    s.includes("caxanga") || s.includes("let bali") || s.includes("santa luzia") ||
+    s.includes("silmas") || s.includes("terra brasili") || s.includes("chalezinho") ||
+    s.includes("casa bauducco") || s.includes("happy harry") || s.includes("brasilia sul") ||
+    s.includes("frutos de goias 7") || s.includes("asmar") || s.includes("hn20") || s.includes("hn35")
   ) return "Alimentação";
 
-  // Transport (parking, fuel, ride-hailing)
+  // Transport (parking, fuel, ride-hailing, auto services)
   if (
     s.includes("uber") || s.includes("99pop") || s.includes("cabify") ||
     s.includes("taxi") || s.includes("onibus") || s.includes("metro") ||
@@ -192,6 +222,9 @@ export function classifyCategory(merchant: string): string {
     s.includes("veloe") || s.includes("conectcar") || s.includes("gollog") ||
     s.includes("correios") || s.includes("fedex") || s.includes("loggi") ||
     s.includes("jadlog") || s.includes("transportadora") ||
+    s.includes("saga detroit") || s.includes("autoposto") || s.includes("autopostoviapraia") ||
+    s.includes("oficina") || s.includes("mecanica") || s.includes("borracharia") ||
+    s.includes("passaro marron") || s.includes("valet") || s.includes("concessionaria") ||
     s.match(/\b99\b/) || s.match(/\bshell\b/) || s.match(/\besso\b/) ||
     s.match(/\bbp\b/) || s.match(/\bposto\b/)
   ) return "Transporte";
@@ -207,8 +240,10 @@ export function classifyCategory(merchant: string): string {
     s.includes("pousada") || s.includes("resort") || s.includes("intercity") ||
     s.includes("ibis") || s.includes("novotel") || s.includes("mercure") ||
     s.includes("hilton") || s.includes("marriott") || s.includes("wyndham") ||
-    s.includes("wi-fi onboard") || s.includes("onboard glo") ||
+    s.includes("wi-fi onboard") || s.includes("wifi onboard") || s.includes("wifionboard") ||
+    s.includes("onboard glo") ||
     s.includes("marina tour") || s.includes("atrio hoteis") || s.includes("duty free") ||
+    s.includes("duty paid") ||
     s.match(/\bgol\b/) || s.match(/\bazul\b/)
   ) return "Viagens & Hotéis";
 
@@ -231,7 +266,9 @@ export function classifyCategory(merchant: string): string {
     s.includes("cinemark") || s.includes("cinepolis") || s.includes("kinoplex") ||
     s.includes("uci cinema") || s.includes("cinesystem") ||
     s.includes("web summit") || s.includes("zig*ccr") || s.includes("zig*") ||
-    s.includes("cdai")
+    s.includes("cdai") || s.includes("eliminatoria") || s.includes("entretenimento") ||
+    s.includes("ticketfacil") || s.includes("purplevent") ||
+    s.includes("criamigos") || s.includes("clubeaquarela") || s.includes("aquarelakids")
   ) return "Educação & Eventos";
 
   // Fashion & Clothing
@@ -250,6 +287,7 @@ export function classifyCategory(merchant: string): string {
     s.includes("animale") || s.includes("morena rosa") || s.includes("roupas") ||
     s.includes("vestuario") || s.includes("calcados") || s.includes("sapatos") ||
     s.includes("sao joao calca") || s.includes("king shoes") ||
+    s.includes("terno") || s.includes("chemise") ||
     (s.includes("moda") && !s.includes("acomodacao"))
   ) return "Moda & Vestuário";
 
@@ -299,7 +337,8 @@ export function classifyCategory(merchant: string): string {
     s.includes("drogariasp") || s.includes("extra.com") ||
     s.includes("ebay") || s.includes("diamantesp") || s.includes("smart escrit") ||
     s.includes("patio brasil") || s.includes("patiobrasi") || s.includes("shop pier") ||
-    s.includes("relojoaria") || s.includes("park shopping")
+    s.includes("relojoaria") || s.includes("park shopping") ||
+    s.includes("kalunga") || s.includes("shopping bossa") || s.includes("shopping certer")
   ) return "Compras Online";
 
   // Home & Condo
@@ -313,6 +352,8 @@ export function classifyCategory(merchant: string): string {
     s.includes("dona de casa") || s.includes("aquasul") || s.includes("cedae") ||
     s.includes("sabesp") || s.includes("copasa") || s.includes("cemig") ||
     s.includes("light sa") || s.includes("enel ") || s.includes("neoenergia") ||
+    s.includes("ancar gestao") || s.includes("ancar gest") ||
+    s.includes("multicoisas") || s.includes("playgarden") || s.includes("construasa") ||
     (s.includes("agua ") && !s.includes("agua mineral")) ||
     (s.includes("gas ") && !s.includes("gasolina"))
   ) return "Casa & Condomínio";
