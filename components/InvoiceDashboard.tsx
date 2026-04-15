@@ -36,6 +36,111 @@ const ESSENTIAL_SUBS = [
   "notion", "google one", "youtube", "amazon prime", "apple", "conta vivo", "telecel",
 ];
 
+// Info + cancellation links for known subscription services
+type SubInfo = { service: string; description: string; cancelUrl: string };
+const SUB_INFO: Record<string, SubInfo> = {
+  "Netflix": {
+    service: "Streaming de vídeo",
+    description: "Filmes, séries e documentários. Concorre diretamente com Disney+ e Globoplay.",
+    cancelUrl: "https://www.netflix.com/cancelplan",
+  },
+  "Globoplay": {
+    service: "Streaming de vídeo",
+    description: "Conteúdo da TV Globo: novelas, telejornais, reality shows e futebol brasileiro.",
+    cancelUrl: "https://globoplay.globo.com/minha-conta/assinatura/",
+  },
+  "Disney+": {
+    service: "Streaming de vídeo",
+    description: "Filmes e séries da Disney, Marvel, Star Wars, Pixar e National Geographic.",
+    cancelUrl: "https://www.disneyplus.com/pt-br/account/subscription",
+  },
+  "Hostinger": {
+    service: "Hospedagem de sites",
+    description: "Hospedagem web, domínios e e-mails profissionais. Verifique se os sites ainda estão ativos.",
+    cancelUrl: "https://hpanel.hostinger.com/billing",
+  },
+  "Google Play": {
+    service: "Marketplace Android / Google",
+    description: "Assinaturas de apps, jogos ou serviços cobrados via Google Play. Veja quais estão ativos.",
+    cancelUrl: "https://play.google.com/store/account/subscriptions",
+  },
+  "Samsung Pay": {
+    service: "Carteira digital / taxa administrativa",
+    description: "Taxa associada ao Samsung Pay ou serviço da administradora. Verifique o extrato para detalhe.",
+    cancelUrl: "https://www.samsung.com/br/samsung-pay/",
+  },
+  "TicPay": {
+    service: "Processamento de pagamentos",
+    description: "Plataforma de pagamentos internacionais. Verifique qual serviço está vinculado a esta cobrança.",
+    cancelUrl: "https://ticpay.com/account",
+  },
+  "iFood Club": {
+    service: "Programa de fidelidade",
+    description: "Clube de assinatura do iFood com desconto em pedidos de comida.",
+    cancelUrl: "https://www.ifood.com.br/clube",
+  },
+  "CineFlix": {
+    service: "Streaming de cinema",
+    description: "Plataforma de streaming focada em filmes.",
+    cancelUrl: "https://cineflix.com.br/conta",
+  },
+  "Coursiv": {
+    service: "Plataforma de cursos online",
+    description: "Cursos e treinamentos online. Verifique se ainda está usando o conteúdo.",
+    cancelUrl: "https://coursiv.io/account",
+  },
+  "Headway": {
+    service: "App de resumos de livros",
+    description: "Resumos de livros de não-ficção em formato de microlearning.",
+    cancelUrl: "https://app.headwayapp.co/settings/subscription",
+  },
+  "Canva": {
+    service: "Design gráfico online",
+    description: "Ferramenta de design para criar apresentações, posts e materiais visuais.",
+    cancelUrl: "https://www.canva.com/account/billing/",
+  },
+  "Zapier": {
+    service: "Automação de tarefas",
+    description: "Conecta apps e automatiza fluxos de trabalho sem código.",
+    cancelUrl: "https://zapier.com/app/billing",
+  },
+  "Cert. CFG": {
+    service: "Certificação financeira",
+    description: "Certificação CFG (CFA Institute) — certificado em gestão financeira global.",
+    cancelUrl: "https://www.cfainstitute.org/en/programs/cfg",
+  },
+  "HeyGen": {
+    service: "IA para vídeos",
+    description: "Criação de vídeos com avatares gerados por inteligência artificial.",
+    cancelUrl: "https://app.heygen.com/settings?tab=billing",
+  },
+  "ScreenApp": {
+    service: "Gravação e transcrição de tela",
+    description: "Gravação de tela com transcrição automática por IA.",
+    cancelUrl: "https://screenapp.io/app/billing",
+  },
+  "TurboScribe": {
+    service: "Transcrição por IA",
+    description: "Transcrição automática de áudios e vídeos com IA.",
+    cancelUrl: "https://turboscribe.ai/subscription",
+  },
+  "Gamma.app": {
+    service: "Apresentações com IA",
+    description: "Criação de slides, documentos e sites com inteligência artificial.",
+    cancelUrl: "https://gamma.app/settings/billing",
+  },
+  "Manus AI": {
+    service: "Agente de IA",
+    description: "Plataforma de agentes autônomos com IA para execução de tarefas complexas.",
+    cancelUrl: "https://manus.im/account",
+  },
+  "Gestão Ágil VIP": {
+    service: "Ferramenta de gestão",
+    description: "Software de gestão de projetos e equipes com metodologias ágeis.",
+    cancelUrl: "https://gestaoagil.com.br/conta",
+  },
+};
+
 // ── Data helpers ──────────────────────────────────────────────────────────────
 
 function getSubscriptions(invoices: Invoice[]): Subscription[] {
@@ -772,16 +877,54 @@ function AnaliseTab({
               <p className="text-emerald-300 text-sm mt-1">
                 = {fmtBRL(12 * savingsMonthly)}/ano cancelando {nonEssential.length} assinatura{nonEssential.length !== 1 ? "s" : ""} não-essencial{nonEssential.length !== 1 ? "is" : ""}
               </p>
-              <div className="mt-4 space-y-2">
-                {nonEssential.map((s, i) => (
-                  <div key={i} className="flex items-center justify-between bg-white/10 rounded-xl px-3 py-2">
-                    <div>
-                      <span className="text-sm text-white">{s.merchant}</span>
-                      <p className="text-xs text-emerald-300">{s.monthsPresent} {s.monthsPresent === 1 ? "mês" : "meses"} ativo</p>
+              <div className="mt-4 space-y-3">
+                {nonEssential.map((s, i) => {
+                  const info = SUB_INFO[s.merchant];
+                  return (
+                    <div key={i} className="bg-white/10 rounded-xl px-3 py-3 space-y-1.5">
+                      {/* Header */}
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="text-sm font-bold text-white">{s.merchant}</span>
+                            {info && (
+                              <span className="text-xs bg-white/20 text-emerald-100 px-2 py-0.5 rounded-full font-medium flex-shrink-0">
+                                {info.service}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <span className="text-sm font-bold text-emerald-200 flex-shrink-0 mt-0.5">
+                          {fmtBRL(s.avgMonthly)}/mês
+                        </span>
+                      </div>
+                      {/* Description */}
+                      {info && (
+                        <p className="text-xs text-emerald-200/80 leading-relaxed">
+                          {info.description}
+                        </p>
+                      )}
+                      {/* Footer */}
+                      <div className="flex items-center justify-between pt-0.5">
+                        <span className="text-xs text-emerald-400">
+                          {s.monthsPresent} {s.monthsPresent === 1 ? "mês" : "meses"} ativo · {fmtBRL(s.avgMonthly * 12)}/ano
+                        </span>
+                        {info?.cancelUrl ? (
+                          <a
+                            href={info.cancelUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs font-semibold text-white bg-white/20 hover:bg-white/30 px-2.5 py-1 rounded-lg transition-all"
+                          >
+                            Cancelar →
+                          </a>
+                        ) : (
+                          <span className="text-xs text-emerald-400/60 italic">link não mapeado</span>
+                        )}
+                      </div>
                     </div>
-                    <span className="text-sm font-bold text-emerald-200">{fmtBRL(s.avgMonthly)}/mês</span>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}

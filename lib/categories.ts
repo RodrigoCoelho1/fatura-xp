@@ -52,6 +52,9 @@ export function normalizeSubscriptionName(merchant: string): string {
   if (s.includes("pag*telecel")) return "Telecel";
   if (s.includes("buzzcrush")) return "BuzzCrush";
   if (s.includes("globoplay") || s.includes("globo*")) return "Globoplay";
+  if (s.includes("disney")) return "Disney+";
+  if (s.includes("hostinger")) return "Hostinger";
+  if (s.includes("ticpay")) return "TicPay";
   if (s.includes("ifood club") || s.includes("ifd*ifood club")) return "iFood Club";
   if (s.includes("artcfgcertifica")) return "Cert. CFG";
   if (s.includes("manus ai")) return "Manus AI";
