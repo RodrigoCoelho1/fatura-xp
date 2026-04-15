@@ -44,6 +44,11 @@ export async function extractText(pdfBytes: Buffer, password?: string): Promise<
   // Dynamic import — pdfjs-dist must be imported as ESM
   const pdfjsLib = await import("pdfjs-dist/legacy/build/pdf.mjs" as any);
 
+  // Disable web worker — not available in Vercel's Node.js serverless runtime
+  if ((pdfjsLib as any).GlobalWorkerOptions) {
+    (pdfjsLib as any).GlobalWorkerOptions.workerSrc = "";
+  }
+
   const loadingTask = (pdfjsLib as any).getDocument({
     data: new Uint8Array(pdfBytes),
     password: password ?? "",
