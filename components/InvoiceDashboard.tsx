@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid,
-  Tooltip, PieChart, Pie, Cell, Legend, LineChart, Line,
+  Tooltip, Cell, LineChart, Line, Legend,
 } from "recharts";
 import type {
   Invoice, Transaction, CategoryStat, Subscription, ActiveInstallment, MonthlySummary,
@@ -118,57 +118,117 @@ function OverviewTab({
   invoices: Invoice[]; latest?: Invoice; monthlySummaries: MonthlySummary[];
   variation: number; totalSubscriptions: number; totalInstallments: number; allTxns: Transaction[];
 }) {
+  const [selectedBarMonth, setSelectedBarMonth] = useState<string | null>(null);
+
   const avg = invoices.length > 0 ? invoices.reduce((s, i) => s + i.totalSpent, 0) / invoices.length : 0;
-  const allCats = getCategoryStats(allTxns.filter((t) => !t.isPayment));
+
+  // Derive display invoice based on selected bar
+  const displayIdx = selectedBarMonth ? invoices.findIndex((inv) => inv.month === selectedBarMonth) : invoices.length - 1;
+  const displayInvoice = displayIdx >= 0 ? invoices[displayIdx] : latest;
+  const prevInvoice = displayIdx > 0 ? invoices[displayIdx - 1] : undefined;
+  const displayVariation = displayInvoice && prevInvoice && prevInvoice.totalSpent > 0
+    ? ((displayInvoice.totalSpent - prevInvoice.totalSpent) / prevInvoice.totalSpent) * 100
+    : selectedBarMonth ? 0 : variation;
+
+  // Categories: for selected month or all invoices
+  const displayTxns = selectedBarMonth
+    ? (invoices.find((inv) => inv.month === selectedBarMonth)?.transactions ?? [])
+    : allTxns;
+  const rawCats = getCategoryStats(displayTxns.filter((t) => !t.isPayment));
+  // Outros always goes last
+  const displayCats = [...rawCats.filter((c) => c.name !== "Outros"), ...rawCats.filter((c) => c.name === "Outros")];
+
+  const catLabel = selectedBarMonth
+    ? (monthlySummaries.find((m) => m.month === selectedBarMonth)?.label ?? selectedBarMonth)
+    : "todas as faturas";
 
   return (
     <div className="space-y-6">
+      {/* KPI cards — update when a bar is selected */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <StatCard label="Fatura Atual" value={latest ? fmtBRL(latest.totalSpent) : "—"} sub={latest?.label} color="text-blue-700" />
         <StatCard
-          label="Variação" value={`${variation >= 0 ? "+" : ""}${variation.toFixed(1)}%`}
-          sub="vs mês anterior" color={variation > 5 ? "text-red-600" : variation < -5 ? "text-green-600" : "text-slate-700"}
+          label="Fatura Atual"
+          value={displayInvoice ? fmtBRL(displayInvoice.totalSpent) : "—"}
+          sub={displayInvoice?.label}
+          color="text-blue-700"
+        />
+        <StatCard
+          label="Variação"
+          value={`${displayVariation >= 0 ? "+" : ""}${displayVariation.toFixed(1)}%`}
+          sub="vs mês anterior"
+          color={displayVariation > 5 ? "text-red-600" : displayVariation < -5 ? "text-green-600" : "text-slate-700"}
         />
         <StatCard label="Assinaturas/mês" value={fmtBRL(totalSubscriptions)} sub={`${fmtBRL(12 * totalSubscriptions)}/ano`} color="text-indigo-600" />
         <StatCard label="Média Mensal" value={fmtBRL(avg)} sub={`${invoices.length} faturas`} />
       </div>
 
+      {/* Interactive bar chart */}
       <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
-        <h2 className="text-sm font-semibold text-slate-700 mb-4">📈 Evolução Mensal</h2>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-sm font-semibold text-slate-700">📈 Evolução Mensal</h2>
+          {selectedBarMonth && (
+            <button
+              onClick={() => setSelectedBarMonth(null)}
+              className="text-xs text-blue-500 hover:text-blue-700 underline"
+            >
+              ← ver tudo
+            </button>
+          )}
+        </div>
+        {selectedBarMonth && (
+          <p className="text-xs text-blue-600 mb-2">
+            Exibindo: <strong>{monthlySummaries.find((m) => m.month === selectedBarMonth)?.label}</strong>
+          </p>
+        )}
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={monthlySummaries} margin={{ top: 0, right: 0, bottom: 0, left: -10 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
             <XAxis dataKey="label" tick={{ fontSize: 11, fill: "#94a3b8" }} />
             <YAxis tickFormatter={fmtShort} tick={{ fontSize: 11, fill: "#94a3b8" }} />
             <Tooltip content={<CustomTooltip />} />
-            <Bar dataKey="total" name="Total" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+            <Bar
+              dataKey="total"
+              name="Total"
+              radius={[4, 4, 0, 0]}
+              style={{ cursor: "pointer" }}
+              onClick={(data: any) => {
+                setSelectedBarMonth((prev) => (prev === data.month ? null : data.month));
+              }}
+            >
+              {monthlySummaries.map((entry) => (
+                <Cell
+                  key={entry.month}
+                  fill={selectedBarMonth === null || selectedBarMonth === entry.month ? "#3b82f6" : "#bfdbfe"}
+                />
+              ))}
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
+        {!selectedBarMonth && (
+          <p className="text-xs text-slate-400 text-center mt-1">Clique em uma barra para ver os dados do mês</p>
+        )}
       </div>
 
+      {/* Horizontal bar chart — all categories, Outros last */}
       <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
-        <h2 className="text-sm font-semibold text-slate-700 mb-4">🏷️ Categorias (todas as faturas)</h2>
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="flex-shrink-0">
-            <ResponsiveContainer width={160} height={160}>
-              <PieChart>
-                <Pie data={allCats} cx="50%" cy="50%" innerRadius={45} outerRadius={70} dataKey="amount" paddingAngle={2}>
-                  {allCats.map((c, i) => <Cell key={i} fill={c.color} />)}
-                </Pie>
-                <Tooltip formatter={(v: any) => fmtBRL(v)} />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="flex-1 space-y-2 overflow-y-auto max-h-48">
-            {allCats.slice(0, 10).map((c) => (
-              <div key={c.name} className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: c.color }} />
-                <span className="text-xs text-slate-600 flex-1 truncate">{c.name}</span>
-                <span className="text-xs font-semibold text-slate-700 flex-shrink-0">{fmtBRL(c.amount)}</span>
+        <h2 className="text-sm font-semibold text-slate-700 mb-4">🏷️ Categorias · {catLabel}</h2>
+        <div className="space-y-3">
+          {displayCats.map((c) => (
+            <div key={c.name}>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-sm leading-none">{CAT_ICON[c.name] ?? "📌"}</span>
+                <span className={`text-xs flex-1 truncate ${c.name === "Outros" ? "text-slate-400" : "text-slate-600"}`}>{c.name}</span>
+                <span className={`text-xs font-semibold flex-shrink-0 ${c.name === "Outros" ? "text-slate-400" : "text-slate-700"}`}>{fmtBRL(c.amount)}</span>
                 <span className="text-xs text-slate-400 w-10 text-right flex-shrink-0">{c.percentage.toFixed(1)}%</span>
               </div>
-            ))}
-          </div>
+              <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all duration-500"
+                  style={{ width: `${c.percentage}%`, background: c.name === "Outros" ? "#d1d5db" : c.color }}
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 

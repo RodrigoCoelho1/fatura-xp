@@ -70,7 +70,7 @@
         "amount": 160,
         "isPayment": false,
         "installment": null,
-        "category": "Casa & Condomínio",
+        "category": "Alimentação",
         "invoiceMonth": "2024-11"
       },
       {
@@ -100,7 +100,7 @@
         "amount": 200,
         "isPayment": false,
         "installment": null,
-        "category": "Casa & Condomínio",
+        "category": "Alimentação",
         "invoiceMonth": "2024-11"
       },
       {
@@ -360,7 +360,7 @@
         "amount": 160,
         "isPayment": false,
         "installment": null,
-        "category": "Moda & Vestuário",
+        "category": "Bem-Estar & Pessoal",
         "invoiceMonth": "2024-11"
       },
       {
@@ -430,7 +430,7 @@
         "amount": 14,
         "isPayment": false,
         "installment": null,
-        "category": "Telefone",
+        "category": "Outros",
         "invoiceMonth": "2024-11"
       },
       {
@@ -470,7 +470,7 @@
         "amount": 12,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Outros",
         "invoiceMonth": "2024-11"
       },
       {
@@ -553,7 +553,7 @@
         "amount": 27.99,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Compras Online",
         "invoiceMonth": "2024-11"
       },
       {
@@ -593,7 +593,7 @@
         "amount": 131,
         "isPayment": false,
         "installment": null,
-        "category": "Casa & Condomínio",
+        "category": "Outros",
         "invoiceMonth": "2024-11"
       },
       {
@@ -693,7 +693,7 @@
         "amount": 1466.3,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Outros",
         "invoiceMonth": "2024-11"
       },
       {
@@ -703,7 +703,7 @@
         "amount": 97.5,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Outros",
         "invoiceMonth": "2024-11"
       },
       {
@@ -753,7 +753,7 @@
         "amount": 414.14,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2024-11"
       },
       {
@@ -773,7 +773,7 @@
         "amount": 56,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Alimentação",
         "invoiceMonth": "2024-11"
       },
       {
@@ -803,7 +803,7 @@
         "amount": 198,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Outros",
         "invoiceMonth": "2024-11"
       },
       {
@@ -1199,7 +1199,7 @@
           "current": 5,
           "total": 12
         },
-        "category": "Educação & Eventos",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2024-11"
       },
       {
@@ -1269,7 +1269,7 @@
         "amount": 39.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2024-11"
       },
       {
@@ -1442,7 +1442,7 @@
         "amount": 26,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2024-11"
       },
       {
@@ -1635,7 +1635,7 @@
         "amount": 41,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Outros",
         "invoiceMonth": "2024-11"
       },
       {
@@ -1743,7 +1743,7 @@
         "amount": 159.99,
         "isPayment": false,
         "installment": null,
-        "category": "Compras Online",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2025-01"
       },
       {
@@ -1753,7 +1753,7 @@
         "amount": 12,
         "isPayment": false,
         "installment": null,
-        "category": "Telefone",
+        "category": "Outros",
         "invoiceMonth": "2025-01"
       },
       {
@@ -1813,7 +1813,7 @@
         "amount": 10,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Viagens & Hotéis",
         "invoiceMonth": "2025-01"
       },
       {
@@ -1823,7 +1823,7 @@
         "amount": 30,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Viagens & Hotéis",
         "invoiceMonth": "2025-01"
       },
       {
@@ -1883,7 +1883,7 @@
         "amount": 2.2,
         "isPayment": false,
         "installment": null,
-        "category": "Eletrônicos & Games",
+        "category": "Farmácia & Saúde",
         "invoiceMonth": "2025-01"
       },
       {
@@ -1903,7 +1903,7 @@
         "amount": 0.1,
         "isPayment": false,
         "installment": null,
-        "category": "Viagens & Hotéis",
+        "category": "Alimentação",
         "invoiceMonth": "2025-01"
       },
       {
@@ -1913,7 +1913,7 @@
         "amount": 3.01,
         "isPayment": false,
         "installment": null,
-        "category": "Viagens & Hotéis",
+        "category": "Alimentação",
         "invoiceMonth": "2025-01"
       },
       {
@@ -1923,7 +1923,7 @@
         "amount": 2.65,
         "isPayment": false,
         "installment": null,
-        "category": "Eletrônicos & Games",
+        "category": "Farmácia & Saúde",
         "invoiceMonth": "2025-01"
       },
       {
@@ -1933,7 +1933,7 @@
         "amount": 5.06,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Alimentação",
         "invoiceMonth": "2025-01"
       },
       {
@@ -1943,7 +1943,7 @@
         "amount": 6.23,
         "isPayment": false,
         "installment": null,
-        "category": "Viagens & Hotéis",
+        "category": "Alimentação",
         "invoiceMonth": "2025-01"
       },
       {
@@ -1953,7 +1953,7 @@
         "amount": 2.01,
         "isPayment": false,
         "installment": null,
-        "category": "Eletrônicos & Games",
+        "category": "Farmácia & Saúde",
         "invoiceMonth": "2025-01"
       },
       {
@@ -1963,7 +1963,7 @@
         "amount": 1.32,
         "isPayment": false,
         "installment": null,
-        "category": "Viagens & Hotéis",
+        "category": "Alimentação",
         "invoiceMonth": "2025-01"
       },
       {
@@ -1973,7 +1973,7 @@
         "amount": 88.94,
         "isPayment": false,
         "installment": null,
-        "category": "Viagens & Hotéis",
+        "category": "Alimentação",
         "invoiceMonth": "2025-01"
       },
       {
@@ -1983,7 +1983,7 @@
         "amount": 39.17,
         "isPayment": false,
         "installment": null,
-        "category": "Viagens & Hotéis",
+        "category": "Alimentação",
         "invoiceMonth": "2025-01"
       },
       {
@@ -1993,7 +1993,7 @@
         "amount": 78.27,
         "isPayment": false,
         "installment": null,
-        "category": "Eletrônicos & Games",
+        "category": "Farmácia & Saúde",
         "invoiceMonth": "2025-01"
       },
       {
@@ -2013,7 +2013,7 @@
         "amount": 149.69,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Alimentação",
         "invoiceMonth": "2025-01"
       },
       {
@@ -2023,7 +2023,7 @@
         "amount": 2.97,
         "isPayment": false,
         "installment": null,
-        "category": "Viagens & Hotéis",
+        "category": "Alimentação",
         "invoiceMonth": "2025-01"
       },
       {
@@ -2033,7 +2033,7 @@
         "amount": 184.34,
         "isPayment": false,
         "installment": null,
-        "category": "Viagens & Hotéis",
+        "category": "Alimentação",
         "invoiceMonth": "2025-01"
       },
       {
@@ -2043,7 +2043,7 @@
         "amount": 65.22,
         "isPayment": false,
         "installment": null,
-        "category": "Eletrônicos & Games",
+        "category": "Farmácia & Saúde",
         "invoiceMonth": "2025-01"
       },
       {
@@ -2063,7 +2063,7 @@
         "amount": 59.33,
         "isPayment": false,
         "installment": null,
-        "category": "Eletrônicos & Games",
+        "category": "Farmácia & Saúde",
         "invoiceMonth": "2025-01"
       },
       {
@@ -2153,7 +2153,7 @@
         "amount": 19.9,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Compras Online",
         "invoiceMonth": "2025-01"
       },
       {
@@ -2459,7 +2459,7 @@
         "amount": 11,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-01"
       },
       {
@@ -2469,7 +2469,7 @@
         "amount": 12.5,
         "isPayment": false,
         "installment": null,
-        "category": "Viagens & Hotéis",
+        "category": "Outros",
         "invoiceMonth": "2025-01"
       },
       {
@@ -2479,7 +2479,7 @@
         "amount": 15,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-01"
       },
       {
@@ -2649,7 +2649,7 @@
         "amount": 126.38,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-01"
       },
       {
@@ -2695,7 +2695,7 @@
           "current": 7,
           "total": 12
         },
-        "category": "Educação & Eventos",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2025-01"
       },
       {
@@ -2715,7 +2715,7 @@
         "amount": 39.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2025-01"
       },
       {
@@ -2735,7 +2735,7 @@
         "amount": 413.7,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Outros",
         "invoiceMonth": "2025-01"
       },
       {
@@ -2848,7 +2848,7 @@
         "amount": 157.87,
         "isPayment": false,
         "installment": null,
-        "category": "Transporte",
+        "category": "Outros",
         "invoiceMonth": "2025-01"
       },
       {
@@ -2858,7 +2858,7 @@
         "amount": 30.9,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Outros",
         "invoiceMonth": "2025-01"
       },
       {
@@ -2939,7 +2939,7 @@
         "amount": 58.49,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-02"
       },
       {
@@ -3269,7 +3269,7 @@
         "amount": 19.9,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Compras Online",
         "invoiceMonth": "2025-02"
       },
       {
@@ -3339,7 +3339,7 @@
         "amount": 56.4,
         "isPayment": false,
         "installment": null,
-        "category": "Compras Online",
+        "category": "Alimentação",
         "invoiceMonth": "2025-02"
       },
       {
@@ -3519,7 +3519,7 @@
         "amount": 12,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-02"
       },
       {
@@ -3702,7 +3702,7 @@
         "amount": 30,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-02"
       },
       {
@@ -3712,7 +3712,7 @@
         "amount": 19.77,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-02"
       },
       {
@@ -3722,7 +3722,7 @@
         "amount": 140.25,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-02"
       },
       {
@@ -3732,7 +3732,7 @@
         "amount": 279,
         "isPayment": false,
         "installment": null,
-        "category": "Casa & Condomínio",
+        "category": "Outros",
         "invoiceMonth": "2025-02"
       },
       {
@@ -3782,7 +3782,7 @@
         "amount": 322.5,
         "isPayment": false,
         "installment": null,
-        "category": "Moda & Vestuário",
+        "category": "Outros",
         "invoiceMonth": "2025-02"
       },
       {
@@ -3802,7 +3802,7 @@
         "amount": 46.2,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-02"
       },
       {
@@ -3822,7 +3822,7 @@
         "amount": 51,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-02"
       },
       {
@@ -3955,7 +3955,7 @@
         "amount": 32.5,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-02"
       },
       {
@@ -3965,7 +3965,7 @@
         "amount": 13.5,
         "isPayment": false,
         "installment": null,
-        "category": "Compras Online",
+        "category": "Outros",
         "invoiceMonth": "2025-02"
       },
       {
@@ -3975,7 +3975,7 @@
         "amount": 189.84,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-02"
       },
       {
@@ -3985,7 +3985,7 @@
         "amount": 80,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Outros",
         "invoiceMonth": "2025-02"
       },
       {
@@ -4025,7 +4025,7 @@
         "amount": 41,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Outros",
         "invoiceMonth": "2025-02"
       },
       {
@@ -4155,7 +4155,7 @@
         "amount": 40,
         "isPayment": false,
         "installment": null,
-        "category": "Viagens & Hotéis",
+        "category": "Outros",
         "invoiceMonth": "2025-02"
       },
       {
@@ -4205,7 +4205,7 @@
         "amount": 989,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Outros",
         "invoiceMonth": "2025-02"
       },
       {
@@ -4278,7 +4278,7 @@
           "current": 8,
           "total": 12
         },
-        "category": "Educação & Eventos",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2025-02"
       },
       {
@@ -4318,7 +4318,7 @@
         "amount": 39.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2025-02"
       },
       {
@@ -4381,7 +4381,7 @@
         "amount": 400,
         "isPayment": false,
         "installment": null,
-        "category": "Farmácia & Saúde",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2025-02"
       },
       {
@@ -4511,7 +4511,7 @@
         "amount": 16.8,
         "isPayment": false,
         "installment": null,
-        "category": "Farmácia & Saúde",
+        "category": "Outros",
         "invoiceMonth": "2025-02"
       },
       {
@@ -4541,7 +4541,7 @@
         "amount": 1490,
         "isPayment": false,
         "installment": null,
-        "category": "Farmácia & Saúde",
+        "category": "Bem-Estar & Pessoal",
         "invoiceMonth": "2025-02"
       },
       {
@@ -4739,7 +4739,7 @@
         "amount": 34.99,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Bem-Estar & Pessoal",
         "invoiceMonth": "2025-02"
       },
       {
@@ -4779,7 +4779,7 @@
         "amount": 1.18,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Bem-Estar & Pessoal",
         "invoiceMonth": "2025-02"
       }
     ],
@@ -4807,7 +4807,7 @@
         "amount": 5,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-03"
       },
       {
@@ -4917,7 +4917,7 @@
         "amount": 196.88,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-03"
       },
       {
@@ -4937,7 +4937,7 @@
         "amount": 73.6,
         "isPayment": false,
         "installment": null,
-        "category": "Casa & Condomínio",
+        "category": "Outros",
         "invoiceMonth": "2025-03"
       },
       {
@@ -4947,7 +4947,7 @@
         "amount": 9,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-03"
       },
       {
@@ -4957,7 +4957,7 @@
         "amount": 39.7,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-03"
       },
       {
@@ -5047,7 +5047,7 @@
         "amount": 8,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-03"
       },
       {
@@ -5147,7 +5147,7 @@
         "amount": 19.9,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Compras Online",
         "invoiceMonth": "2025-03"
       },
       {
@@ -5483,7 +5483,7 @@
         "amount": 90.95,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2025-03"
       },
       {
@@ -5493,7 +5493,7 @@
         "amount": 13,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2025-03"
       },
       {
@@ -5513,7 +5513,7 @@
         "amount": 597.54,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-03"
       },
       {
@@ -5523,7 +5523,7 @@
         "amount": 70,
         "isPayment": false,
         "installment": null,
-        "category": "Casa & Condomínio",
+        "category": "Outros",
         "invoiceMonth": "2025-03"
       },
       {
@@ -5533,7 +5533,7 @@
         "amount": 3.07,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2025-03"
       },
       {
@@ -5583,7 +5583,7 @@
         "amount": 40,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-03"
       },
       {
@@ -5633,7 +5633,7 @@
         "amount": 20,
         "isPayment": false,
         "installment": null,
-        "category": "Transporte",
+        "category": "Outros",
         "invoiceMonth": "2025-03"
       },
       {
@@ -5663,7 +5663,7 @@
         "amount": 242.81,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Outros",
         "invoiceMonth": "2025-03"
       },
       {
@@ -5833,7 +5833,7 @@
         "amount": 21,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-03"
       },
       {
@@ -5846,7 +5846,7 @@
           "current": 9,
           "total": 12
         },
-        "category": "Educação & Eventos",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2025-03"
       },
       {
@@ -5896,7 +5896,7 @@
         "amount": 39.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2025-03"
       },
       {
@@ -5979,7 +5979,7 @@
         "amount": 961.4,
         "isPayment": false,
         "installment": null,
-        "category": "Viagens & Hotéis",
+        "category": "Outros",
         "invoiceMonth": "2025-03"
       },
       {
@@ -6568,7 +6568,7 @@
         "amount": 19.9,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Compras Online",
         "invoiceMonth": "2025-04"
       },
       {
@@ -6608,7 +6608,7 @@
         "amount": 60,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-04"
       },
       {
@@ -6618,7 +6618,7 @@
         "amount": 40,
         "isPayment": false,
         "installment": null,
-        "category": "Viagens & Hotéis",
+        "category": "Outros",
         "invoiceMonth": "2025-04"
       },
       {
@@ -6678,7 +6678,7 @@
         "amount": 34.99,
         "isPayment": false,
         "installment": null,
-        "category": "Viagens & Hotéis",
+        "category": "Outros",
         "invoiceMonth": "2025-04"
       },
       {
@@ -6698,7 +6698,7 @@
         "amount": 10,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-04"
       },
       {
@@ -6731,7 +6731,7 @@
         "amount": 51,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-04"
       },
       {
@@ -6924,7 +6924,7 @@
         "amount": 48,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-04"
       },
       {
@@ -6934,7 +6934,7 @@
         "amount": 84.7,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-04"
       },
       {
@@ -6984,7 +6984,7 @@
         "amount": 509.99,
         "isPayment": false,
         "installment": null,
-        "category": "Eletrônicos & Games",
+        "category": "Outros",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7064,7 +7064,7 @@
         "amount": 44,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7094,7 +7094,7 @@
         "amount": 65,
         "isPayment": false,
         "installment": null,
-        "category": "Casa & Condomínio",
+        "category": "Compras Online",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7184,7 +7184,7 @@
         "amount": 65,
         "isPayment": false,
         "installment": null,
-        "category": "Casa & Condomínio",
+        "category": "Compras Online",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7204,7 +7204,7 @@
         "amount": 34.1,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7294,7 +7294,7 @@
         "amount": 45,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Outros",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7324,7 +7324,7 @@
         "amount": 40,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Outros",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7344,7 +7344,7 @@
         "amount": 40,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Outros",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7354,7 +7354,7 @@
         "amount": 58,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7364,7 +7364,7 @@
         "amount": 65,
         "isPayment": false,
         "installment": null,
-        "category": "Casa & Condomínio",
+        "category": "Compras Online",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7374,7 +7374,7 @@
         "amount": 40,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Outros",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7424,7 +7424,7 @@
         "amount": 57,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7447,7 +7447,7 @@
           "current": 10,
           "total": 12
         },
-        "category": "Educação & Eventos",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7457,7 +7457,7 @@
         "amount": 39.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7487,7 +7487,7 @@
         "amount": 65,
         "isPayment": false,
         "installment": null,
-        "category": "Casa & Condomínio",
+        "category": "Compras Online",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7497,7 +7497,7 @@
         "amount": 3.99,
         "isPayment": false,
         "installment": null,
-        "category": "Casa & Condomínio",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7527,7 +7527,7 @@
         "amount": 4.99,
         "isPayment": false,
         "installment": null,
-        "category": "Casa & Condomínio",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7537,7 +7537,7 @@
         "amount": 32.96,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7547,7 +7547,7 @@
         "amount": 8.98,
         "isPayment": false,
         "installment": null,
-        "category": "Casa & Condomínio",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7597,7 +7597,7 @@
         "amount": 245.85,
         "isPayment": false,
         "installment": null,
-        "category": "Moda & Vestuário",
+        "category": "Outros",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7627,7 +7627,7 @@
         "amount": 327.24,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7637,7 +7637,7 @@
         "amount": 72.8,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-04"
       },
       {
@@ -7937,7 +7937,7 @@
         "amount": 17.51,
         "isPayment": true,
         "installment": null,
-        "category": "Pagamento",
+        "category": "Assinaturas",
         "invoiceMonth": "2025-05"
       },
       {
@@ -8067,7 +8067,7 @@
         "amount": 10,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Compras Online",
         "invoiceMonth": "2025-05"
       },
       {
@@ -8087,7 +8087,7 @@
         "amount": 19.9,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Compras Online",
         "invoiceMonth": "2025-05"
       },
       {
@@ -8097,7 +8097,7 @@
         "amount": 611.82,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-05"
       },
       {
@@ -8117,7 +8117,7 @@
         "amount": 108.64,
         "isPayment": false,
         "installment": null,
-        "category": "Compras Online",
+        "category": "Alimentação",
         "invoiceMonth": "2025-05"
       },
       {
@@ -8357,7 +8357,7 @@
         "amount": 20,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Outros",
         "invoiceMonth": "2025-05"
       },
       {
@@ -8377,7 +8377,7 @@
         "amount": 22,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Compras Online",
         "invoiceMonth": "2025-05"
       },
       {
@@ -8430,7 +8430,7 @@
         "amount": 118,
         "isPayment": false,
         "installment": null,
-        "category": "Moda & Vestuário",
+        "category": "Outros",
         "invoiceMonth": "2025-05"
       },
       {
@@ -8530,7 +8530,7 @@
         "amount": 289.88,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-05"
       },
       {
@@ -8570,7 +8570,7 @@
         "amount": 27.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2025-05"
       },
       {
@@ -8580,7 +8580,7 @@
         "amount": 140.5,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Compras Online",
         "invoiceMonth": "2025-05"
       },
       {
@@ -8703,7 +8703,7 @@
         "amount": 33,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-05"
       },
       {
@@ -8813,7 +8813,7 @@
         "amount": 1257.37,
         "isPayment": true,
         "installment": null,
-        "category": "Pagamento",
+        "category": "Assinaturas",
         "invoiceMonth": "2025-05"
       },
       {
@@ -8863,7 +8863,7 @@
         "amount": 21,
         "isPayment": false,
         "installment": null,
-        "category": "Moda & Vestuário",
+        "category": "Compras Online",
         "invoiceMonth": "2025-05"
       },
       {
@@ -9066,7 +9066,7 @@
           "current": 11,
           "total": 12
         },
-        "category": "Educação & Eventos",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2025-05"
       },
       {
@@ -9076,7 +9076,7 @@
         "amount": 39.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2025-05"
       },
       {
@@ -9376,7 +9376,7 @@
         "amount": 11.97,
         "isPayment": false,
         "installment": null,
-        "category": "Compras Online",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2025-05"
       },
       {
@@ -9416,7 +9416,7 @@
         "amount": 52,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Alimentação",
         "invoiceMonth": "2025-05"
       },
       {
@@ -9482,7 +9482,7 @@
         "amount": 36,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-05"
       },
       {
@@ -9582,7 +9582,7 @@
         "amount": 434.56,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-05"
       },
       {
@@ -9632,7 +9632,7 @@
         "amount": 85.69,
         "isPayment": false,
         "installment": null,
-        "category": "Moda & Vestuário",
+        "category": "Outros",
         "invoiceMonth": "2025-05"
       },
       {
@@ -9713,7 +9713,7 @@
         "amount": 10,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Compras Online",
         "invoiceMonth": "2025-06"
       },
       {
@@ -9923,7 +9923,7 @@
         "amount": 10,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Compras Online",
         "invoiceMonth": "2025-06"
       },
       {
@@ -9943,7 +9943,7 @@
         "amount": 10,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2025-06"
       },
       {
@@ -9953,7 +9953,7 @@
         "amount": 19.9,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Compras Online",
         "invoiceMonth": "2025-06"
       },
       {
@@ -10096,7 +10096,7 @@
         "amount": 100,
         "isPayment": false,
         "installment": null,
-        "category": "Transporte",
+        "category": "Outros",
         "invoiceMonth": "2025-06"
       },
       {
@@ -10256,7 +10256,7 @@
         "amount": 20,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Outros",
         "invoiceMonth": "2025-06"
       },
       {
@@ -10386,7 +10386,7 @@
         "amount": 55,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-06"
       },
       {
@@ -10456,7 +10456,7 @@
         "amount": 297.3,
         "isPayment": false,
         "installment": null,
-        "category": "Farmácia & Saúde",
+        "category": "Outros",
         "invoiceMonth": "2025-06"
       },
       {
@@ -10479,7 +10479,7 @@
           "current": 12,
           "total": 12
         },
-        "category": "Educação & Eventos",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2025-06"
       },
       {
@@ -11029,7 +11029,7 @@
         "amount": 5.9,
         "isPayment": false,
         "installment": null,
-        "category": "Eletrônicos & Games",
+        "category": "Outros",
         "invoiceMonth": "2025-07"
       },
       {
@@ -11069,7 +11069,7 @@
         "amount": 37.3,
         "isPayment": false,
         "installment": null,
-        "category": "Viagens & Hotéis",
+        "category": "Outros",
         "invoiceMonth": "2025-07"
       },
       {
@@ -11139,7 +11139,7 @@
         "amount": 9,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-07"
       },
       {
@@ -11402,7 +11402,7 @@
         "amount": 41.8,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-07"
       },
       {
@@ -11462,7 +11462,7 @@
         "amount": 45,
         "isPayment": false,
         "installment": null,
-        "category": "Moda & Vestuário",
+        "category": "Compras Online",
         "invoiceMonth": "2025-07"
       },
       {
@@ -11472,7 +11472,7 @@
         "amount": 18,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2025-07"
       },
       {
@@ -11482,7 +11482,7 @@
         "amount": 20,
         "isPayment": false,
         "installment": null,
-        "category": "Moda & Vestuário",
+        "category": "Compras Online",
         "invoiceMonth": "2025-07"
       },
       {
@@ -11512,7 +11512,7 @@
         "amount": 46.64,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-07"
       },
       {
@@ -11562,7 +11562,7 @@
         "amount": 27.9,
         "isPayment": false,
         "installment": null,
-        "category": "Casa & Condomínio",
+        "category": "Outros",
         "invoiceMonth": "2025-07"
       },
       {
@@ -11605,7 +11605,7 @@
           "current": 2,
           "total": 3
         },
-        "category": "Farmácia & Saúde",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2025-07"
       },
       {
@@ -11989,7 +11989,7 @@
         "amount": 18,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Outros",
         "invoiceMonth": "2025-08"
       },
       {
@@ -12089,7 +12089,7 @@
         "amount": 29,
         "isPayment": false,
         "installment": null,
-        "category": "Casa & Condomínio",
+        "category": "Outros",
         "invoiceMonth": "2025-08"
       },
       {
@@ -12159,7 +12159,7 @@
         "amount": 10,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Compras Online",
         "invoiceMonth": "2025-08"
       },
       {
@@ -12199,7 +12199,7 @@
         "amount": 19.9,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Compras Online",
         "invoiceMonth": "2025-08"
       },
       {
@@ -12239,7 +12239,7 @@
         "amount": 214.8,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Outros",
         "invoiceMonth": "2025-08"
       },
       {
@@ -12282,7 +12282,7 @@
         "amount": 5.49,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-08"
       },
       {
@@ -12352,7 +12352,7 @@
         "amount": 120.45,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-08"
       },
       {
@@ -12372,7 +12372,7 @@
         "amount": 10,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-08"
       },
       {
@@ -12622,7 +12622,7 @@
         "amount": 28,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Compras Online",
         "invoiceMonth": "2025-08"
       },
       {
@@ -13011,7 +13011,7 @@
           "current": 1,
           "total": 3
         },
-        "category": "Farmácia & Saúde",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2025-08"
       },
       {
@@ -13175,7 +13175,7 @@
         "amount": 24,
         "isPayment": false,
         "installment": null,
-        "category": "Moda & Vestuário",
+        "category": "Compras Online",
         "invoiceMonth": "2025-09"
       },
       {
@@ -13218,7 +13218,7 @@
           "current": 2,
           "total": 5
         },
-        "category": "Moda & Vestuário",
+        "category": "Outros",
         "invoiceMonth": "2025-09"
       },
       {
@@ -13361,7 +13361,7 @@
         "amount": 9.98,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2025-09"
       },
       {
@@ -13381,7 +13381,7 @@
         "amount": 2.49,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2025-09"
       },
       {
@@ -13441,7 +13441,7 @@
         "amount": 13.98,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2025-09"
       },
       {
@@ -13531,7 +13531,7 @@
         "amount": 62.57,
         "isPayment": true,
         "installment": null,
-        "category": "Pagamento",
+        "category": "Assinaturas",
         "invoiceMonth": "2025-09"
       },
       {
@@ -13621,7 +13621,7 @@
         "amount": 19.9,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Compras Online",
         "invoiceMonth": "2025-09"
       },
       {
@@ -13651,7 +13651,7 @@
         "amount": 9.98,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2025-09"
       },
       {
@@ -13740,7 +13740,7 @@
         "amount": 9.98,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2025-09"
       },
       {
@@ -13810,7 +13810,7 @@
         "amount": 20.8,
         "isPayment": false,
         "installment": null,
-        "category": "Moda & Vestuário",
+        "category": "Compras Online",
         "invoiceMonth": "2025-09"
       },
       {
@@ -14003,7 +14003,7 @@
         "amount": 192.5,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-09"
       },
       {
@@ -14043,7 +14043,7 @@
         "amount": 18.9,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Outros",
         "invoiceMonth": "2025-09"
       },
       {
@@ -14063,7 +14063,7 @@
         "amount": 187.5,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Outros",
         "invoiceMonth": "2025-09"
       },
       {
@@ -14083,7 +14083,7 @@
         "amount": 47.26,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Outros",
         "invoiceMonth": "2025-09"
       },
       {
@@ -14143,7 +14143,7 @@
         "amount": 1.17,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Outros",
         "invoiceMonth": "2025-09"
       },
       {
@@ -14183,7 +14183,7 @@
         "amount": 33.38,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Outros",
         "invoiceMonth": "2025-09"
       },
       {
@@ -14223,7 +14223,7 @@
         "amount": 5710.53,
         "isPayment": true,
         "installment": null,
-        "category": "Pagamento",
+        "category": "Compras Online",
         "invoiceMonth": "2025-09"
       },
       {
@@ -14253,7 +14253,7 @@
         "amount": 67,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Outros",
         "invoiceMonth": "2025-09"
       },
       {
@@ -14523,7 +14523,7 @@
         "amount": 10,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2025-09"
       },
       {
@@ -14553,7 +14553,7 @@
         "amount": 350,
         "isPayment": false,
         "installment": null,
-        "category": "Farmácia & Saúde",
+        "category": "Alimentação",
         "invoiceMonth": "2025-09"
       },
       {
@@ -14573,7 +14573,7 @@
         "amount": 200,
         "isPayment": false,
         "installment": null,
-        "category": "Farmácia & Saúde",
+        "category": "Alimentação",
         "invoiceMonth": "2025-09"
       },
       {
@@ -14616,7 +14616,7 @@
           "current": 3,
           "total": 3
         },
-        "category": "Farmácia & Saúde",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2025-09"
       },
       {
@@ -14742,7 +14742,7 @@
         "amount": 840,
         "isPayment": false,
         "installment": null,
-        "category": "Farmácia & Saúde",
+        "category": "Alimentação",
         "invoiceMonth": "2025-09"
       },
       {
@@ -14752,7 +14752,7 @@
         "amount": 13,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2025-09"
       },
       {
@@ -14842,7 +14842,7 @@
         "amount": 15,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Outros",
         "invoiceMonth": "2025-09"
       },
       {
@@ -14872,7 +14872,7 @@
         "amount": 60.5,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Compras Online",
         "invoiceMonth": "2025-09"
       }
     ],
@@ -14932,7 +14932,7 @@
           "current": 4,
           "total": 5
         },
-        "category": "Moda & Vestuário",
+        "category": "Outros",
         "invoiceMonth": "2026-01"
       },
       {
@@ -14971,7 +14971,7 @@
           "current": 3,
           "total": 3
         },
-        "category": "Compras Online",
+        "category": "Alimentação",
         "invoiceMonth": "2026-01"
       },
       {
@@ -14984,7 +14984,7 @@
           "current": 3,
           "total": 12
         },
-        "category": "Compras Online",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15075,7 +15075,7 @@
           "current": 2,
           "total": 6
         },
-        "category": "Compras Online",
+        "category": "Alimentação",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15088,7 +15088,7 @@
           "current": 2,
           "total": 5
         },
-        "category": "Compras Online",
+        "category": "Alimentação",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15140,7 +15140,7 @@
           "current": 2,
           "total": 3
         },
-        "category": "Pagamento",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15274,7 +15274,7 @@
         "amount": 32.25,
         "isPayment": true,
         "installment": null,
-        "category": "Pagamento",
+        "category": "Transporte",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15284,7 +15284,7 @@
         "amount": 8.73,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15414,7 +15414,7 @@
         "amount": 129,
         "isPayment": false,
         "installment": null,
-        "category": "Compras Online",
+        "category": "Alimentação",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15424,7 +15424,7 @@
         "amount": 40.08,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15474,7 +15474,7 @@
         "amount": 41.44,
         "isPayment": false,
         "installment": null,
-        "category": "Moda & Vestuário",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15484,7 +15484,7 @@
         "amount": 15.99,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15507,7 +15507,7 @@
         "amount": 18,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15547,7 +15547,7 @@
         "amount": 28.19,
         "isPayment": false,
         "installment": null,
-        "category": "Moda & Vestuário",
+        "category": "Outros",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15557,7 +15557,7 @@
         "amount": 10,
         "isPayment": false,
         "installment": null,
-        "category": "Moda & Vestuário",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15567,7 +15567,7 @@
         "amount": 126,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Casa & Condomínio",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15730,7 +15730,7 @@
         "amount": 45.49,
         "isPayment": false,
         "installment": null,
-        "category": "Transporte",
+        "category": "Outros",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15750,7 +15750,7 @@
         "amount": 64.51,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15790,7 +15790,7 @@
         "amount": 15.78,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15870,7 +15870,7 @@
         "amount": 14.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15880,7 +15880,7 @@
         "amount": 26.9,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2026-01"
       },
       {
@@ -15940,7 +15940,7 @@
         "amount": 1.64,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16020,7 +16020,7 @@
         "amount": 44.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16040,7 +16040,7 @@
         "amount": 26,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16060,7 +16060,7 @@
         "amount": 57.88,
         "isPayment": false,
         "installment": null,
-        "category": "Moda & Vestuário",
+        "category": "Outros",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16070,7 +16070,7 @@
         "amount": 19.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16080,7 +16080,7 @@
         "amount": 180.4,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16133,7 +16133,7 @@
           "current": 1,
           "total": 10
         },
-        "category": "Moda & Vestuário",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16183,7 +16183,7 @@
         "amount": 5.59,
         "isPayment": false,
         "installment": null,
-        "category": "Moda & Vestuário",
+        "category": "Outros",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16193,7 +16193,7 @@
         "amount": 9.96,
         "isPayment": false,
         "installment": null,
-        "category": "Transporte",
+        "category": "Outros",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16266,7 +16266,7 @@
         "amount": 172.04,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16286,7 +16286,7 @@
         "amount": 10.5,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16306,7 +16306,7 @@
         "amount": 98,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16326,7 +16326,7 @@
         "amount": 19.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16339,7 +16339,7 @@
           "current": 1,
           "total": 12
         },
-        "category": "Educação & Eventos",
+        "category": "Outros",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16464,7 +16464,7 @@
         "amount": 29.9,
         "isPayment": false,
         "installment": null,
-        "category": "Transporte",
+        "category": "Outros",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16524,7 +16524,7 @@
         "amount": 81.4,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Farmácia & Saúde",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16534,7 +16534,7 @@
         "amount": 12.25,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16584,7 +16584,7 @@
         "amount": 8,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Farmácia & Saúde",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16644,7 +16644,7 @@
         "amount": 192,
         "isPayment": false,
         "installment": null,
-        "category": "Moda & Vestuário",
+        "category": "Outros",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16677,7 +16677,7 @@
         "amount": 28.8,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Outros",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16750,7 +16750,7 @@
         "amount": 90.35,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Outros",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16760,7 +16760,7 @@
         "amount": 21,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16780,7 +16780,7 @@
         "amount": 37,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Compras Online",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16813,7 +16813,7 @@
           "current": 1,
           "total": 12
         },
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16856,7 +16856,7 @@
         "amount": 372.88,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-01"
       },
       {
@@ -16900,7 +16900,7 @@
           "current": 5,
           "total": 5
         },
-        "category": "Moda & Vestuário",
+        "category": "Outros",
         "invoiceMonth": "2026-02"
       },
       {
@@ -16926,7 +16926,7 @@
           "current": 4,
           "total": 12
         },
-        "category": "Compras Online",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2026-02"
       },
       {
@@ -16978,7 +16978,7 @@
           "current": 3,
           "total": 6
         },
-        "category": "Compras Online",
+        "category": "Alimentação",
         "invoiceMonth": "2026-02"
       },
       {
@@ -16991,7 +16991,7 @@
           "current": 3,
           "total": 5
         },
-        "category": "Compras Online",
+        "category": "Alimentação",
         "invoiceMonth": "2026-02"
       },
       {
@@ -17043,7 +17043,7 @@
           "current": 3,
           "total": 3
         },
-        "category": "Farmácia & Saúde",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-02"
       },
       {
@@ -17160,7 +17160,7 @@
           "current": 2,
           "total": 10
         },
-        "category": "Moda & Vestuário",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-02"
       },
       {
@@ -17186,7 +17186,7 @@
           "current": 2,
           "total": 12
         },
-        "category": "Educação & Eventos",
+        "category": "Outros",
         "invoiceMonth": "2026-02"
       },
       {
@@ -17290,7 +17290,7 @@
           "current": 2,
           "total": 12
         },
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-02"
       },
       {
@@ -17353,7 +17353,7 @@
         "amount": 62.19,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-02"
       },
       {
@@ -17363,7 +17363,7 @@
         "amount": 10.47,
         "isPayment": false,
         "installment": null,
-        "category": "Transporte",
+        "category": "Alimentação",
         "invoiceMonth": "2026-02"
       },
       {
@@ -17373,7 +17373,7 @@
         "amount": 11.4,
         "isPayment": false,
         "installment": null,
-        "category": "Transporte",
+        "category": "Alimentação",
         "invoiceMonth": "2026-02"
       },
       {
@@ -17499,7 +17499,7 @@
           "current": 1,
           "total": 2
         },
-        "category": "Educação & Eventos",
+        "category": "Outros",
         "invoiceMonth": "2026-02"
       },
       {
@@ -17539,7 +17539,7 @@
         "amount": 37.24,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-02"
       },
       {
@@ -17589,7 +17589,7 @@
         "amount": 50,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Outros",
         "invoiceMonth": "2026-02"
       },
       {
@@ -17599,7 +17599,7 @@
         "amount": 20.15,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-02"
       },
       {
@@ -17649,7 +17649,7 @@
         "amount": 57,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-02"
       },
       {
@@ -17845,7 +17845,7 @@
           "current": 1,
           "total": 6
         },
-        "category": "Moda & Vestuário",
+        "category": "Bem-Estar & Pessoal",
         "invoiceMonth": "2026-02"
       },
       {
@@ -17865,7 +17865,7 @@
         "amount": 23,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Compras Online",
         "invoiceMonth": "2026-02"
       },
       {
@@ -18055,7 +18055,7 @@
         "amount": 7.83,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-02"
       },
       {
@@ -18075,7 +18075,7 @@
         "amount": 15042.89,
         "isPayment": true,
         "installment": null,
-        "category": "Pagamento",
+        "category": "Alimentação",
         "invoiceMonth": "2026-02"
       },
       {
@@ -18115,7 +18115,7 @@
         "amount": 9.17,
         "isPayment": false,
         "installment": null,
-        "category": "Farmácia & Saúde",
+        "category": "Bem-Estar & Pessoal",
         "invoiceMonth": "2026-02"
       },
       {
@@ -18155,7 +18155,7 @@
         "amount": 84.47,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-02"
       },
       {
@@ -18165,7 +18165,7 @@
         "amount": 29.9,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-02"
       },
       {
@@ -18218,7 +18218,7 @@
         "amount": 847.44,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Outros",
         "invoiceMonth": "2026-02"
       },
       {
@@ -18228,7 +18228,7 @@
         "amount": 51.63,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-02"
       },
       {
@@ -18238,7 +18238,7 @@
         "amount": 124.86,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2026-02"
       },
       {
@@ -18281,7 +18281,7 @@
         "amount": 15,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-02"
       },
       {
@@ -18507,7 +18507,7 @@
         "amount": 8.4,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-02"
       },
       {
@@ -18530,7 +18530,7 @@
           "current": 1,
           "total": 6
         },
-        "category": "Moda & Vestuário",
+        "category": "Bem-Estar & Pessoal",
         "invoiceMonth": "2026-02"
       },
       {
@@ -18663,7 +18663,7 @@
         "amount": 7.04,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-02"
       },
       {
@@ -18673,7 +18673,7 @@
         "amount": 59.9,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-02"
       },
       {
@@ -18813,7 +18813,7 @@
         "amount": 71.78,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Compras Online",
         "invoiceMonth": "2026-02"
       },
       {
@@ -18823,7 +18823,7 @@
         "amount": 9.97,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-02"
       },
       {
@@ -18903,7 +18903,7 @@
         "amount": 8.95,
         "isPayment": false,
         "installment": null,
-        "category": "Compras Online",
+        "category": "Alimentação",
         "invoiceMonth": "2026-02"
       },
       {
@@ -19033,7 +19033,7 @@
         "amount": 15,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Alimentação",
         "invoiceMonth": "2026-02"
       },
       {
@@ -19090,7 +19090,7 @@
           "current": 5,
           "total": 12
         },
-        "category": "Compras Online",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2026-03"
       },
       {
@@ -19142,7 +19142,7 @@
           "current": 4,
           "total": 6
         },
-        "category": "Compras Online",
+        "category": "Alimentação",
         "invoiceMonth": "2026-03"
       },
       {
@@ -19155,7 +19155,7 @@
           "current": 4,
           "total": 5
         },
-        "category": "Compras Online",
+        "category": "Alimentação",
         "invoiceMonth": "2026-03"
       },
       {
@@ -19324,7 +19324,7 @@
           "current": 3,
           "total": 12
         },
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-03"
       },
       {
@@ -19389,7 +19389,7 @@
           "current": 2,
           "total": 6
         },
-        "category": "Moda & Vestuário",
+        "category": "Bem-Estar & Pessoal",
         "invoiceMonth": "2026-03"
       },
       {
@@ -19475,7 +19475,7 @@
           "current": 3,
           "total": 10
         },
-        "category": "Moda & Vestuário",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-03"
       },
       {
@@ -19488,7 +19488,7 @@
           "current": 3,
           "total": 12
         },
-        "category": "Educação & Eventos",
+        "category": "Outros",
         "invoiceMonth": "2026-03"
       },
       {
@@ -19553,7 +19553,7 @@
           "current": 2,
           "total": 2
         },
-        "category": "Educação & Eventos",
+        "category": "Outros",
         "invoiceMonth": "2026-03"
       },
       {
@@ -19566,7 +19566,7 @@
           "current": 2,
           "total": 6
         },
-        "category": "Moda & Vestuário",
+        "category": "Bem-Estar & Pessoal",
         "invoiceMonth": "2026-03"
       },
       {
@@ -19635,7 +19635,7 @@
         "amount": 316.59,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Compras Online",
         "invoiceMonth": "2026-03"
       },
       {
@@ -19645,7 +19645,7 @@
         "amount": 6.04,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-03"
       },
       {
@@ -19808,7 +19808,7 @@
         "amount": 33.24,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-03"
       },
       {
@@ -19818,7 +19818,7 @@
         "amount": 17905.65,
         "isPayment": true,
         "installment": null,
-        "category": "Pagamento",
+        "category": "Outros",
         "invoiceMonth": "2026-03"
       },
       {
@@ -19868,7 +19868,7 @@
         "amount": 35.9,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-03"
       },
       {
@@ -19988,7 +19988,7 @@
         "amount": 40.51,
         "isPayment": false,
         "installment": null,
-        "category": "Moda & Vestuário",
+        "category": "Outros",
         "invoiceMonth": "2026-03"
       },
       {
@@ -20021,7 +20021,7 @@
         "amount": 10,
         "isPayment": false,
         "installment": null,
-        "category": "Compras Online",
+        "category": "Alimentação",
         "invoiceMonth": "2026-03"
       },
       {
@@ -20061,7 +20061,7 @@
         "amount": 6.3,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2026-03"
       },
       {
@@ -20141,7 +20141,7 @@
         "amount": 81.65,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-03"
       },
       {
@@ -20161,7 +20161,7 @@
         "amount": 9.05,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-03"
       },
       {
@@ -20181,7 +20181,7 @@
         "amount": 155.92,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-03"
       },
       {
@@ -20244,7 +20244,7 @@
         "amount": 8.2,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-03"
       },
       {
@@ -20334,7 +20334,7 @@
         "amount": 43.8,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-03"
       },
       {
@@ -20374,7 +20374,7 @@
         "amount": 44.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-03"
       },
       {
@@ -20493,7 +20493,7 @@
         "amount": 30.64,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-03"
       },
       {
@@ -20523,7 +20523,7 @@
         "amount": 10.19,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Compras Online",
         "invoiceMonth": "2026-03"
       },
       {
@@ -20573,7 +20573,7 @@
         "amount": 14.97,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-03"
       },
       {
@@ -20583,7 +20583,7 @@
         "amount": 199.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-03"
       },
       {
@@ -20663,7 +20663,7 @@
         "amount": 9.95,
         "isPayment": false,
         "installment": null,
-        "category": "Bem-Estar & Pessoal",
+        "category": "Alimentação",
         "invoiceMonth": "2026-03"
       },
       {
@@ -20723,7 +20723,7 @@
         "amount": 19.9,
         "isPayment": false,
         "installment": null,
-        "category": "Alimentação",
+        "category": "Outros",
         "invoiceMonth": "2026-03"
       },
       {
@@ -20756,7 +20756,7 @@
         "amount": 130.09,
         "isPayment": false,
         "installment": null,
-        "category": "Assinaturas",
+        "category": "Compras Online",
         "invoiceMonth": "2026-03"
       },
       {
@@ -20766,7 +20766,7 @@
         "amount": 70.06,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Farmácia & Saúde",
         "invoiceMonth": "2026-03"
       },
       {
@@ -20807,7 +20807,7 @@
           "current": 9,
           "total": 10
         },
-        "category": "Outros",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2026-04"
       },
       {
@@ -20820,7 +20820,7 @@
           "current": 6,
           "total": 6
         },
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -20833,7 +20833,7 @@
           "current": 6,
           "total": 12
         },
-        "category": "Compras Online",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2026-04"
       },
       {
@@ -20846,7 +20846,7 @@
           "current": 6,
           "total": 6
         },
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -20859,7 +20859,7 @@
           "current": 6,
           "total": 10
         },
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -20911,7 +20911,7 @@
           "current": 5,
           "total": 10
         },
-        "category": "Outros",
+        "category": "Viagens & Hotéis",
         "invoiceMonth": "2026-04"
       },
       {
@@ -20937,7 +20937,7 @@
           "current": 5,
           "total": 10
         },
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -20950,7 +20950,7 @@
           "current": 5,
           "total": 10
         },
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -20989,7 +20989,7 @@
           "current": 4,
           "total": 4
         },
-        "category": "Outros",
+        "category": "Moda & Vestuário",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21002,7 +21002,7 @@
           "current": 4,
           "total": 10
         },
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21041,7 +21041,7 @@
           "current": 4,
           "total": 12
         },
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21054,7 +21054,7 @@
           "current": 4,
           "total": 12
         },
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21093,7 +21093,7 @@
           "current": 4,
           "total": 12
         },
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21106,7 +21106,7 @@
           "current": 4,
           "total": 10
         },
-        "category": "Outros",
+        "category": "Viagens & Hotéis",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21119,7 +21119,7 @@
           "current": 3,
           "total": 5
         },
-        "category": "Outros",
+        "category": "Viagens & Hotéis",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21132,7 +21132,7 @@
           "current": 3,
           "total": 6
         },
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21145,7 +21145,7 @@
           "current": 3,
           "total": 6
         },
-        "category": "Outros",
+        "category": "Bem-Estar & Pessoal",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21210,7 +21210,7 @@
           "current": 3,
           "total": 6
         },
-        "category": "Outros",
+        "category": "Bem-Estar & Pessoal",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21236,7 +21236,7 @@
           "current": 2,
           "total": 6
         },
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21288,7 +21288,7 @@
           "current": 2,
           "total": 12
         },
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21301,7 +21301,7 @@
           "current": 2,
           "total": 12
         },
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21334,7 +21334,7 @@
         "amount": 122.37,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Viagens & Hotéis",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21374,7 +21374,7 @@
         "amount": 58.77,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21394,7 +21394,7 @@
         "amount": 5.95,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21414,7 +21414,7 @@
         "amount": 8.25,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Transporte",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21434,7 +21434,7 @@
         "amount": 25,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21447,7 +21447,7 @@
           "current": 1,
           "total": 3
         },
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21477,7 +21477,7 @@
         "amount": 10,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Transporte",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21500,7 +21500,7 @@
           "current": 1,
           "total": 12
         },
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21540,7 +21540,7 @@
         "amount": 31.49,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21570,7 +21570,7 @@
         "amount": 6.65,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Transporte",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21580,7 +21580,7 @@
         "amount": 36.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21590,7 +21590,7 @@
         "amount": 13.1,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21600,7 +21600,7 @@
         "amount": 5.88,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Transporte",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21610,7 +21610,7 @@
         "amount": 46.79,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21656,7 +21656,7 @@
           "current": 1,
           "total": 9
         },
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21669,7 +21669,7 @@
           "current": 1,
           "total": 5
         },
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21692,7 +21692,7 @@
         "amount": 38.89,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21732,7 +21732,7 @@
         "amount": 50,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21752,7 +21752,7 @@
         "amount": 6.16,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Transporte",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21802,7 +21802,7 @@
         "amount": 38.4,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21868,7 +21868,7 @@
           "current": 1,
           "total": 2
         },
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21878,7 +21878,7 @@
         "amount": 434.5,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Compras Online",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21888,7 +21888,7 @@
         "amount": 10,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Transporte",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21898,7 +21898,7 @@
         "amount": 3.85,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21908,7 +21908,7 @@
         "amount": 110,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21928,7 +21928,7 @@
         "amount": 103.24,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21938,7 +21938,7 @@
         "amount": 26.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21948,7 +21948,7 @@
         "amount": 20,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21958,7 +21958,7 @@
         "amount": 351.8,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21968,7 +21968,7 @@
         "amount": 31.99,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2026-04"
       },
       {
@@ -21988,7 +21988,7 @@
         "amount": 45.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22008,7 +22008,7 @@
         "amount": 44.71,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22018,7 +22018,7 @@
         "amount": 1.56,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22038,7 +22038,7 @@
         "amount": 11.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Transporte",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22151,7 +22151,7 @@
         "amount": 58.4,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22191,7 +22191,7 @@
         "amount": 9.66,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22201,7 +22201,7 @@
         "amount": 3.64,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22211,7 +22211,7 @@
         "amount": 103.98,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22231,7 +22231,7 @@
         "amount": 7.76,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22241,7 +22241,7 @@
         "amount": 14.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22251,7 +22251,7 @@
         "amount": 25,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22261,7 +22261,7 @@
         "amount": 51.62,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22291,7 +22291,7 @@
         "amount": 3.88,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22311,7 +22311,7 @@
         "amount": 29.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22321,7 +22321,7 @@
         "amount": 16.34,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22331,7 +22331,7 @@
         "amount": 466.99,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22341,7 +22341,7 @@
         "amount": 19.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22351,7 +22351,7 @@
         "amount": 54.13,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22361,7 +22361,7 @@
         "amount": 0.42,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22371,7 +22371,7 @@
         "amount": 11.95,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22381,7 +22381,7 @@
         "amount": 1.4,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22391,7 +22391,7 @@
         "amount": 39.99,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22401,7 +22401,7 @@
         "amount": 1.94,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22421,7 +22421,7 @@
         "amount": 1.98,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22441,7 +22441,7 @@
         "amount": 2.19,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22461,7 +22461,7 @@
         "amount": 1.94,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22501,7 +22501,7 @@
         "amount": 28,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22511,7 +22511,7 @@
         "amount": 36.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22521,7 +22521,7 @@
         "amount": 19,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22531,7 +22531,7 @@
         "amount": 6.16,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Transporte",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22574,7 +22574,7 @@
         "amount": 36.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22594,7 +22594,7 @@
         "amount": 8.4,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Transporte",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22634,7 +22634,7 @@
         "amount": 40,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22644,7 +22644,7 @@
         "amount": 39.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22654,7 +22654,7 @@
         "amount": 49.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22664,7 +22664,7 @@
         "amount": 401.5,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Compras Online",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22674,7 +22674,7 @@
         "amount": 227.5,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Compras Online",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22684,7 +22684,7 @@
         "amount": 355.24,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Transporte",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22704,7 +22704,7 @@
         "amount": 1.96,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22714,7 +22714,7 @@
         "amount": 44.55,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22724,7 +22724,7 @@
         "amount": 25.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22764,7 +22764,7 @@
         "amount": 24,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22774,7 +22774,7 @@
         "amount": 4,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22804,7 +22804,7 @@
         "amount": 37.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22814,7 +22814,7 @@
         "amount": 19,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22824,7 +22824,7 @@
         "amount": 61.95,
         "isPayment": false,
         "installment": null,
-        "category": "Compras Online",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22834,7 +22834,7 @@
         "amount": 11.48,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Transporte",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22844,7 +22844,7 @@
         "amount": 52.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22854,7 +22854,7 @@
         "amount": 12,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22894,7 +22894,7 @@
         "amount": 48.35,
         "isPayment": false,
         "installment": null,
-        "category": "Educação & Eventos",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22944,7 +22944,7 @@
         "amount": 11,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22954,7 +22954,7 @@
         "amount": 20,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22964,7 +22964,7 @@
         "amount": 6.5,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -22974,7 +22974,7 @@
         "amount": 49.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-04"
       },
       {
@@ -23004,7 +23004,7 @@
         "amount": 304.66,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Bem-Estar & Pessoal",
         "invoiceMonth": "2026-04"
       },
       {
@@ -23014,7 +23014,7 @@
         "amount": 395.36,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -23024,7 +23024,7 @@
         "amount": 8,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Assinaturas",
         "invoiceMonth": "2026-04"
       },
       {
@@ -23034,7 +23034,7 @@
         "amount": 0.94,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-04"
       },
       {
@@ -23064,7 +23064,7 @@
         "amount": 128.3,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -23074,7 +23074,7 @@
         "amount": 74.9,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Educação & Eventos",
         "invoiceMonth": "2026-04"
       },
       {
@@ -23084,7 +23084,7 @@
         "amount": 10,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Transporte",
         "invoiceMonth": "2026-04"
       },
       {
@@ -23094,7 +23094,7 @@
         "amount": 17.06,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Alimentação",
         "invoiceMonth": "2026-04"
       },
       {
@@ -23104,7 +23104,7 @@
         "amount": 0.37,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Pagamento",
         "invoiceMonth": "2026-04"
       },
       {
@@ -23114,7 +23114,7 @@
         "amount": 10.49,
         "isPayment": false,
         "installment": null,
-        "category": "Outros",
+        "category": "Eletrônicos & Games",
         "invoiceMonth": "2026-04"
       }
     ],

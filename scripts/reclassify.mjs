@@ -1,92 +1,34 @@
-import type { Transaction, CategoryStat } from "./types";
+/**
+ * Reclassify transactions in data/invoices.json using the latest classification logic.
+ * Run: node scripts/reclassify.mjs
+ */
 
-export const CATEGORY_COLORS: Record<string, string> = {
-  Assinaturas: "#6366f1",
-  "Farmácia & Saúde": "#10b981",
-  Alimentação: "#f59e0b",
-  Transporte: "#3b82f6",
-  "Compras Online": "#ec4899",
-  "Moda & Vestuário": "#f43f5e",
-  "Eletrônicos & Games": "#0ea5e9",
-  "Viagens & Hotéis": "#8b5cf6",
-  "Bem-Estar & Pessoal": "#14b8a6",
-  "Educação & Eventos": "#f97316",
-  "Casa & Condomínio": "#84cc16",
-  Telefone: "#06b6d4",
-  Outros: "#9ca3af",
-  Pagamento: "#22c55e",
-};
+import { readFileSync, writeFileSync } from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
-export const CARDHOLDER_LABELS: Record<string, string> = {
-  "RODRIGO COELHO": "Rodrigo",
-  "FELIPE COELHO": "Felipe",
-  "PEDRO COELHO": "Pedro",
-};
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const DATA_FILE = path.join(__dirname, "../data/invoices.json");
 
-export function normalizeSubscriptionName(merchant: string): string {
-  const s = merchant.toLowerCase();
-  if (s.includes("netflix")) return "Netflix";
-  if (s.includes("amazon prime") || s.includes("amazonprimebr")) return "Amazon Prime";
-  if (s.includes("amazon kindle")) return "Amazon Kindle Unlimited";
-  if (s.includes("amazon digital")) return "Amazon Digital";
-  if (s.includes("amazon servicos")) return "Amazon Services";
-  if (s.includes("amazon ad free")) return "Amazon Ad-Free";
-  if (s.includes("apple.com/bill")) return "Apple Services";
-  if (s.includes("google one")) return "Google One";
-  if (s.includes("google youtub") || s.includes("youtubeprem")) return "YouTube Premium";
-  if (s.includes("openai") || s.includes("chatgpt")) return "ChatGPT / OpenAI";
-  if (s.includes("claude.ai") || s.includes("anthropic")) return "Claude.ai / Anthropic";
-  if (s.includes("notion")) return "Notion";
-  if (s.includes("microsoft") || s.includes("ppro")) return "Microsoft 365";
-  if (s.includes("turboscribe")) return "TurboScribe";
-  if (s.includes("zapier")) return "Zapier";
-  if (s.includes("heygen")) return "HeyGen";
-  if (s.includes("ytscribe")) return "YTScribe";
-  if (s.includes("sanebox")) return "SaneBox";
-  if (s.includes("screenapp")) return "ScreenApp";
-  if (s.includes("abacus")) return "Abacus.AI";
-  if (s.includes("gamma")) return "Gamma.app";
-  if (s.includes("canva")) return "Canva";
-  if (s.includes("produtosuol")) return "UOL";
-  if (s.includes("conta vivo")) return "Vivo";
-  if (s.includes("pag*telecel")) return "Telecel";
-  if (s.includes("buzzcrush")) return "BuzzCrush";
-  if (s.includes("globoplay") || s.includes("globo*")) return "Globoplay";
-  if (s.includes("ifood club") || s.includes("ifd*ifood club")) return "iFood Club";
-  if (s.includes("artcfgcertifica")) return "Cert. CFG";
-  if (s.includes("manus ai")) return "Manus AI";
-  if (s.includes("pb*samsung") || s.includes("pbadministradora")) return "Samsung Pay";
-  if (s.includes("produtos globo")) return "Produtos Globo";
-  if (s.includes("cineflix") || s.includes("billy.*cineflix")) return "CineFlix";
-  if (s.includes("coursiv")) return "Coursiv";
-  if (s.includes("headway")) return "Headway";
-  if (s.includes("gestaoagilvip")) return "Gestão Ágil VIP";
-  if (s.includes("dl*google brawl") || s.includes("dl *google brawl") || s.includes("dl*google") || s.includes("dl *google") || s.includes("dlocal *google")) return "Google Play";
-  return merchant;
-}
-
-/** Classify a merchant name into a category. */
-export function classifyCategory(merchant: string): string {
+function classifyCategory(merchant) {
   const s = merchant.toLowerCase();
 
-  // Payments / credits / taxes
   if (
     s.includes("pagamento") || s.includes("payment") || s.startsWith("credito ") ||
     s.includes("pix recebido") || s.startsWith("pix ") || s.includes("estorno") ||
-    s.startsWith("iof ")  || s.includes("iof transacoes") || s.includes("iof transações")
+    s.startsWith("iof ") || s.includes("iof transacoes") || s.includes("iof transações")
   ) return "Pagamento";
 
-  // Subscriptions (must come before generic Amazon/Microsoft checks)
   if (
     s.includes("netflix") || s.includes("spotify") || s.includes("amazon prime") ||
     s.includes("amazon kindle") || s.includes("amazon digital") || s.includes("amazonprimebr") ||
-    s.includes("apple.com/bill") || s.includes("applecombill") || s.includes("google one") || s.includes("youtubeprem") ||
-    s.includes("google youtub") || s.includes("openai") || s.includes("chatgpt") ||
-    s.includes("anthropic") || s.includes("claude.ai") || s.includes("notion") ||
-    s.includes("microsoft") || s.includes("canva") || s.includes("zapier") ||
-    s.includes("heygen") || s.includes("gamma") || s.includes("turboscribe") ||
-    s.includes("abacus") || s.includes("sanebox") || s.includes("screenapp") ||
-    s.includes("globoplay") || s.includes("cineflix") || s.includes("billy.*cineflix") ||
+    s.includes("apple.com/bill") || s.includes("applecombill") || s.includes("google one") ||
+    s.includes("youtubeprem") || s.includes("google youtub") || s.includes("openai") ||
+    s.includes("chatgpt") || s.includes("anthropic") || s.includes("claude.ai") ||
+    s.includes("notion") || s.includes("microsoft") || s.includes("canva") ||
+    s.includes("zapier") || s.includes("heygen") || s.includes("gamma") ||
+    s.includes("turboscribe") || s.includes("abacus") || s.includes("sanebox") ||
+    s.includes("screenapp") || s.includes("globoplay") || s.includes("cineflix") ||
     s.includes("coursiv") || s.includes("headway") || s.includes("ifood club") ||
     s.includes("ifd*ifood club") || s.includes("manus ai") || s.includes("ppro") ||
     s.includes("ytscribe") || s.includes("buzzcrush") || s.includes("produtosuol") ||
@@ -104,27 +46,24 @@ export function classifyCategory(merchant: string): string {
     s.includes("claude . ai") || s.includes("claude.ai")
   ) return "Assinaturas";
 
-  // Phone
   if (
     s.includes("claro") || s.includes("telecel") || s.includes("conta vivo") ||
-    s.includes("pag*telecel") || s.match(/\btim\b/) || s.match(/\boi\b/) ||
+    s.includes("pag*telecel") || /\btim\b/.test(s) || /\boi\b/.test(s) ||
     (s.includes("vivo") && !s.includes("vivo saudavel") && !s.includes("decolar"))
   ) return "Telefone";
 
-  // Health & Pharmacy
   if (
     s.includes("drogaria") || s.includes("farmacia") || s.includes("farmácia") ||
     s.includes("drogasil") || s.includes("drogaraia") || s.includes("droga") ||
     s.includes("ultrafarma") || s.includes("panvel") || s.includes("pague menos") ||
-    s.includes("pacheco") || s.includes("onofre") || s.includes("raia") ||
-    s.includes("drogal") || s.includes("laboratorio") ||
-    s.includes("laborat") || s.includes("hospital") || s.includes("clinica") ||
-    s.includes("medico") || s.includes("saude") || s.includes("dental") ||
-    s.includes("odonto") || s.includes("otica") || s.includes("oculista") ||
-    s.includes("psico") || s.includes("nutri") || s.includes("fisio")
+    s.includes("pacheco") || s.includes("onofre") || s.includes("raia") || s.includes("farmacity") ||
+    s.includes("drogal") || s.includes("laboratorio") || s.includes("laborat") ||
+    s.includes("hospital") || s.includes("clinica") || s.includes("medico") ||
+    s.includes("saude") || s.includes("dental") || s.includes("odonto") ||
+    s.includes("otica") || s.includes("oculista") || s.includes("psico") ||
+    s.includes("nutri") || s.includes("fisio")
   ) return "Farmácia & Saúde";
 
-  // Food & Groceries
   if (
     s.includes("restaurante") || s.includes("lanchonete") || s.includes("pizzaria") ||
     s.includes("sushi") || s.includes("padaria") || s.includes("pao de queijo") ||
@@ -171,13 +110,13 @@ export function classifyCategory(merchant: string): string {
     s.includes("asa sul 114") || s.includes("bonasecco") ||
     s.includes("empada de minas") || s.includes("castanhas") || s.includes("cabana las lilas") ||
     s.includes("market 9 de julio") || s.includes("handy*") || s.includes("queseria") ||
-    s.includes("merpago*crucer") || s.includes("merpago*cultura") ||
+    s.includes("merpago*crucer") || s.includes("merpago*cultura") || s.includes("litoralsul") ||
+    s.includes("chez michou") || s.includes("fruto de goias") || s.includes("terminal ii") ||
+    s.includes("rk pipoka") || s.includes("giraffa") || s.includes("republica da fruta") ||
     s.includes("starbucks") || s.includes("parentela gourmet") || s.includes("l entrecote") ||
-    s.includes("chez michou") || s.includes("fruto de goias") ||
-    s.includes("rk pipoka") || s.includes("giraffa") || s.includes("republica da fruta")
+    s.includes("jim . com") || s.includes("jim.com")
   ) return "Alimentação";
 
-  // Transport (parking, fuel, ride-hailing)
   if (
     s.includes("uber") || s.includes("99pop") || s.includes("cabify") ||
     s.includes("taxi") || s.includes("onibus") || s.includes("metro") ||
@@ -188,15 +127,14 @@ export function classifyCategory(merchant: string): string {
     s.includes("parkshop") || s.includes("multipark") || s.includes("sem parar") ||
     s.includes("vaga certa") || s.includes("estpar") || s.includes("parking") ||
     s.includes("cpark") || s.includes("indigo park") || s.includes("bypark") ||
-    s.includes("hora park") ||
+    s.includes("hora park") || s.includes("big park") ||
     s.includes("veloe") || s.includes("conectcar") || s.includes("gollog") ||
     s.includes("correios") || s.includes("fedex") || s.includes("loggi") ||
     s.includes("jadlog") || s.includes("transportadora") ||
-    s.match(/\b99\b/) || s.match(/\bshell\b/) || s.match(/\besso\b/) ||
-    s.match(/\bbp\b/) || s.match(/\bposto\b/)
+    /\b99\b/.test(s) || /\bshell\b/.test(s) || /\besso\b/.test(s) ||
+    /\bbp\b/.test(s) || /\bposto\b/.test(s)
   ) return "Transporte";
 
-  // Travel & Hotels
   if (
     s.includes("hotel") || s.includes("hostel") || s.includes("airbnb") ||
     s.includes("booking") || s.includes("expedia") || s.includes("decolar") ||
@@ -208,11 +146,11 @@ export function classifyCategory(merchant: string): string {
     s.includes("ibis") || s.includes("novotel") || s.includes("mercure") ||
     s.includes("hilton") || s.includes("marriott") || s.includes("wyndham") ||
     s.includes("wi-fi onboard") || s.includes("onboard glo") ||
-    s.includes("marina tour") || s.includes("atrio hoteis") || s.includes("duty free") ||
-    s.match(/\bgol\b/) || s.match(/\bazul\b/)
+    s.includes("marina tour") || s.includes("atrio hoteis") || s.includes("litoralsul hotel") ||
+    s.includes("duty free") ||
+    /\bgol\b/.test(s) || /\bazul\b/.test(s)
   ) return "Viagens & Hotéis";
 
-  // Education & Events
   if (
     s.includes("escola") || s.includes("curso") || s.includes("faculdade") ||
     s.includes("universidade") || s.includes("educacao") || s.includes("piperacadem") ||
@@ -234,7 +172,6 @@ export function classifyCategory(merchant: string): string {
     s.includes("cdai")
   ) return "Educação & Eventos";
 
-  // Fashion & Clothing
   if (
     s.includes("riachuelo") || s.includes("renner") || s.includes("zara") ||
     s.includes("farm ") || s.includes("reserva") || s.includes("hering") ||
@@ -245,15 +182,13 @@ export function classifyCategory(merchant: string): string {
     s.includes("osklen") || s.includes("quiksilver") || s.includes("lacoste") ||
     s.includes("tommy") || s.includes("calvin klein") || s.includes("ralph lauren") ||
     s.includes("gap ") || s.includes("forever 21") || s.includes("cea ") ||
-    s.includes("c&a ") || s.includes("shoulder") || s.includes("forum ") ||
-    s.includes("ellus") || s.includes("levi") || s.includes("colcci") ||
-    s.includes("animale") || s.includes("morena rosa") || s.includes("roupas") ||
-    s.includes("vestuario") || s.includes("calcados") || s.includes("sapatos") ||
-    s.includes("sao joao calca") || s.includes("king shoes") ||
+    s.includes("c&a ") || s.includes("shoulder") || s.includes("ellus") ||
+    s.includes("levi") || s.includes("colcci") || s.includes("animale") ||
+    s.includes("morena rosa") || s.includes("roupas") || s.includes("vestuario") ||
+    s.includes("calcados") || s.includes("sapatos") || s.includes("king shoes") ||
     (s.includes("moda") && !s.includes("acomodacao"))
   ) return "Moda & Vestuário";
 
-  // Wellbeing & Personal care / Sports
   if (
     s.includes("academia") || s.includes("crossfit") || s.includes("pilates") ||
     s.includes("yoga") || s.includes("barbearia") || s.includes("barba mia") ||
@@ -262,22 +197,18 @@ export function classifyCategory(merchant: string): string {
     s.includes("ticiana werner") || s.includes("thaiswatrin") || s.includes("love pop thais") ||
     s.includes("suelenoliveira") || s.includes("luiz gonzaga") ||
     s.includes("decathlon") || s.includes("centauro") || s.includes("netshoes") ||
-    s.includes("trilha") || s.includes("esportivo") || s.includes("esporte") ||
-    s.includes("corrida") || s.includes("natacao") || s.includes("cabeleireiro") ||
-    s.includes("manicure") || s.includes("pedicure") || s.includes("depilacao") ||
-    s.includes("perfumaria") || s.includes("o boticario") || s.includes("natura ") ||
-    s.includes("quem disse berenice") || s.includes("mercur") ||
-    s.includes("corpometria") || s.includes("16personalities") ||
-    s.includes("jacques janine") || s.includes("esbela") || s.includes("doctor feet") ||
+    s.includes("esportivo") || s.includes("esporte") || s.includes("corrida") ||
+    s.includes("cabeleireiro") || s.includes("manicure") || s.includes("pedicure") ||
+    s.includes("depilacao") || s.includes("perfumaria") || s.includes("o boticario") ||
+    s.includes("natura ") || s.includes("quem disse berenice") ||
     (s.includes("gym") && !s.includes("gympass")) ||
-    (s.includes("spa ") && !s.includes("espaço")) ||
-    s.includes("wow*")
+    s.includes("wow*") || s.includes("corpometria") || s.includes("16personalities") ||
+    s.includes("jacques janine") || s.includes("esbela")
   ) return "Bem-Estar & Pessoal";
 
-  // Electronics & Games
   if (
     s.includes("samsung") || s.includes("fast shop") || s.includes("kabum") ||
-    s.includes("supercell") || s.includes("supercellstore") || s.includes("oculus") ||
+    s.includes("supercell") || s.includes("supercellstore") ||
     s.includes("terabyte") || s.includes("pichau") || s.includes("fnac") ||
     s.includes("americanas") || s.includes("techzone") || s.includes("dell ") ||
     s.includes("lenovo") || s.includes("acer ") || s.includes("asus ") ||
@@ -286,23 +217,23 @@ export function classifyCategory(merchant: string): string {
     s.includes("nintendo") || s.includes("epic games") || s.includes("ubisoft") ||
     s.includes("nuuvem") || s.includes("green man") || s.includes("ledshopping") ||
     s.includes("informatica") || s.includes("computador") || s.includes("notebook") ||
-    s.includes("smartphone") || s.includes("celular") || s.includes("tablet")
+    s.includes("smartphone") || s.includes("celular") || s.includes("tablet") ||
+    s.includes("oculus") || s.includes("meta quest") || s.includes("loja brasal refriger") ||
+    s.includes("dlknet")
   ) return "Eletrônicos & Games";
 
-  // Online Shopping (general / marketplaces — after more-specific categories)
   if (
     s.includes("amazon") || s.includes("mercado livre") || s.includes("shopee") ||
     s.includes("shein") || s.includes("aliexpress") || s.includes("magazineluiza") ||
     s.includes("submarino") || s.includes("shoptime") || s.includes("dafiti") ||
     s.includes("magalu") || s.includes("marketplace") || s.includes("wish.com") ||
-    s.includes("elo7") || s.includes("enjoei") || s.includes("netfarma") ||
-    s.includes("drogariasp") || s.includes("extra.com") ||
+    s.includes("elo7") || s.includes("enjoei") ||
     s.includes("ebay") || s.includes("diamantesp") || s.includes("smart escrit") ||
     s.includes("patio brasil") || s.includes("patiobrasi") || s.includes("shop pier") ||
-    s.includes("relojoaria") || s.includes("park shopping")
+    s.includes("app    *base") || s.includes("app *base") ||
+    s.includes("vr relojoaria") || s.includes("relojoaria")
   ) return "Compras Online";
 
-  // Home & Condo
   if (
     s.includes("condominio") || s.includes("aluguel") || s.includes("energia") ||
     s.includes("iptu") || s.includes("reforma") || s.includes("leroy") ||
@@ -320,23 +251,34 @@ export function classifyCategory(merchant: string): string {
   return "Outros";
 }
 
-export function getCategoryStats(transactions: Transaction[]): CategoryStat[] {
-  const spending = transactions.filter((t) => !t.isPayment);
-  const total = spending.reduce((sum, t) => sum + t.amount, 0);
-  const map = new Map<string, { amount: number; count: number }>();
+const invoices = JSON.parse(readFileSync(DATA_FILE, "utf-8"));
 
-  for (const t of spending) {
-    const existing = map.get(t.category) ?? { amount: 0, count: 0 };
-    map.set(t.category, { amount: existing.amount + t.amount, count: existing.count + 1 });
+let reclassified = 0;
+let stayed = 0;
+const unresolved = new Map();
+
+for (const inv of invoices) {
+  for (const t of inv.transactions) {
+    const newCat = classifyCategory(t.merchant);
+    if (t.category !== newCat) {
+      t.category = newCat;
+      reclassified++;
+    } else {
+      stayed++;
+    }
+    if (newCat === "Outros") {
+      unresolved.set(t.merchant, (unresolved.get(t.merchant) ?? 0) + 1);
+    }
   }
+}
 
-  return Array.from(map.entries())
-    .map(([name, { amount, count }]) => ({
-      name,
-      amount,
-      count,
-      percentage: total > 0 ? (amount / total) * 100 : 0,
-      color: CATEGORY_COLORS[name] ?? "#9ca3af",
-    }))
-    .sort((a, b) => b.amount - a.amount);
+writeFileSync(DATA_FILE, JSON.stringify(invoices, null, 2));
+
+console.log(`\n✅ Done. Reclassified: ${reclassified}  |  Unchanged: ${stayed}`);
+if (unresolved.size > 0) {
+  console.log(`\n⚠️  Still "Outros" (${unresolved.size} unique merchants):`);
+  [...unresolved.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 25)
+    .forEach(([m, n]) => console.log(`   ${n}x  ${m}`));
 }
