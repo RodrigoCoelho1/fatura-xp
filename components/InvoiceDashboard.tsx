@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, Cell, LineChart, Line, Legend,
@@ -1098,6 +1098,23 @@ export default function InvoiceDashboard({ invoices, subStatuses }: { invoices: 
   const [tab, setTab] = useState("inicio");
   const [cardholder, setCardholder] = useState("all");
 
+  // ── Dark mode toggle ──────────────────────────────────────────────────────
+  const [dark, setDark] = useState(false);
+  // On mount: read localStorage or fall back to system preference
+  useEffect(() => {
+    const saved = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDark = saved === "dark" || (!saved && prefersDark);
+    setDark(isDark);
+    document.documentElement.classList.toggle("dark", isDark);
+  }, []);
+  function toggleDark() {
+    const next = !dark;
+    setDark(next);
+    document.documentElement.classList.toggle("dark", next);
+    localStorage.setItem("theme", next ? "dark" : "light");
+  }
+
   const filteredInvoices = useMemo(() =>
     cardholder === "all" ? invoices : invoices.map((inv) => ({
       ...inv,
@@ -1133,10 +1150,19 @@ export default function InvoiceDashboard({ invoices, subStatuses }: { invoices: 
               <h1 className="text-lg font-black tracking-tight">💳 Fatura XP</h1>
               <p className="text-blue-400 text-xs mt-0.5">Controle inteligente de gastos</p>
             </div>
-            <div className="text-right">
-              <p className="text-xs text-blue-400">Última fatura</p>
-              <p className="text-xl font-black">{latest ? fmtBRL(latest.totalSpent) : "—"}</p>
-              <p className="text-xs text-blue-400">{latest?.label}</p>
+            <div className="flex items-start gap-3">
+              <div className="text-right">
+                <p className="text-xs text-blue-400">Última fatura</p>
+                <p className="text-xl font-black">{latest ? fmtBRL(latest.totalSpent) : "—"}</p>
+                <p className="text-xs text-blue-400">{latest?.label}</p>
+              </div>
+              <button
+                onClick={toggleDark}
+                title={dark ? "Modo claro" : "Modo escuro"}
+                className="mt-0.5 w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-lg transition-colors flex-shrink-0"
+              >
+                {dark ? "☀️" : "🌙"}
+              </button>
             </div>
           </div>
           {cardholders.length > 1 && (

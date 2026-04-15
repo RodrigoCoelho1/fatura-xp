@@ -1,12 +1,15 @@
 @import "tailwindcss";
 
+/* ── Dark mode: class-based (.dark on <html>) ── */
+@custom-variant dark (&:where(.dark, .dark *));
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* ── Dark mode (follows system preference) ── */
-@media (prefers-color-scheme: dark) {
-  :root { color-scheme: dark; }
+/* Applies correct color-scheme when .dark is active */
+html.dark {
+  color-scheme: dark;
 }
 
 /* Hide scrollbar but keep functionality */
